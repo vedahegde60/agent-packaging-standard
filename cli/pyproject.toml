@@ -1,0 +1,17 @@
+[project]
+name = "aps-cli"
+version = "0.1.0"
+description = "APS command-line tooling (working title)"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "pyyaml>=6.0.1"
+]
+
+[project.scripts]
+aps = "aps_cli.app:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+

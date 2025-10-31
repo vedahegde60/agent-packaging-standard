@@ -9,6 +9,22 @@ This repo contains:
 - `cli/` — the `aps` CLI (init, lint, run stub)
 - `examples/` — reference agents packaged with APS
 
+Status: Community bootstrapping phase
+Looking for contributors interested in:
+
+agent runtimes
+
+schema + validation
+
+security + provenance
+
+example agents
+
+docs + developer experience
+
+⭐ Star the repo, open a PR, or start a discussion!
+
+
 ## Quick start
 
 ```bash
