@@ -24,6 +24,16 @@ docs + developer experience
 
 ⭐ Star the repo, open a PR, or start a discussion!
 
+> **Status:** Phase 2 (Developer Adoption).  
+> We’re looking for contributors in:
+> - CLI UX & validation
+> - Reference agents (RAG, tools)
+> - Security & provenance
+> - Docs & diagrams
+>
+> Check the Issues tab and Project board to jump in.
+
+
 
 ## Quick start
 
