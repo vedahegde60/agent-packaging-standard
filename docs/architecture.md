@@ -17,7 +17,7 @@ flowchart LR
 graph TD
   A[agent-root] --> B[aps/agent.yaml]
   A --> C[src/...]
-  A --> D[assets/models (optional)]
+  A --> D[assets/models - optional-]
   A --> E[README.md]
 ```
 
