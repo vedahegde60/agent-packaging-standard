@@ -1,0 +1,30 @@
+site_name: APS (Agent Packaging Standard)
+site_description: Open spec + tooling to package AI agents. Package once, run anywhere.
+repo_url: https://github.com/vedahegde60/agent-packaging-standard
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.tooltips
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.critic
+  - pymdownx.arithmatex
+  - attr_list
+nav:
+  - Overview: index.md
+  - Getting Started: getting-started.md
+  - Architecture: architecture.md
+  - Roadmap: roadmap.md
+  - FAQ: faq.md
+  - Spec:
+      - APS v0.1: ../specs/APS-v0.1.md
+
