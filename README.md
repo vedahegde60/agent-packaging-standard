@@ -48,6 +48,8 @@ aps lint ../examples/echo-agent
 echo '{"aps_version":"0.1","operation":"run","inputs":{"text":"hello"}}' \
   | aps run ../examples/echo-agent
 
+```
+
 # agent-packaging-standard
 # Why this exists
 	-No standard way to package agents
