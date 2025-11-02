@@ -49,3 +49,35 @@ echo '{"aps_version":"0.1","operation":"run","inputs":{"text":"hello"}}' \
   | aps run ../examples/echo-agent
 
 # agent-packaging-standard
+# Why this exists
+	-No standard way to package agents
+
+	-No consistent capability metadata
+
+	-Enterprises need trust & policy before adoption
+
+	-Developers need distribution without lock-in
+
+#Stewardship
+We’re starting as a community-led project under Apache 2.0.
+Once adoption is clear, we intend to transition governance to a neutral foundation (CNCF/OCI-style).
+
+#Contributing
+See CONTRIBUTING.md. PRs welcome—especially for:
+manifest fields & schemas
+runtime contract refinements
+CLI validator improvements
+reference agents/adapters
+
+
+
+## Templates
+
+| File | Purpose |
+|---|---|
+`templates/aps-manifest.yaml` | Base APS agent manifest |
+`templates/AGENT_CARD.md` | Human-readable agent card |
+`templates/security/SECURITY.md` | Security policy |
+`docs/ops/publish.md` | How to publish APS agents |
+`docs/registry/openapi.yaml` | Registry API draft |
+

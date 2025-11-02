@@ -1,0 +1,41 @@
+# APS Agent Manifest (spec v0.1)
+aps_version: "0.1"
+
+id: org.example.agent
+name: Example APS Agent
+version: 0.1.0
+summary: A template APS agent.
+
+entrypoint:
+  command: python -m agent.main   # override for your project
+  runtime: python3.11
+
+capabilities:
+  inputs:
+    schema:
+      type: object
+      properties:
+        text:
+          type: string
+      required: [text]
+
+  outputs:
+    schema:
+      type: object
+      properties:
+        text:
+          type: string
+      required: [text]
+
+policies:
+  network: "none"   # none | outbound | restricted | full
+  sandbox: false
+  secrets: []
+  filesystem: "read-only"
+
+metadata:
+  tags: [template, python]
+  homepage: ""
+  repository: ""
+  license: "Apache-2.0"
+
