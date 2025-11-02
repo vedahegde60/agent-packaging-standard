@@ -1,46 +1,61 @@
+
+---
 card_version: 0.1
-id: dev.rag
-name: Local RAG (TF-IDF)
-version: 0.0.1
+id: your.agent.id
+name: Your Agent Name
+version: 0.1.0
 publisher:
-  name: Veda Hegde
-  url: https://github.com/vedahegde60/agent-packaging-standard
+  name: Your Name / Org
+  url: https://your.site
 links:
-  repo: https://github.com/vedahegde60/agent-packaging-standard
+  repo: https://github.com/your/repo
   docs: ./README.md
-tags: [rag, local, tfidf, python, offline]
+tags: [agent, template]
 license: Apache-2.0
+
 compliance:
   claims:
-    - nist_ai_rmf: "profile: low-risk, controls: GOV-1, MAP-1"
-    - iso_42001: "process: in-progress"
-    - eu_ai_act: "category: minimal/no-risk (informational)"
+    - nist_ai_rmf: "profile: low-risk"
+    - iso_42001: "process: documented"
+    - eu_ai_act: "category: minimal-risk"
   evidence:
     - threat_model: ./SECURITY.md
-    - data_privacy: "no external network; local files only"
+    - data_privacy: "see privacy notes below"
+
 safety:
   known_limitations:
-    - "Not suitable for sensitive data without review."
-    - "No semantic embeddings; TF-IDF quality varies."
+    - "May hallucinate"
+    - "Not suitable for sensitive data without review"
+
 monetization:
-  model: free
+  model: free   # free | one-time | subscription | usage | BYOL | external
+  url: ""       # if payment external
+
 runtime:
   language: "Python 3.11"
-  platform: "Posix/Windows"
-  network: "none"
+  platform: "Linux/macOS/Windows"
+  network: "none"   # none | outbound | restricted | full
+
 ---
 
-# Agent Card — Local RAG (TF-IDF)
+# Agent Card — Your Agent Name
 
-## Summary
-A minimal retrieval-augmented QA agent that searches local `.txt` files with TF-IDF and returns the best match.
+## 🧠 Summary
+Short human-readable description of the agent.
 
-## Use Cases
-- Quick Q&A over a small docs folder
-- Demonstrate APS packaging contract without ML stacks
-- Air-gapped demos
+Example: This agent answers questions over local documents using RAG and runs fully offline.
 
-## Inputs
+---
+
+## 🎯 Use Cases
+- Use case 1  
+- Use case 2  
+
+---
+
+## 📥 Inputs (example)
 ```json
-{ "query": "string", "top_k": 1 }
-
+{
+  "query": "string",
+  "top_k": 1
+}
