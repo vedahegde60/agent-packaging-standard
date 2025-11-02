@@ -5,7 +5,7 @@
 flowchart TB
 
   subgraph Human["Human Description"]
-    CARD[Agent Card (Markdown)]
+    CARD[Agent Card - Markdown]
   end
 
   subgraph Packaging["Packaging & Execution"]
@@ -28,7 +28,7 @@ flowchart TB
   end
 
   REG[APS Registry API]
-  RUNTIME[Runtime (local/VPC/hosted)]
+  RUNTIME[Runtime -local/VPC/hosted]
 
   CARD --> MANIFEST
   MANIFEST --> REG
