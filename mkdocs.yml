@@ -26,5 +26,4 @@ nav:
   - Roadmap: roadmap.md
   - FAQ: faq.md
   - Spec:
-      - APS v0.1: ../specs/APS-v0.1.md
-
+      - APS v0.1: specs/APS-v0.1.md
