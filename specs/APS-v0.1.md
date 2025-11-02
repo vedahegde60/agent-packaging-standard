@@ -33,6 +33,7 @@ policies:
   network: { egress: [] }
 ```
 ## Request/Response envelope (stdin/stdout or HTTP body)
+```json
 {
   "aps_version": "0.1",
   "operation": "run",
@@ -44,7 +45,7 @@ policies:
     "telemetry": { "emit": false }
   }
 }
-
+```
 ### Response
 {
   "status": "ok",
