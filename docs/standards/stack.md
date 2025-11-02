@@ -1,8 +1,3 @@
-# Architecture Diagram Showing APS in the Standards Landscape
-
-Drop this into `docs/standards/stack.md`:
-
-```md
 # APS in the Standards Landscape
 
 ```mermaid
@@ -47,4 +42,4 @@ flowchart TB
   PRIV -.data handling.-> CARD
 
 classDef reg fill:#e8f2ff,stroke:#3b82f6,color:#111;
-
+```
