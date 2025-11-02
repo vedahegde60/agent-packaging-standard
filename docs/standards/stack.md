@@ -1,7 +1,4 @@
-
----
-
-# C) Architecture Diagram Showing APS in the Standards Landscape
+# Architecture Diagram Showing APS in the Standards Landscape
 
 Drop this into `docs/standards/stack.md`:
 
