@@ -1,7 +1,6 @@
 
 ## ✅ `docs/standards/mapping.md`
 
-```markdown
 # APS ↔ Agent Card ↔ Ecosystem Mapping
 
 ## Overview
