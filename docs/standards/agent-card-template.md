@@ -1,12 +1,13 @@
 
 ---
+````
 card_version: 0.1
 id: your.agent.id
 name: Your Agent Name
 version: 0.1.0
 publisher:
-  name: Your Name / Org
-  url: https://your.site
+    name: Your Name / Org
+    url: https://your.site
 links:
   repo: https://github.com/your/repo
   docs: ./README.md
@@ -35,6 +36,7 @@ runtime:
   language: "Python 3.11"
   platform: "Linux/macOS/Windows"
   network: "none"   # none | outbound | restricted | full
+````
 
 ---
 
