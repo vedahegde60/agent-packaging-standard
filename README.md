@@ -50,7 +50,7 @@ echo '{"aps_version":"0.1","operation":"run","inputs":{"text":"hello"}}' \
 
 ```
 
-# agent-packaging-standard
+# Agent-packaging-standard
 # Why this exists
 	-No standard way to package agents
 
