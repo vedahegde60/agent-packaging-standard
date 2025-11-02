@@ -23,4 +23,3 @@ capabilities:
 policies:
   network: { egress: [] }
 
-

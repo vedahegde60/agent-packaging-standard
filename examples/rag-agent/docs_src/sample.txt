@@ -1,0 +1,1 @@
+APS is an open agent packaging standard to enable interoperability, distribution, and trust for AI agents.
