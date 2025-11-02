@@ -17,15 +17,15 @@ APS does **what OCI did for containers**, Agent Card is like **PyPI package page
 
 | Concept | Agent Card (human) | APS Manifest (machine) | Notes |
 |---------|--------------------|------------------------|-------|
-Identity  | name, version, publisher | id, name, version, summary | Human vs system identifiers |
-Purpose | description, use cases | summary | Card has richer narrative |
-Inputs/Outputs | prose + examples | JSON schema in `capabilities.inputs/outputs` | APS ensures runtime contract |
-Execution | narrative | `runtimes`, `entrypoint` | APS enforces portability |
-Tools | list, links | (future) `tools[]` mapped to MCP | APS formalizes tool interface |
-Security & Trust | safety notes, risks | `policies`, signatures | APS enables enterprise gating |
-Compliance | human claims | (future) structured claims | Card cites; APS verifies artifacts |
-Monetization | price, model | (future) monetization block | Optional, marketplace-friendly |
-Support | maintainer | N/A | Operational, not spec concern |
+|Identity  | name, version, <br />publisher | id, name, <br />version, summary | Human vs system identifiers |
+|Purpose | description, use cases | summary | Card has richer narrative |
+|Inputs/Outputs | prose + examples | JSON schema in `capabilities.inputs/outputs` | APS ensures runtime contract |
+|Execution | narrative | `runtimes`, `entrypoint` | APS enforces portability |
+|Tools | list, links | (future) `tools[]` mapped to MCP | APS formalizes tool interface |
+|Security & Trust | safety notes, risks | `policies`, signatures | APS enables enterprise gating |
+|Compliance | human claims | (future) structured claims | Card cites; APS verifies artifacts |
+|Monetization | price, model | (future) monetization block | Optional, marketplace-friendly |
+|Support | maintainer | N/A | Operational, not spec concern |
 
 ---
 
