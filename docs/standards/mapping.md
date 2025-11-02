@@ -1,7 +1,7 @@
 
 ## ✅ `docs/standards/mapping.md`
 
-```md
+```markdown
 # APS ↔ Agent Card ↔ Ecosystem Mapping
 
 ## Overview
@@ -59,4 +59,3 @@ flowchart TB
   ISO[ISO 42001] --> CARD
   EU[EU AI Act] --> CARD
   PRIV[GDPR/HIPAA] --> CARD
-```
