@@ -31,4 +31,46 @@ capabilities:
   tools: []
 policies:
   network: { egress: [] }
+```
+##Request/Response envelope (stdin/stdout or HTTP body)
+{
+  "aps_version": "0.1",
+  "operation": "run",
+  "inputs": { "query": "What is our refund policy?" },
+  "context": {
+    "caller": "cli://user",
+    "secrets": {},
+    "adapters": {},
+    "telemetry": { "emit": false }
+  }
+}
+
+#Response
+{
+  "status": "ok",
+  "outputs": { "answer": "..." },
+  "usage": { "latency_ms": 1234 }
+}
+
+##Runtimes
+
+  - python — run an entrypoint list, e.g. ["python","-m","pkg.main"]
+  - container — OCI image + entrypoint (future CLI support)
+  - remote — endpoint + protocol: "aps-http-v1" (future)
+
+##Policies
+
+  - Default deny egress unless allowlisted
+  - PII handling: no_persist, optional redaction flag
+  - Telemetry: explicit opt-in/opt-out
+
+##Monetization (optional)
+
+  - model: free | one_time | subscription | metered
+  - Registry-issued license tokens (future)
+
+##Provenance/Signing (optional)
+
+  - DSSE/in-toto attachments
+  - SLSA levels (advisory)
 
