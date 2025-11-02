@@ -16,8 +16,8 @@ APS does **what OCI did for containers**, Agent Card is like **PyPI package page
 ## Field Mapping
 
 | Concept | Agent Card (human) | APS Manifest (machine) | Notes |
-|---|---|---|---|
-Identity | name, version, publisher | id, name, version, summary | Human vs system identifiers |
+|---------|--------------------|------------------------|-------|
+Identity  | name, version, publisher | id, name, version, summary | Human vs system identifiers |
 Purpose | description, use cases | summary | Card has richer narrative |
 Inputs/Outputs | prose + examples | JSON schema in `capabilities.inputs/outputs` | APS ensures runtime contract |
 Execution | narrative | `runtimes`, `entrypoint` | APS enforces portability |
