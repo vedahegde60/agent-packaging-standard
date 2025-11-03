@@ -4,6 +4,16 @@ Draft v0.1 — Public circulation permitted
 *(Working title: Agent Packaging Standard — APS)*
 
 ## Core ideas
+
+| Concept | Definition |
+|--------|-----------|
+Agent | Executable AI service with defined inputs/outputs |
+Manifest | YAML file defining metadata & execution contract |
+Package | Tarball containing agent, manifest, metadata |
+Registry | Service for publishing/searching APS agents |
+Runtime | Tool that executes an APS agent |
+
+
 - Manifest file: `aps/agent.yaml`
 - Runnable interfaces: local process (stdin/stdout JSON), or remote HTTP (`aps-http-v1`)
 - Capability metadata: inputs/outputs schemas + tools
@@ -32,6 +42,7 @@ capabilities:
 policies:
   network: { egress: [] }
 ```
+
 ## Request/Response envelope (stdin/stdout or HTTP body)
 ```json
 {
@@ -53,11 +64,47 @@ policies:
   "usage": { "latency_ms": 1234 }
 }
 
+## Packaging Format
+```bash
+<agent-root>/
+  aps/agent.yaml
+  src/...
+  assets/...
+  README.md
+```
+Tarball name: <id>.aps.tar.gz
+
 ## Runtimes
 
   - python — run an entrypoint list, e.g. ["python","-m","pkg.main"]
+  - Accepts JSON via STDIN:
+  ```json
+  {"aps_version":"0.1","operation":"run","inputs":{...}}
+  ```
+  - Returns JSON via STDOUT:
+  ```json
+  {"status":"ok","outputs":{...}}
+  ```
   - container — OCI image + entrypoint (future CLI support)
   - remote — endpoint + protocol: "aps-http-v1" (future)
+
+## Registry API
+```bash
+POST /v1/publish
+GET /v1/search?q=
+GET /v1/get/<id>
+```
+## Security (v0)
+
+  - SHA256 checksum
+
+  - Optional signature file (future: PKI)
+
+  - Manifest includes hash
+
+## Versioning
+
+<major>.<minor>.<patch>
 
 ## Policies
 
