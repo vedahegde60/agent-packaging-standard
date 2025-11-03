@@ -23,7 +23,29 @@ nav:
   - Overview: index.md
   - Getting Started: getting-started.md
   - Architecture: architecture.md
+  - Dev Setup: dev-setup.md
   - Roadmap: roadmap.md
   - FAQ: faq.md
+
   - Spec:
       - APS v0.1: specs/APS-v0.1.md
+      - Proposals:
+          - Template: specs/proposals/000-template.md
+
+  - Standards:
+      - Agent Card Template: standards/agent-card-template.md
+      - Mapping (APS ↔ Card ↔ Ecosystem): standards/mapping.md
+      - Standards Landscape Diagram: standards/stack.md
+
+  - Security:
+      - Security Policy: SECURITY.md
+      - Security & Provenance: security-provenance.md
+      - Signing (DSSE / in-toto): security/signing.md
+
+  - Operations:
+      - Governance: ops/GOVERNANCE.md
+      - Publish Workflow: ops/publish.md
+
+  - Briefs:
+      - Competitive Landscape: briefs/landscape.md
+      - Positioning: briefs/positioning.md

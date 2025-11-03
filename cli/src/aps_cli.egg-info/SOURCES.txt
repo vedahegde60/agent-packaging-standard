@@ -3,6 +3,7 @@ pyproject.toml
 src/aps_cli/_init_.py
 src/aps_cli/app.py
 src/aps_cli/schema_min.py
+src/aps_cli/signing.py
 src/aps_cli.egg-info/PKG-INFO
 src/aps_cli.egg-info/SOURCES.txt
 src/aps_cli.egg-info/dependency_links.txt

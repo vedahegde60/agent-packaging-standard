@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aps-registry"
+version = "0.1.0"
+description = "APS Registry: minimal FastAPI registry for APS agents"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "APS Contributors" }]
+keywords = ["APS", "agents", "registry", "packaging"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Framework :: FastAPI",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent"
+]
+
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.24",
+  "PyYAML>=6.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/vedahegde60/agent-packaging-standard"
+Repository = "https://github.com/vedahegde60/agent-packaging-standard"
+
+[project.scripts]
+aps-registry = "aps_registry.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["aps_registry*"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+

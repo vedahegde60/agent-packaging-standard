@@ -1,0 +1,10 @@
+pyproject.toml
+src/aps_registry/_init_.py
+src/aps_registry/server.py
+src/aps_registry/store.py
+src/aps_registry.egg-info/PKG-INFO
+src/aps_registry.egg-info/SOURCES.txt
+src/aps_registry.egg-info/dependency_links.txt
+src/aps_registry.egg-info/entry_points.txt
+src/aps_registry.egg-info/requires.txt
+src/aps_registry.egg-info/top_level.txt
