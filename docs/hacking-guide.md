@@ -1,5 +1,5 @@
-Audience: contributors who want to modify APS internals
-Goal: teach anyone how APS works under the hood in ~15 minutes
+> **Audience:** contributors who want to modify APS internals
+> **Goal:** teach anyone how APS works under the hood in ~15 minutes
 
 # APS Hacking Guide
 
@@ -33,7 +33,7 @@ APS philosophy:
 ---
 
 ## 📂 Code Layout Overview
-
+```
 root/
 ├── cli/
 │ └── src/aps_cli/
@@ -47,9 +47,9 @@ root/
 │ ├── server.py ← FastAPI registry server
 │ └── store.py ← SQLite index + tar storage
 │
-├── specs/ ← Standard docs
+├── docs/specs/ ← Standard docs
 └── examples/
-
+```
 
 ---
 
@@ -71,5 +71,101 @@ sequenceDiagram
   A-->>CLI: {json output via stdout}
   CLI-->>U: print result
 ```
+Runtime contract = JSON → JSON pipeline
 
+## Registry resolution logic
+| Input           | Resolution                                       |
+| --------------- | ------------------------------------------------ |
+| local path      | use agent directory as-is                        |
+| `registry://id` | → lookup version → cache → pull if missing → run |
 
+Cache layout:
+
+```bash
+~/.aps/cache/<agent_id>/<version>/
+```
+
+## Key Functions to Know
+| File                               | Function                 | Purpose              |
+| ---------------------------------- | ------------------------ | -------------------- |
+| `app.py`                           | `cmd_run`                | run agent            |
+| `cmd_build`                        | tar up agent             |                      |
+| `cmd_publish`                      | post to registry         |                      |
+| `_resolve_registry_path_if_needed` | fetch/pull agent         |                      |
+| `manifest.py`                      | `load_manifest`          | read agent.yaml      |
+| `store.py`                         | `publish/archive/search` | store & index agents |
+
+## Gotchas
+| Issue            | Notes                                |
+| ---------------- | ------------------------------------ |
+| Python paths     | We set `PYTHONPATH` to `src/`        |
+| Registry threads | SQLite needs thread-safe access      |
+| Stdio contract   | Agents must flush stdout             |
+| Streaming mode   | Reads lines until final JSON message |
+
+## Debugging Tips
+### Log internal ops
+```bash
+export APS_DEBUG=1
+```
+
+TODO: structured debug logs coming soon.
+
+### View registry DB
+```bash
+sqlite3 registry_data/index.db '.tables'
+```
+
+### View pulled agents
+```bash
+ls ~/.aps/cache
+```
+
+## Test Philosophy
+
+APS tests must be:
+
+  - Fast
+
+  - Deterministic
+
+  - No real network calls
+
+  - Fake registry I/O accepted
+
+  - Always test:
+
+    - manifest parsing
+
+    - tar creation & extraction
+
+    - registry resolution
+
+    - stdout JSON contract
+
+Run tests:
+``bash
+pytest -q
+```
+
+## Future Extensibility Hooks
+
+We will evolve toward:
+
+  - Cryptographic signing & attestation
+
+  - Managed remote runtimes (optional)
+
+  - Build matrix (Python, Node, WASM)
+
+  - OCI / oras compatibility
+
+  - SBOM + supply chain metadata
+
+  - Streaming + cancelation control
+
+  - FFI isolation (security profiles)
+
+## Done — you are now dangerous in the APS codebase
+
+Next: hack on a command or registry feature
