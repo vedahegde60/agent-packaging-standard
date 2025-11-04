@@ -144,7 +144,7 @@ APS tests must be:
     - stdout JSON contract
 
 Run tests:
-``bash
+```bash
 pytest -q
 ```
 
