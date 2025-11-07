@@ -1,74 +1,85 @@
-import sys, json, os
+import sys, os, json
 from pathlib import Path
 from typing import List, Tuple
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-ROOT = Path(__file__).resolve().parents[2]  # .../examples/rag-agent
-DOCS = ROOT / "docs_src"
+def _agent_root() -> Path:
+    # src/rag/main.py -> src -> root
+    return Path(__file__).resolve().parents[2]
 
-# Load docs
-docs: List[str] = []
-filenames: List[str] = []
-for p in sorted(DOCS.glob("*.txt")):
+def _load_corpus(root: Path) -> List[Tuple[str, str]]:
+    assets = root / "assets"
+    docs = []
+    for p in assets.rglob("*.txt"):
+        try:
+            docs.append((p.name, p.read_text(encoding="utf-8")))
+        except Exception:
+            pass
+    if not docs:
+        # fallback: single doc
+        docs = [("sample.txt", "Empty corpus. Add .txt files under assets/.")]
+    return docs
+
+def _parse_envelope(raw: str):
     try:
-        text = p.read_text(encoding="utf-8").strip()
-        if text:
-            docs.append(text)
-            filenames.append(p.name)
+        obj = json.loads(raw) if raw.strip() else {}
     except Exception:
-        pass
+        obj = {}
+    if isinstance(obj, dict) and "inputs" in obj:
+        q = obj["inputs"].get("query", "")
+        k = int(obj["inputs"].get("top_k", 3) or 3)
+        return q, k
+    # fallback if raw inputs
+    q = obj.get("query", "") if isinstance(obj, dict) else str(obj)
+    k = 3
+    return q, k
 
-if not docs:
-    docs = ["(No documents found in docs_src/)"]
-    filenames = ["(none)"]
+def main():
+    # Read request once
+    raw = sys.stdin.read() or ""
+    query, top_k = _parse_envelope(raw)
+    top_k = max(1, min(int(top_k or 3), 10))
 
-# Fit TF-IDF
-vectorizer = TfidfVectorizer(stop_words="english")
-X = vectorizer.fit_transform(docs)
+    # Build tiny index in-process (fast for small corpora)
+    root = _agent_root()
+    docs = _load_corpus(root)
+    filenames, texts = zip(*docs)
+    vec = TfidfVectorizer().fit(texts)
+    D = vec.transform(texts)
 
-def query_docs(q: str, top_k: int = 1) -> List[Tuple[str, float, str]]:
-    qv = vectorizer.transform([q])
-    sims = cosine_similarity(qv, X).ravel()
-    idxs = sims.argsort()[::-1][:max(1, top_k)]
-    results = []
-    for i in idxs:
-        results.append((docs[i], float(sims[i]), filenames[i]))
-    return results
+    # Streaming logs (optional)
+    if os.environ.get("APS_STREAM") == "1":
+        print(f"[rag] loaded {len(texts)} docs", flush=True)
+        print(f"[rag] querying: {query}", flush=True)
 
-def handle_request(req: dict) -> dict:
-    inputs = req.get("inputs", {})
-    q = inputs.get("query", "").strip()
-    top_k = int(inputs.get("top_k", 1))
-    if not q:
-        return {"status": "error", "message": "Missing 'query' in inputs"}
-    matches = query_docs(q, top_k=top_k)
-    answer = matches[0][0] if matches else ""
-    return {
+    # Query
+    qv = vec.transform([query])
+    sims = cosine_similarity(qv, D).ravel()
+    order = sims.argsort()[::-1][:top_k]
+
+    matches = []
+    for idx in order:
+        matches.append({
+            "text": texts[idx][:400],
+            "score": float(sims[idx]),
+            "file": filenames[idx],
+        })
+
+    # Naive answer: best snippet (or empty)
+    best = matches[0]["text"] if matches else ""
+    answer = best if best else ""
+
+    # Final JSON (APS contract)
+    out = {
+        "aps_version": "0.1",
         "status": "ok",
         "outputs": {
             "answer": answer,
-            "matches": [
-                {"text": t, "score": s, "file": f} for (t, s, f) in matches
-            ],
-        },
+            "matches": matches
+        }
     }
-
-def main():
-    # APS stdin->stdout JSON envelope
-    raw = sys.stdin.read().strip()
-    if not raw:
-        print(json.dumps({"status": "error", "message": "Empty request"}))
-        return
-    try:
-        req = json.loads(raw)
-    except Exception as e:
-        print(json.dumps({"status": "error", "message": f"Invalid JSON: {e}"}))
-        return
-    resp = handle_request(req)
-    print(json.dumps(resp))
+    print(json.dumps(out))
 
 if __name__ == "__main__":
     main()
-

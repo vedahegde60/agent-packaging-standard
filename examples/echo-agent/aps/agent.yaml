@@ -1,11 +1,11 @@
-aps: "0.1"
+aps_version: "0.1"
 id: "dev.echo"
 name: "Echo"
-version: "0.0.1"
+version: "0.0.3"
 summary: "Echoes the input text."
 runtimes:
   - kind: "python"
-    entrypoint: ["python", "-m", "echo.main"]
+    entrypoint: ["python", "src/echo/main.py"]
 capabilities:
   inputs:
     schema:

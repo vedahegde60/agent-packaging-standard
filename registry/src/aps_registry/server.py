@@ -1,58 +1,50 @@
 # registry/src/aps_registry/server.py
-
-import argparse
-from pathlib import Path
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import StreamingResponse
-import uvicorn
-
+# FastAPI app factory for the APS Registry (no globals)
+from __future__ import annotations
+import os
+from fastapi import FastAPI, Request, UploadFile, File, Query, HTTPException
+from fastapi.responses import FileResponse, JSONResponse
 from .store import Store
 
-app = FastAPI()
-STORE: Store | None = None
+def create_app(root: str) -> FastAPI:
+    app = FastAPI(title="APS Registry", version="0.1")
+    app.state.store = Store(root)
 
-@app.post("/v1/publish")
-async def publish(file: UploadFile = File(...)):
-    data = await file.read()
-    pkg_path = STORE.save_upload(file.filename, data)
-    try:
-        row = STORE.index_package(pkg_path)
-    except Exception as e:
-        pkg_path.unlink(missing_ok=True)
-        raise HTTPException(400, f"Invalid package: {e}")
-    return {"status": "ok", "agent": row}
+    @app.get("/healthz")
+    def healthz():
+        return {"status":"ok"}
 
-@app.get("/v1/search")
-def search(q: str = ""):
-    return {"agents": STORE.search(q)}
+    @app.post("/v1/publish")
+    def publish(request: Request, file: UploadFile = File(...)):
+        # Read whole file in memory for simplicity; you can stream to disk if needed
+        data = file.file.read()
+        store: Store = request.app.state.store
+        tmp = store.save_upload(file.filename, data)
+        agent = store.index_package(tmp)
+        return {"status":"ok","agent":agent}
 
-@app.get("/v1/agents/{id}")
-def get_agent(id: str):
-    row = STORE.get_agent(id)
-    if not row:
-        raise HTTPException(404, "not found")
-    return row
+    @app.get("/v1/search")
+    def search(request: Request, q: str = Query("")):
+        store: Store = request.app.state.store
+        return {"agents": store.search(q)}
 
-@app.get("/v1/pull")
-def pull(id: str):
-    pkg = STORE.get_package_path(id)
-    if not pkg:
-        raise HTTPException(404, "not found")
-    def gen():
-        with open(pkg, "rb") as f:
-            yield from iter(lambda: f.read(65536), b"")
-    return StreamingResponse(gen(), media_type="application/gzip")
+    @app.get("/v1/agents/{agent_id}")
+    def get_agent(request: Request, agent_id: str):
+        store: Store = request.app.state.store
+        meta = store.get_agent(agent_id)
+        if "error" in meta:
+            raise HTTPException(status_code=404, detail="not found")
+        return meta
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default="registry_data")
-    parser.add_argument("--port", type=int, default=8080)
-    args = parser.parse_args()
+    @app.get("/v1/agents/{agent_id}/download")
+    def download_agent(request: Request, agent_id: str, version: str | None = None):
+        store: Store = request.app.state.store
+        ver = version or store.latest_version(agent_id)
+        if not ver:
+            raise HTTPException(status_code=404, detail="agent not found")
+        pkg = store.package_path(agent_id, ver)
+        if not os.path.exists(pkg):
+            raise HTTPException(status_code=404, detail="package file not found")
+        return FileResponse(pkg, media_type="application/gzip", filename=f"{agent_id}-{ver}.aps.tar.gz")
 
-    global STORE
-    STORE = Store(Path(args.root))
-
-    uvicorn.run(app, host="0.0.0.0", port=args.port)
-
-if __name__ == "__main__":
-    main()
+    return app

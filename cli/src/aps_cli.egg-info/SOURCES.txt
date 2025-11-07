@@ -11,3 +11,6 @@ src/aps_cli.egg-info/entry_points.txt
 src/aps_cli.egg-info/requires.txt
 src/aps_cli.egg-info/top_level.txt
 src/aps_cli/templates/echo_agent/src/echo/main.py
+tests/test_rag_smoke.py
+tests/test_registry_resolver.py
+tests/test_run_stream_and_timeout.py

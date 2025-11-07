@@ -1,33 +1,22 @@
-aps: "0.1"
-id: "dev.rag"
-name: "Local RAG (TF-IDF)"
-version: "0.0.1"
-summary: "Simple local RAG over text files using TF-IDF cosine similarity."
+aps_version: 0.1
+id: dev.rag
+name: Simple RAG
+version: 0.0.2
+summary: Tiny TF-IDF RAG over local assets.
 runtimes:
-  - kind: "python"
-    #BEFORE entrypoint: ["python", "-m", "rag.main"]
-    entrypoint: ["python", "examples/rag-agent/src/rag/main.py"]
-capabilities:
-  inputs:
-    schema:
+  - kind: python
+    entrypoint: python src/rag/main.py
+inputs:
+  query: { type: string }
+  top_k: { type: integer, default: 3 }
+outputs:
+  answer: { type: string }
+  matches:
+    type: array
+    items:
       type: object
       properties:
-        query: { type: string }
-        top_k: { type: integer, minimum: 1, maximum: 10, default: 1 }
-      required: ["query"]
-  outputs:
-    schema:
-      type: object
-      properties:
-        answer: { type: string }
-        matches:
-          type: array
-          items:
-            type: object
-            properties:
-              text: { type: string }
-              score: { type: number }
-  tools: []
-policies:
-  network: { egress: [] }
+        text: { type: string }
+        score: { type: number }
+        file: { type: string }
 

@@ -1,0 +1,1 @@
+{"aps_version": "0.1", "status": "ok", "outputs": {"text": "ping"}}

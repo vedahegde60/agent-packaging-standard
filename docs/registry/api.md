@@ -15,7 +15,7 @@ Base URL: `/v1`
 **200**
 ```json
 {"status":"ok","agent":{"id":"dev.echo","name":"Echo","version":"0.0.1","summary":"Echoes the input text."}}
-
+```
 ## Raw Publish (optional)
 ```bash
 POST /v1/publish/raw (body: application/gzip)

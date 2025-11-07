@@ -1,2 +1,0 @@
-echo "APS is an open agent packaging standard to enable interoperability, distribution, and trust for AI agents." > examples/rag-agent/docs_src/sample.txt
-

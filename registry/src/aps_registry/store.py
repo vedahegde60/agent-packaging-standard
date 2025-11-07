@@ -1,99 +1,131 @@
 # registry/src/aps_registry/store.py
 from __future__ import annotations
-
-import sqlite3
-import tarfile
-import threading
-from pathlib import Path
-from typing import Dict, List, Optional
-import yaml
+import os, json, sqlite3, tarfile
+from typing import Dict, List
 
 class Store:
-    def __init__(self, root: Path):
-        self.root = Path(root).resolve()
-        self.root.mkdir(parents=True, exist_ok=True)
-        self.packages_dir = self.root / "packages"
-        self.packages_dir.mkdir(parents=True, exist_ok=True)
+    """
+    Simple filesystem + SQLite-backed store.
+    Layout:
+      <root>/
+        index.db
+        packages/<id>/<ver>/agent.aps.tar.gz
+    """
+    def __init__(self, root: str):
+        self.root = root
+        os.makedirs(self.packages_dir, exist_ok=True)
+        self._init_db()
 
-        self.db_path = self.root / "index.db"
-        # ✅ allow connection use across threads
-        self.conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
-        self.lock = threading.Lock()
-        self._migrate()
+    @property
+    def db_path(self) -> str:
+        return os.path.join(self.root, "index.db")
 
-    def _migrate(self) -> None:
-        with self.lock:
-            cur = self.conn.cursor()
-            cur.execute("""
+    @property
+    def packages_dir(self) -> str:
+        return os.path.join(self.root, "packages")
+
+    # ------------ DB helpers (fresh connection per call)
+
+    def _conn(self):
+        return sqlite3.connect(self.db_path, check_same_thread=False)
+
+    def _init_db(self):
+        with self._conn() as conn:
+            conn.execute("""
                 CREATE TABLE IF NOT EXISTS agents (
-                  id TEXT PRIMARY KEY,
-                  name TEXT,
-                  version TEXT,
-                  summary TEXT,
-                  pkg TEXT NOT NULL
+                    id TEXT NOT NULL,
+                    version TEXT NOT NULL,
+                    name TEXT,
+                    summary TEXT,
+                    manifest TEXT NOT NULL,
+                    PRIMARY KEY (id, version)
                 )
             """)
-            cur.execute("CREATE INDEX IF NOT EXISTS idx_agents_name ON agents(name)")
-            cur.execute("CREATE INDEX IF NOT EXISTS idx_agents_version ON agents(version)")
-            self.conn.commit()
 
-    @staticmethod
-    def _read_manifest_from_tar(tar_path: Path) -> Dict:
-        with tarfile.open(tar_path, "r:gz") as tar:
-            member = tar.getmember("aps/agent.yaml")
-            with tar.extractfile(member) as f:
-                return yaml.safe_load(f.read().decode("utf-8"))
+    # ------------ Publish path
 
-    def save_upload(self, filename: str, data: bytes) -> Path:
-        dest = self.packages_dir / filename
-        dest.write_bytes(data)
-        return dest
+    def save_upload(self, filename: str, data: bytes) -> str:
+        tmp = os.path.join(self.root, "_upload.tmp.tar.gz")
+        with open(tmp, "wb") as f:
+            f.write(data)
+        return tmp
 
-    def index_package(self, pkg_path: Path) -> Dict:
-        manifest = self._read_manifest_from_tar(pkg_path)
-        row = {
-            "id": manifest["id"],
-            "name": manifest.get("name", ""),
-            "version": manifest.get("version", ""),
-            "summary": manifest.get("summary", "")
-        }
-        with self.lock:
-            cur = self.conn.cursor()
-            cur.execute(
-                "REPLACE INTO agents(id,name,version,summary,pkg) VALUES(?,?,?,?,?)",
-                (row["id"], row["name"], row["version"], row["summary"], str(pkg_path)),
+    def index_package(self, tmp_pkg_path: str) -> Dict:
+        # Read manifest from tar to know id/version
+        import yaml
+        with tarfile.open(tmp_pkg_path, "r:gz") as tf:
+            try:
+                member = tf.getmember("aps/agent.yaml")
+            except KeyError:
+                raise FileNotFoundError("package missing aps/agent.yaml")
+            manifest_yaml = tf.extractfile(member).read().decode("utf-8")
+        manifest = yaml.safe_load(manifest_yaml)
+
+        agent_id = manifest["id"]
+        version  = manifest["version"]
+        name     = manifest.get("name","")
+        summary  = manifest.get("summary","")
+
+        dest_dir = os.path.join(self.packages_dir, agent_id, version)
+        os.makedirs(dest_dir, exist_ok=True)
+        dest_pkg = os.path.join(dest_dir, "agent.aps.tar.gz")
+
+        # Move uploaded file into packages/...
+        if os.path.exists(dest_pkg):
+            # Overwrite on re-publish of same version (or choose to reject)
+            os.remove(dest_pkg)
+        os.replace(tmp_pkg_path, dest_pkg)
+
+        # Upsert manifest row
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO agents (id, version, name, summary, manifest) VALUES (?,?,?,?,?)",
+                (agent_id, version, name, summary, json.dumps(manifest)),
             )
-            self.conn.commit()
-        return row
 
-    def search(self, q: str = "", limit: int = 50) -> List[Dict]:
-        qlike = f"%{q}%"
-        with self.lock:
-            cur = self.conn.cursor()
-            cur.execute(
-                "SELECT id,name,version,summary FROM agents "
-                "WHERE id LIKE ? OR name LIKE ? "
-                "ORDER BY id LIMIT ?",
-                (qlike, qlike, limit),
-            )
+        return {"id": agent_id, "version": version, "name": name, "summary": summary}
+
+    # ------------ Query path
+
+    def search(self, q: str) -> List[Dict]:
+        sql = """
+            SELECT id, version, name, summary
+            FROM agents
+            {where}
+            ORDER BY id ASC, version DESC
+        """
+        params = ()
+        if q:
+            like = f"%{q}%"
+            where = "WHERE id LIKE ? OR name LIKE ? OR summary LIKE ?"
+            params = (like, like, like)
+        else:
+            where = ""
+        sql = sql.format(where=where)
+        with self._conn() as conn:
+            cur = conn.execute(sql, params)
             rows = cur.fetchall()
-        return [{"id": r[0], "name": r[1], "version": r[2], "summary": r[3]} for r in rows]
+        return [{"id": r[0], "version": r[1], "name": r[2] or "", "summary": r[3] or ""} for r in rows]
 
-    def get_agent(self, ident: str) -> Optional[Dict]:
-        with self.lock:
-            cur = self.conn.cursor()
-            cur.execute("SELECT id,name,version,summary FROM agents WHERE id=?", (ident,))
-            r = cur.fetchone()
-        if not r:
-            return None
-        return {"id": r[0], "name": r[1], "version": r[2], "summary": r[3]}
+    def get_agent(self, agent_id: str) -> Dict:
+        with self._conn() as conn:
+            cur = conn.execute(
+                "SELECT manifest FROM agents WHERE id = ? ORDER BY version DESC LIMIT 1",
+                (agent_id,),
+            )
+            row = cur.fetchone()
+        if not row:
+            return {"error":"not_found","id":agent_id}
+        return json.loads(row[0])
 
-    def get_package_path(self, ident: str) -> Optional[Path]:
-        with self.lock:
-            cur = self.conn.cursor()
-            cur.execute("SELECT pkg FROM agents WHERE id=?", (ident,))
-            r = cur.fetchone()
-        if not r:
-            return None
-        p = Path(r[0])
-        return p if p.exists() else None
+    def latest_version(self, agent_id: str) -> str | None:
+        with self._conn() as conn:
+            cur = conn.execute(
+                "SELECT version FROM agents WHERE id = ? ORDER BY version DESC LIMIT 1",
+                (agent_id,)
+            )
+            row = cur.fetchone()
+        return row[0] if row else None
+
+    def package_path(self, agent_id: str, version: str) -> str:
+        return os.path.join(self.packages_dir, agent_id, version, "agent.aps.tar.gz")
