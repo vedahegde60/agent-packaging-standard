@@ -24,3 +24,14 @@ clean:
 	@rm -rf dist .pytest_cache .coverage build
 	@find . -name "__pycache__" -type d -prune -exec rm -rf {} +
 
+.PHONY: interop-mcp interop-agp interop-tdf
+
+interop-mcp:
+	@python3 interop/mcp/aps_mcp_wrapper.py
+
+interop-agp:
+	@uvicorn interop.agp.gateway:app --port 8090
+
+interop-tdf:
+	@python3 interop/tdf/export_tdf.py examples/rag-agent | jq .
+

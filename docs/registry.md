@@ -30,9 +30,21 @@ Secure by design | No arbitrary code execution on server
 ```bash
 aps registry serve --root registry_data --port 8080
 ```
-Stop
+## Stop
 
 Use Ctrl-C or kill the process.
 (Graceful stop endpoint will be added in APS v0.2.)
 
-Default directory structure
+## Default directory structure
+```
+registry_data/
+ ├─ db.sqlite
+ ├─ packages/
+ │   └─ dev.echo/
+ │       └─ 0.0.1.aps.tar.gz
+ └─ index/
+     └─ searchable metadata
+```
+## Publish an Agent
+
+Assuming you built dist/dev.echo.aps.tar.gz:

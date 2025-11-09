@@ -14,11 +14,13 @@ from __future__ import annotations
 import os, sys, json, argparse, tarfile, shutil, subprocess, threading, time, shlex
 from pathlib import Path
 from typing import Any, Dict, Optional
+from pathlib import Path
+import base64
+from cryptography.hazmat.primitives.asymmetric import ed25519
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.backends import default_backend
 
-from .signing import (
-    ensure_keypair, load_pubkey, load_privkey,
-    ed25519_sign, ed25519_verify
-)
+
 
 # 3rd party (ensure installed in venv for CLI usage)
 import requests
@@ -34,8 +36,94 @@ HOME = Path.home()
 CACHE_DIR = Path(os.environ.get("APS_CACHE_DIR", str(HOME / ".aps" / "cache")))
 LOGS_DIR  = Path(os.environ.get("APS_LOGS_DIR",  str(HOME / ".aps" / "logs")))
 DEFAULT_REGISTRY = os.environ.get("APS_REGISTRY", "http://localhost:8080")
+KEYS_DIR = Path.home() / ".aps" / "keys"
+PUBS_DIR  = Path.home() / ".aps" / "keys.pub"
+KEYS_DIR.mkdir(parents=True, exist_ok=True)
+PUBS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ------------------------------ Helpers
+def _key_path(name: str) -> Path:
+    return KEYS_DIR / f"{name}.priv"
+
+def _pub_path(name: str) -> Path:
+    return PUBS_DIR / f"{name}.pub"
+
+def _fingerprint_pubkey(pub_bytes: bytes) -> str:
+    # simple SHA256 fingerprint (base64)
+    digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
+    digest.update(pub_bytes)
+    return base64.urlsafe_b64encode(digest.finalize()).decode("utf-8").rstrip("=")
+
+def _load_private_key(path: Path):
+    data = path.read_bytes()
+    return serialization.load_pem_private_key(data, password=None, backend=default_backend())
+
+def _load_public_key(path: Path):
+    data = path.read_bytes()
+    return serialization.load_pem_public_key(data, backend=default_backend())
+
+def _write_private_key(path: Path, key):
+    pem = key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption(),
+    )
+    path.write_bytes(pem)
+    os.chmod(path, 0o600)
+
+def _write_public_key(path: Path, key):
+    pem = key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo,
+    )
+    path.write_bytes(pem)
+    return pem
+
+def _sign_bytes(priv_key, payload: bytes) -> bytes:
+    return priv_key.sign(payload)
+
+def _verify_sig(pub_key, payload: bytes, sig: bytes) -> bool:
+    try:
+        pub_key.verify(sig, payload)
+        return True
+    except Exception:
+        return False
+    
+def _http_get_bytes(url: str, timeout=30) -> bytes | None:
+    try:
+        r = requests.get(url, timeout=timeout, stream=True)
+        if r.status_code != 200:
+            return None
+        buf = bytearray()
+        for chunk in r.iter_content(chunk_size=65536):
+            if chunk:
+                buf.extend(chunk)
+        return bytes(buf)
+    except Exception:
+        return None
+
+def _download_package(reg: str, agent_id: str, ver: str) -> Path:
+    """Download the tarball to a temp file and return its path (caller extracts/cleans)."""
+    urls = [
+        f"{reg}/v1/pull/{agent_id}/{ver}",
+        f"{reg}/v1/pull?id={agent_id}&version={ver}",
+        f"{reg}/v1/pull?id={agent_id}",  # legacy
+    ]
+    last_err = None
+    for url in urls:
+        try:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".aps.tar.gz") as tmp:
+                tmp_path = Path(tmp.name)
+                with requests.get(url, stream=True, timeout=30) as r:
+                    r.raise_for_status()
+                    for chunk in r.iter_content(chunk_size=65536):
+                        if chunk:
+                            tmp.write(chunk)
+            return tmp_path
+        except Exception as e:
+            last_err = e
+    raise RuntimeError(f"failed to download {agent_id}@{ver}: {last_err}")
+
 
 def eprint(*a, **k):
     print(*a, file=sys.stderr, **k)
@@ -232,6 +320,9 @@ def cmd_build(args):
     print(str(out_path))
     return 0
 
+
+
+
 def cmd_init(args):
     tgt = Path(args.path).resolve()
     if tgt.exists() and any(tgt.iterdir()):
@@ -263,6 +354,67 @@ def cmd_publish(args):
     print(json.dumps(r.json()))
     return 0
 
+def cmd_sig_validate(args, agent_id: str, ver: str, tmp_pkg: Path):
+    # --- Optional signature verification ---
+    if getattr(args, "verify", False):
+        # Try to fetch a detached signature from common endpoints
+        sig_candidates = [
+            f"{reg}/v1/signature/{agent_id}/{ver}",
+            f"{reg}/v1/signature?id={agent_id}&version={ver}",
+            f"{reg}/v1/pull/{agent_id}/{ver}.sig",
+            f"{reg}/v1/pull?id={agent_id}&version={ver}&sig=1",
+        ]
+        sig_bytes = None
+        for url in sig_candidates:
+            sig_bytes = _http_get_bytes(url)
+            if sig_bytes:
+                print(f"[pull] Retrieved signature from {url}")
+                break
+
+        if sig_bytes is None:
+            if getattr(args, "require_signature", False):
+                print("[pull] ERROR: signature not available and --require-signature set", file=sys.stderr)
+                try: tmp_pkg.unlink(missing_ok=True)
+                except Exception: pass
+                return 2
+            else:
+                print("[pull] WARN: no signature found; skipping verification", file=sys.stderr)
+        else:
+            # Determine pubkey path
+            pub_path = None
+            if getattr(args, "pubkey", None):
+                pub_path = Path(args.pubkey).expanduser().resolve()
+            else:
+                # If no pubkey provided, look for a conventional name:
+                # ~/.aps/keys.pub/<agent_id>.pub  OR ~/.aps/keys.pub/default.pub
+                candidate1 = PUBS_DIR / f"{agent_id}.pub"
+                candidate2 = PUBS_DIR / "default.pub"
+                pub_path = candidate1 if candidate1.exists() else (candidate2 if candidate2.exists() else None)
+
+            if not pub_path or not pub_path.exists():
+                if getattr(args, "require_signature", False):
+                    print("[pull] ERROR: no public key available for verification", file=sys.stderr)
+                    try: tmp_pkg.unlink(missing_ok=True)
+                    except Exception: pass
+                    return 2
+                else:
+                    print("[pull] WARN: no public key provided; skipping verification", file=sys.stderr)
+            else:
+                # Write signature to temp file and verify using existing verify logic
+                tmp_sig = Path(str(tmp_pkg) + ".sig")
+                tmp_sig.write_bytes(sig_bytes)
+                rc = cmd_verify(argparse.Namespace(package=str(tmp_pkg), signature=str(tmp_sig), pubkey=str(pub_path)))
+                try: tmp_sig.unlink(missing_ok=True)
+                except Exception: pass
+                if rc != 0 and getattr(args, "require_signature", False):
+                    # Hard fail if required
+                    try: tmp_pkg.unlink(missing_ok=True)
+                    except Exception: pass
+                    return rc
+                elif rc != 0:
+                    print("[pull] WARN: signature verification failed; continuing (no --require-signature)", file=sys.stderr)
+
+
 def cmd_pull(args):
     agent_id = args.agent
     reg = args.registry or DEFAULT_REGISTRY
@@ -286,6 +438,9 @@ def cmd_pull(args):
         for chunk in rd.iter_content(8192):
             if chunk:
                 f.write(chunk)
+
+    # Optional signature validation
+    cmd_sig_validate(args, agent_id, version, tmp_pkg)
 
     # Extract (flatten if needed)
     _extract_agent_pkg(str(tmp_pkg), target)
@@ -490,28 +645,89 @@ def cmd_inspect(args):
     return 0
 
     # --- Signing
-def cmd_keygen(_):
-    ensure_keypair()
-    print("[keys] ready at ~/.aps/keys"); return 0
+def cmd_keygen(args):
+    name = args.name
+    priv_path = _key_path(name)
+    pub_path  = _pub_path(name)
+
+    if priv_path.exists() or pub_path.exists():
+        print(f"[keygen] ERROR: key '{name}' already exists", file=sys.stderr)
+        return 2
+
+    priv = ed25519.Ed25519PrivateKey.generate()
+    pub  = priv.public_key()
+
+    _write_private_key(priv_path, priv)
+    pub_pem = _write_public_key(pub_path, pub)
+    fp = _fingerprint_pubkey(pub_pem)
+
+    print(json.dumps({
+        "status": "ok",
+        "key": name,
+        "private": str(priv_path),
+        "public": str(pub_path),
+        "fingerprint": fp
+    }))
+    return 0
 
 def cmd_sign(args):
     pkg = Path(args.package).resolve()
-    digest = sha256_file(pkg)
-    sk = load_privkey()
-    payload = json.dumps({"file": pkg.name, "digest": digest}).encode()
-    sig = ed25519_sign(sk, payload)
-    out = pkg.with_suffix(pkg.suffix + ".sig.json")
-    out.write_text(json.dumps({"payload": base64.b64encode(payload).decode(), "sig": base64.b64encode(sig).decode()}))
-    print(str(out)); return 0
+    if not pkg.exists():
+        print(f"[sign] ERROR: package not found: {pkg}", file=sys.stderr)
+        return 2
+
+    keyname = args.key
+    priv = _load_private_key(_key_path(keyname))
+
+    payload = pkg.read_bytes()
+    sig = _sign_bytes(priv, payload)
+
+    sig_path = pkg.with_suffix(pkg.suffix + ".sig") if pkg.suffix else Path(str(pkg) + ".sig")
+    sig_path.write_bytes(sig)
+
+    # also print pubkey fingerprint for convenience
+    pub_pem = priv.public_key().public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo,
+    )
+    fp = _fingerprint_pubkey(pub_pem)
+
+    print(json.dumps({
+        "status": "ok",
+        "package": str(pkg),
+        "signature": str(sig_path),
+        "key": keyname,
+        "fingerprint": fp
+    }))
+    return 0
 
 def cmd_verify(args):
-    sigf = Path(args.signature).resolve()
-    sigobj = json.loads(sigf.read_text())
-    payload = base64.b64decode(sigobj["payload"])
-    sig = base64.b64decode(sigobj["sig"])
-    pk = load_pubkey()
-    ok = ed25519_verify(pk, payload, sig)
-    print("OK" if ok else "INVALID"); return 0 if ok else 2
+    pkg = Path(args.package).resolve()
+    sig_path = Path(args.signature).resolve() if args.signature else pkg.with_suffix(pkg.suffix + ".sig")
+    pubfile = Path(args.pubkey).resolve()
+
+    if not pkg.exists():
+        print(f"[verify] ERROR: package not found: {pkg}", file=sys.stderr)
+        return 2
+    if not sig_path.exists():
+        print(f"[verify] ERROR: signature not found: {sig_path}", file=sys.stderr)
+        return 2
+    if not pubfile.exists():
+        print(f"[verify] ERROR: pubkey not found: {pubfile}", file=sys.stderr)
+        return 2
+
+    payload = pkg.read_bytes()
+    sig = sig_path.read_bytes()
+    pub = _load_public_key(pubfile)
+
+    ok = _verify_sig(pub, payload, sig)
+    if ok:
+        print(json.dumps({"status":"ok","verified":True,"package":str(pkg),"signature":str(sig_path)}))
+        return 0
+    else:
+        print(json.dumps({"status":"error","error":{"code":"BAD_SIGNATURE","message":"Signature does not match"}}))
+        return 1
+
 
 
 def cmd_registry_serve(args):
@@ -557,6 +773,13 @@ def main(argv=None):
     p.add_argument("agent")
     p.add_argument("--version", default="latest")
     p.add_argument("--registry", default=DEFAULT_REGISTRY)
+    p.add_argument("--verify", action="store_true", help="Verify package signature after download")
+    p.add_argument("--pubkey", help="Path to public key PEM for verification")
+    p.add_argument(
+        "--require-signature",
+        action="store_true",
+        help="Fail if signature is missing or invalid when --verify is set",
+    )
     p.set_defaults(func=cmd_pull)
 
     p = sub.add_parser("run", help="Run an agent (dir or registry://id)")
@@ -578,15 +801,20 @@ def main(argv=None):
     #
     # signing
     #
-    s = sub.add_parser("keygen", help="Generate signing keys")
+        # keys
+    s = sub.add_parser("keygen", help="Generate a new Ed25519 keypair into ~/.aps/keys")
+    s.add_argument("name", help="Key name (e.g., 'default')")
     s.set_defaults(func=cmd_keygen)
 
-    s = sub.add_parser("sign", help="Sign an APS package")
-    s.add_argument("package")
+    s = sub.add_parser("sign", help="Sign an .aps.tar.gz file with a private key")
+    s.add_argument("package", help="Path to .aps.tar.gz")
+    s.add_argument("--key", default="default", help="Key name (default: 'default')")
     s.set_defaults(func=cmd_sign)
 
-    s = sub.add_parser("verify", help="Verify APS signature")
-    s.add_argument("signature")
+    s = sub.add_parser("verify", help="Verify a package signature with a public key")
+    s.add_argument("package", help="Path to .aps.tar.gz")
+    s.add_argument("--signature", help="Path to detached signature (defaults to <pkg>.sig)")
+    s.add_argument("--pubkey", required=True, help="Path to public key PEM (e.g., ~/.aps/keys.pub/default.pub)")
     s.set_defaults(func=cmd_verify)
 
     #
