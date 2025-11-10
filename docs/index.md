@@ -153,7 +153,7 @@ Ways to participate:
 * **Security and provenance:** [security@agentpackaging.org](mailto:security@agentpackaging.org)
 
 Project repository:
-👉 [github.com/vedahegde60/agent-packaging-standard](https://github.com/vedahegde60/agent-packaging-standard)
+👉 [GitHub Link](https://github.com/vedahegde60/agent-packaging-standard)
 
 ---
 

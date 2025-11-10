@@ -63,11 +63,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#agent-card-your-agent-name" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -495,21 +490,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Agent Card Template
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -522,52 +502,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      🧠 Summary
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      🎯 Use Cases
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      📥 Inputs (example)
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -850,68 +784,60 @@
   
 
 
-<hr />
-<div class="codehilite"><pre><span></span><code>card_version: 0.1
-id: your.agent.id
-name: Your Agent Name
-version: 0.1.0
-publisher:
-    name: Your Name / Org
-    url: https://your.site
-links:
-  repo: https://github.com/your/repo
-  docs: ./README.md
-tags: [agent, template]
-license: Apache-2.0
+  <h1>Agent Card Template</h1>
 
-compliance:
+<p>compliance:
   claims:
-    - nist_ai_rmf: &quot;profile: low-risk&quot;
-    - iso_42001: &quot;process: documented&quot;
-    - eu_ai_act: &quot;category: minimal-risk&quot;
+    - nist_ai_rmf: "profile: low-risk"
+    - iso_42001: "process: documented"
+    - eu_ai_act: "category: minimal-risk"
   evidence:
     - threat_model: ./SECURITY.md
-    - data_privacy: &quot;see privacy notes below&quot;
-
-safety:
+    - data_privacy: "see privacy notes below"</p>
+<p>safety:
   known_limitations:
-    - &quot;May hallucinate&quot;
-    - &quot;Not suitable for sensitive data without review&quot;
-
-monetization:
+    - "May hallucinate"
+    - "Not suitable for sensitive data without review"</p>
+<p>monetization:
   model: free   # free | one-time | subscription | usage | BYOL | external
-  url: &quot;&quot;       # if payment external
+  url: ""       # if payment external</p>
+<p>runtime:
+  language: "Python 3.11"
+  platform: "Linux/macOS/Windows"
+  network: "none"   # none | outbound | restricted | full
+<div class="highlight"><pre><span></span><code>---
 
-runtime:
-  language: &quot;Python 3.11&quot;
-  platform: &quot;Linux/macOS/Windows&quot;
-  network: &quot;none&quot;   # none | outbound | restricted | full
-</code></pre></div>
+# Agent Card — Your Agent Name
 
-<hr />
-<h1 id="agent-card-your-agent-name">Agent Card — Your Agent Name<a class="headerlink" href="#agent-card-your-agent-name" title="Permanent link">&para;</a></h1>
-<h2 id="summary">🧠 Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
-<p>Short human-readable description of the agent.</p>
-<p>Example: This agent answers questions over local documents using RAG and runs fully offline.</p>
-<hr />
-<h2 id="use-cases">🎯 Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Use case 1  </li>
-<li>Use case 2  </li>
-</ul>
-<hr />
-<h2 id="inputs-example">📥 Inputs (example)<a class="headerlink" href="#inputs-example" title="Permanent link">&para;</a></h2>
-<p>```json
+## 🧠 Summary
+Short human-readable description of the agent.
+
+Example: This agent answers questions over local documents using RAG and runs fully offline.
+
+---
+
+## 🎯 Use Cases
+- Use case 1  
+- Use case 2  
+
+---
+
+## 📥 Inputs (example)
+```json
 {
-  "query": "string",
-  "top_k": 1
-}</p>
+  &quot;query&quot;: &quot;string&quot;,
+  &quot;top_k&quot;: 1
+}
+</code></pre></div></p>
 
 
 
 
 
 
+
+  
+  
 
 
 
@@ -964,6 +890,8 @@ runtime:
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

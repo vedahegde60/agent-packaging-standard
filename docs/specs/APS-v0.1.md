@@ -43,7 +43,7 @@ An APS package is a compressed tar archive (`.aps.tar.gz`) with the following ca
 ├── src/                    # Implementation files
 └── assets/                 # Optional models, configs, or data
 
-````
+```
 
 All paths are relative to the package root.  
 The manifest file (`aps/agent.yaml`) **MUST** exist and conform to the schema defined in Section 4.
@@ -93,7 +93,7 @@ outputs:
     type: string
 license: MIT
 author: "APS Working Group <contact@agentpackaging.org>"
-````
+```
 
 ---
 
