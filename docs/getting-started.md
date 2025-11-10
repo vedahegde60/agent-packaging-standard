@@ -146,7 +146,7 @@ For detailed registry specifications, refer to the [Registry API](./registry/api
 | Area                      | Description                                                                               |
 | ------------------------- | ----------------------------------------------------------------------------------------- |
 | **Specification**         | Review the [APS v0.1 Specification](./specs/APS-v0.1.md) for technical details.           |
-| **Examples**              | Explore sample agents in the [Examples directory](./examples/).                           |
+| **Examples**              | Explore sample agents in the [Examples](./examples/index.md).                           |
 | **Provenance & Security** | Learn about signature and integrity extensions in [Provenance](./security/provenance.md). |
 | **Contributing**          | See [Contributing Guidelines](./contributing.md) to participate in standard development.  |
 

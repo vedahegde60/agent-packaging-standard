@@ -1,25 +1,19 @@
-# APS Security Policy
+# Security Policy
 
-## Threat Model
-- Local execution by trusted user
-- No remote code or networks unless declared in manifest
-- Strict stdin/stdout interface
+## Reporting a Vulnerability
+Please email **[your real email]** with:
+- Description of the issue and impact
+- Steps to reproduce or PoC if available
+- Any suggested fixes
 
-## Security Controls
-- No network access (default)
-- Optional signature + provenance files
-- Secrets never bundled inside agent
+We aim to acknowledge within **3 business days** and provide a remediation timeline.
 
-## Reporting Vulnerabilities
-Email: security@yourorg.com  
-PGP Key: *optional*
+## Scope
+This covers:
+- APS spec documents
+- APS CLI reference implementation
+- Example agents in this repo
 
-## Best Practices for APS Agents
-- Avoid uncontrolled subprocess launches
-- Validate input schemas
-- Log to stderr only, never stdout
-
-## Known Risks
-- Misuse if agent claims are inaccurate
-- Developer trust required until signing pipeline enabled
-
+## Disclosure
+We prefer coordinated disclosure.
+We’re happy to credit reporters (unless anonymity requested) once a fix is available.

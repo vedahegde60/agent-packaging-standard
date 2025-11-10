@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: aps-cli
+Version: 0.1.0
+Summary: APS command-line tooling (working title)
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyyaml>=6.0.1
+
+
+---
+
+## `cli/README.md`
+
+```markdown
+# APS CLI (working title)
+
+Commands:
+- `aps lint <path>` — validate minimal APS manifest structure
+- `aps init <path>` — scaffold a new agent from a template
+- `aps run <path>` — run an APS agent (stdin/stdout JSON)
+
+> NOTE: `run` invokes the agent’s entrypoint from the manifest.
+> Minimal runner to prove the contract; not a production runtime.
+

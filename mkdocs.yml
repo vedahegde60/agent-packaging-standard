@@ -1,56 +1,51 @@
-site_name: APS (Agent Packaging Standard)
-site_description: Open spec + tooling to package AI agents. Package once, run anywhere.
+site_name: Agent Packaging Standard (APS)
+site_url: https://agentpackaging.org
+repo_name: GitHub
 repo_url: https://github.com/vedahegde60/agent-packaging-standard
+
+docs_dir: docs
+site_dir: site
+
 theme:
   name: material
   features:
-    - navigation.sections
-    - navigation.expand
-    - content.code.copy
-    - content.tooltips
+    - navigation.top
+    - navigation.instant
+    - toc.integrate
+  language: en
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Specification:
+      - "APS v0.1": specs/APS-v0.1.md
+      - "Registry API": registry/api.md
+      - "CLI Reference": cli/reference.md
+      - "Security & Provenance": security/provenance.md
+  - Standards:
+      - "Governance": standards/governance.md
+      - "Stack": standards/stack.md
+      - "Agent Card Template": standards/agent-card-template.md
+  - Examples:
+      - Overview: examples/index.md
+  - Briefs:
+      - Landscape: briefs/landscape.md
+      - Positioning: briefs/positioning.md
+  - Project:
+      - Roadmap: roadmap.md
+      - Contributing: contributing.md
+
 markdown_extensions:
   - admonition
   - toc:
       permalink: true
-  - pymdownx.superfences
-  - pymdownx.highlight
-  - pymdownx.details
-  - pymdownx.inlinehilite
-  - pymdownx.critic
-  - pymdownx.arithmatex
-  - attr_list
-nav:
-  - Overview: index.md
-  - Getting Started: getting-started.md
-  - Architecture: architecture.md
-  - Dev Setup: dev-setup.md
-  - Roadmap: roadmap.md
-  - FAQ: faq.md
+  - tables
+  - fenced_code
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - def_list
+  - abbr
 
-  - Spec:
-      - APS v0.1: specs/APS-v0.1.md
-      - Manifest Schema: specs/manifest-schema.json
-      - Proposals:
-          - Template: specs/proposals/000-template.md
-
-  - Standards:
-      - Agent Card Template: standards/agent-card-template.md
-      - Mapping (APS ↔ Card ↔ Ecosystem): standards/mapping.md
-      - Standards Landscape Diagram: standards/stack.md
-
-  - Security:
-      - Security Policy: SECURITY.md
-      - Signing Model: security/signing-model.md
-      - Security & Provenance: security-provenance.md
-      - Signing (DSSE / in-toto): security/signing.md
-
-  - Operations:
-      - Governance: ops/GOVERNANCE.md
-      - Publish Workflow: ops/publish.md
-
-  - Briefs:
-      - Competitive Landscape: briefs/landscape.md
-      - Positioning: briefs/positioning.md
-  
-  - Registry:
-      - HTTP API: registry/api.md
+plugins:
+  - search
