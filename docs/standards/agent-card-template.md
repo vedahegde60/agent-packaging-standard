@@ -1,13 +1,10 @@
-
----
-````
 card_version: 0.1
 id: your.agent.id
 name: Your Agent Name
 version: 0.1.0
 publisher:
-    name: Your Name / Org
-    url: https://your.site
+    name: Veda Hegde
+    url: https://agentpackaging.org
 links:
   repo: https://github.com/your/repo
   docs: ./README.md
@@ -36,7 +33,7 @@ runtime:
   language: "Python 3.11"
   platform: "Linux/macOS/Windows"
   network: "none"   # none | outbound | restricted | full
-````
+```
 
 ---
 
@@ -61,3 +58,4 @@ Example: This agent answers questions over local documents using RAG and runs fu
   "query": "string",
   "top_k": 1
 }
+```

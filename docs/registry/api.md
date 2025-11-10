@@ -30,7 +30,7 @@ All endpoints are served under a versioned path prefix:
 
 /v1/
 
-````
+```
 
 Future versions of the API **MUST NOT** introduce breaking changes within the same version number.  
 Clients and registries **SHOULD** advertise supported API versions via an `X-APS-API-Version` header.
@@ -83,7 +83,7 @@ curl -X POST https://registry.agentpackaging.org/v1/push \
   -H "Authorization: Bearer $TOKEN" \
   -F "file=@examples/echo-agent.aps.tar.gz" \
   -F 'metadata={"id": "examples.echo-agent", "version": "0.1.0"}'
-````
+```
 
 **Response**
 
