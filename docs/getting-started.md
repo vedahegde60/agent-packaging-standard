@@ -39,8 +39,8 @@ git clone https://github.com/vedahegde60/agent-packaging-standard.git
 cd agent-packaging-standard
 
 # Install the APS CLI
-pip install -e .
-````
+pip install -e cli
+```
 
 Once installed, verify the CLI:
 
