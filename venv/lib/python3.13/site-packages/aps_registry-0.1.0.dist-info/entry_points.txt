@@ -1,0 +1,2 @@
+[console_scripts]
+aps-registry = aps_registry.server:main
