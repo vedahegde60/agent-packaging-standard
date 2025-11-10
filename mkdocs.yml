@@ -8,9 +8,12 @@ site_dir: site
 
 theme:
   name: material
+  logo: images/logo.png
+  favicon: images/logo.png
   icon:
-    logo: material/cube-outline
+    repo: fontawesome/brands/github
   features:
+    - navigation.tabs
     - navigation.top
     - navigation.instant
     - toc.integrate

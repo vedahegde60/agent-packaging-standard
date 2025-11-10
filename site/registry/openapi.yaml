@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: APS Registry API
+  version: 0.1.0
+paths:
+  /v1/search:
+    get:
+      summary: Search agents
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Search results
+  /v1/agents/{id}:
+    get:
+      summary: Get agent metadata
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: APS manifest
+  /v1/publish:
+    post:
+      summary: Publish agent package
+      requestBody:
+        content:
+          application/tar+gzip:
+            schema:
+              type: string
+      responses:
+        "201":
+          description: Published
+
