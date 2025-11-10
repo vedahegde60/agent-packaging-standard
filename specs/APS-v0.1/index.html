@@ -385,6 +385,57 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-manifest-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Manifest Specification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Manifest Specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-required-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Required Fields
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-optional-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 Optional Fields
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-example-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 Example Manifest
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-runtime-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Runtime Behavior
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#6-registry-specification-summary" class="md-nav__link">
     <span class="md-ellipsis">
       6. Registry Specification (Summary)
@@ -971,93 +1022,140 @@ It focuses solely on portability, reproducibility, and governance of agent artif
 <hr />
 <h2 id="3-package-structure">3. Package Structure<a class="headerlink" href="#3-package-structure" title="Permanent link">&para;</a></h2>
 <p>An APS package is a compressed tar archive (<code>.aps.tar.gz</code>) with the following canonical layout:</p>
-<div class="codehilite"><pre><span></span><code>&lt;agent-name&gt;/
+<div class="highlight"><pre><span></span><code>&lt;agent-name&gt;/
 ├── aps/
 │   ├── agent.yaml          # Required manifest
 │   ├── README.md           # Optional documentation
 │   └── LICENSE             # Optional license information
 ├── src/                    # Implementation files
 └── assets/                 # Optional models, configs, or data
-
-````
-
-All paths are relative to the package root.  
-The manifest file (`aps/agent.yaml`) **MUST** exist and conform to the schema defined in Section 4.
-
----
-
-## 4. Manifest Specification
-
-The manifest is a **YAML-encoded document** that declares an agent’s identity, version, runtime, and I/O schema.
-
-### 4.1 Required Fields
-
-| Field | Type | Description |
-|--------|------|-------------|
-| `id` | string | Globally unique identifier using reverse-DNS or dotted naming convention (e.g., `examples.echo-agent`). |
-| `version` | string | Semantic version (`MAJOR.MINOR.PATCH`). |
-| `name` | string | Human-readable agent name. |
-| `description` | string | Concise summary of the agent’s purpose. |
-| `runtime` | string | Target execution runtime (e.g., `python3`, `nodejs`, `bash`). |
-| `entrypoint` | string | Relative path to the executable script or module. |
-
-### 4.2 Optional Fields
-
-| Field | Type | Description |
-|--------|------|-------------|
-| `author` | string | Author or maintainer name/email. |
-| `license` | string | SPDX identifier or license reference. |
-| `dependencies` | list | Optional runtime dependencies or requirements. |
-| `inputs` | list | Input parameter definitions. |
-| `outputs` | list | Output field definitions. |
-| `provenance` | map | Optional metadata block for signatures or build provenance. |
-
-### 4.3 Example Manifest
-
-```yaml
-id: examples.echo-agent
-version: &quot;0.1.0&quot;
-name: Echo Agent
-description: Simple agent that echoes its input text.
-runtime: python3
-entrypoint: main.py
-inputs:
-  - name: text
-    type: string
-outputs:
-  - name: text
-    type: string
-license: MIT
-author: &quot;APS Working Group &lt;contact@agentpackaging.org&gt;&quot;
-````
-
----
-
-## 5. Runtime Behavior
-
-A compliant APS runtime **MUST**:
-
-1. Accept an APS package (local path or registry reference).
-2. Validate the manifest schema and structure.
-3. Resolve dependencies defined in `agent.yaml`.
-4. Execute the declared entrypoint according to the specified runtime.
-5. Capture and return outputs in JSON format.
-
-Example invocation:
-
-```bash
-aps run examples/echo-agent --input &#39;{&quot;text&quot;: &quot;hello&quot;}&#39;
 </code></pre></div>
-
+<p>All paths are relative to the package root.<br />
+The manifest file (<code>aps/agent.yaml</code>) <strong>MUST</strong> exist and conform to the schema defined in Section 4.</p>
+<hr />
+<h2 id="4-manifest-specification">4. Manifest Specification<a class="headerlink" href="#4-manifest-specification" title="Permanent link">&para;</a></h2>
+<p>The manifest is a <strong>YAML-encoded document</strong> that declares an agent’s identity, version, runtime, and I/O schema.</p>
+<h3 id="41-required-fields">4.1 Required Fields<a class="headerlink" href="#41-required-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Globally unique identifier using reverse-DNS or dotted naming convention (e.g., <code>examples.echo-agent</code>).</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td>Semantic version (<code>MAJOR.MINOR.PATCH</code>).</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Human-readable agent name.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Concise summary of the agent’s purpose.</td>
+</tr>
+<tr>
+<td><code>runtime</code></td>
+<td>string</td>
+<td>Target execution runtime (e.g., <code>python3</code>, <code>nodejs</code>, <code>bash</code>).</td>
+</tr>
+<tr>
+<td><code>entrypoint</code></td>
+<td>string</td>
+<td>Relative path to the executable script or module.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-optional-fields">4.2 Optional Fields<a class="headerlink" href="#42-optional-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>author</code></td>
+<td>string</td>
+<td>Author or maintainer name/email.</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>string</td>
+<td>SPDX identifier or license reference.</td>
+</tr>
+<tr>
+<td><code>dependencies</code></td>
+<td>list</td>
+<td>Optional runtime dependencies or requirements.</td>
+</tr>
+<tr>
+<td><code>inputs</code></td>
+<td>list</td>
+<td>Input parameter definitions.</td>
+</tr>
+<tr>
+<td><code>outputs</code></td>
+<td>list</td>
+<td>Output field definitions.</td>
+</tr>
+<tr>
+<td><code>provenance</code></td>
+<td>map</td>
+<td>Optional metadata block for signatures or build provenance.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-example-manifest">4.3 Example Manifest<a class="headerlink" href="#43-example-manifest" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">examples.echo-agent</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Echo Agent</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Simple agent that echoes its input text.</span>
+<span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python3</span>
+<span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main.py</span>
+<span class="nt">inputs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="nt">outputs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="nt">license</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MIT</span>
+<span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;APS</span><span class="nv"> </span><span class="s">Working</span><span class="nv"> </span><span class="s">Group</span><span class="nv"> </span><span class="s">&lt;contact@agentpackaging.org&gt;&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="5-runtime-behavior">5. Runtime Behavior<a class="headerlink" href="#5-runtime-behavior" title="Permanent link">&para;</a></h2>
+<p>A compliant APS runtime <strong>MUST</strong>:</p>
+<ol>
+<li>Accept an APS package (local path or registry reference).</li>
+<li>Validate the manifest schema and structure.</li>
+<li>Resolve dependencies defined in <code>agent.yaml</code>.</li>
+<li>Execute the declared entrypoint according to the specified runtime.</li>
+<li>Capture and return outputs in JSON format.</li>
+</ol>
+<p>Example invocation:</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--input<span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello&quot;}&#39;</span>
+</code></pre></div>
 <p>Expected output:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hello&quot;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <hr />
 <h2 id="6-registry-specification-summary">6. Registry Specification (Summary)<a class="headerlink" href="#6-registry-specification-summary" title="Permanent link">&para;</a></h2>
 <p>APS registries provide push/pull capabilities for agents.
@@ -1097,13 +1195,12 @@ Registries <strong>SHALL</strong> expose endpoints compatible with the <a href="
 <h2 id="7-provenance-and-signing">7. Provenance and Signing<a class="headerlink" href="#7-provenance-and-signing" title="Permanent link">&para;</a></h2>
 <p>APS supports optional provenance blocks to verify artifact integrity.</p>
 <h3 id="71-provenance-block">7.1 Provenance Block<a class="headerlink" href="#71-provenance-block" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">provenance</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">provenance</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">signature</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sha256:abc123...&quot;</span>
 <span class="w">  </span><span class="nt">signer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;aps@agentpackaging.org&quot;</span>
 <span class="w">  </span><span class="nt">issued_at</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-11-09T10:00:00Z&quot;</span>
 <span class="w">  </span><span class="nt">tool</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cosign&quot;</span>
 </code></pre></div>
-
 <h3 id="72-verification-requirements">7.2 Verification Requirements<a class="headerlink" href="#72-verification-requirements" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Runtimes and registries <strong>SHOULD</strong> verify package signatures.</li>
@@ -1225,6 +1322,8 @@ Registries <strong>SHALL</strong> expose endpoints compatible with the <a href="
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

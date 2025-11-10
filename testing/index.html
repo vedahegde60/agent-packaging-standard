@@ -852,41 +852,35 @@ registry/tests/
 examples/tests/ (future)</p>
 <hr />
 <h2 id="running-tests">▶️ Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>pytest<span class="w"> </span>-q
+<p><div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-q
 </code></pre></div>
-
-<p>To display print() statements while debugging:</p>
-<div class="codehilite"><pre><span></span><code>pytest<span class="w"> </span>-s
-</code></pre></div>
-
-<p>To run only CLI tests:</p>
-<div class="codehilite"><pre><span></span><code>pytest<span class="w"> </span>cli/tests
-</code></pre></div>
-
+To display print() statements while debugging:
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-s
+</code></pre></div></p>
+<p>To run only CLI tests:
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>cli/tests
+</code></pre></div></p>
 <h2 id="temporary-files-cache">Temporary Files &amp; Cache<a class="headerlink" href="#temporary-files-cache" title="Permanent link">&para;</a></h2>
 <p>APS uses $HOME/.aps/cache/ normally.
 Tests must not pollute real home.</p>
-<p>Use monkeypatch:</p>
-<div class="codehilite"><pre><span></span><code>monkeypatch.setattr<span class="o">(</span>app,<span class="w"> </span><span class="s2">&quot;CACHE_DIR&quot;</span>,<span class="w"> </span>tmp_path<span class="w"> </span>/<span class="w"> </span><span class="s2">&quot;.aps&quot;</span><span class="w"> </span>/<span class="w"> </span><span class="s2">&quot;cache&quot;</span><span class="o">)</span>
-</code></pre></div>
-
+<p>Use monkeypatch:
+<div class="highlight"><pre><span></span><code>monkeypatch.setattr<span class="o">(</span>app,<span class="w"> </span><span class="s2">&quot;CACHE_DIR&quot;</span>,<span class="w"> </span>tmp_path<span class="w"> </span>/<span class="w"> </span><span class="s2">&quot;.aps&quot;</span><span class="w"> </span>/<span class="w"> </span><span class="s2">&quot;cache&quot;</span><span class="o">)</span>
+</code></pre></div></p>
 <h2 id="mocking-registry-http">Mocking Registry HTTP<a class="headerlink" href="#mocking-registry-http" title="Permanent link">&para;</a></h2>
-<p>Example pattern:</p>
-<div class="codehilite"><pre><span></span><code>def<span class="w"> </span>fake_get<span class="o">(</span>url,<span class="w"> </span><span class="nv">timeout</span><span class="o">=</span><span class="m">10</span><span class="o">)</span>:
+<p>Example pattern:
+<div class="highlight"><pre><span></span><code>def<span class="w"> </span>fake_get<span class="o">(</span>url,<span class="w"> </span><span class="nv">timeout</span><span class="o">=</span><span class="m">10</span><span class="o">)</span>:
 <span class="w">    </span><span class="k">return</span><span class="w"> </span>DummyResp<span class="o">({</span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="s2">&quot;dev.echo&quot;</span>,<span class="w"> </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span><span class="o">})</span>
 
 monkeypatch.setattr<span class="o">(</span>app,<span class="w"> </span><span class="s2">&quot;requests&quot;</span>,<span class="w"> </span>types.SimpleNamespace<span class="o">(</span><span class="nv">get</span><span class="o">=</span>fake_get<span class="o">))</span>
-</code></pre></div>
-
+</code></pre></div></p>
 <p>DummyResp is a small helper class in tests.</p>
 <h2 id="stream-run-testing">Stream Run Testing<a class="headerlink" href="#stream-run-testing" title="Permanent link">&para;</a></h2>
 <p>Streaming agents emit intermediate lines followed by final JSON.</p>
-<p>Test strategy:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subprocess.Popen<span class="o">([</span>...<span class="o">]</span>,<span class="w"> </span><span class="nv">stdin</span><span class="o">=</span>PIPE,<span class="w"> </span><span class="nv">stdout</span><span class="o">=</span>PIPE<span class="o">)</span>
+<p>Test strategy:
+<div class="highlight"><pre><span></span><code><span class="nv">proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subprocess.Popen<span class="o">([</span>...<span class="o">]</span>,<span class="w"> </span><span class="nv">stdin</span><span class="o">=</span>PIPE,<span class="w"> </span><span class="nv">stdout</span><span class="o">=</span>PIPE<span class="o">)</span>
 <span class="nv">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>proc.communicate<span class="o">(</span>b<span class="s1">&#39;{&quot;input&quot;: &quot;hello&quot;}&#39;</span><span class="o">)[</span><span class="m">0</span><span class="o">]</span>.decode<span class="o">()</span>
 assert<span class="w"> </span><span class="s1">&#39;&quot;status&quot;: &quot;ok&quot;&#39;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>out
-</code></pre></div>
-
+</code></pre></div></p>
 <h2 id="manifest-validation-tests">Manifest Validation Tests<a class="headerlink" href="#manifest-validation-tests" title="Permanent link">&para;</a></h2>
 <p>Validate that:</p>
 <div class="codehilite"><pre><span></span><code>- Required fields present
@@ -900,12 +894,11 @@ assert<span class="w"> </span><span class="s1">&#39;&quot;status&quot;: &quot;ok
 - Reject invalid keys
 </code></pre></div>
 
-<p>Example:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">mf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>tmp_path/<span class="s2">&quot;aps&quot;</span>/<span class="s2">&quot;agent.yaml&quot;</span>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="nv">mf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>tmp_path/<span class="s2">&quot;aps&quot;</span>/<span class="s2">&quot;agent.yaml&quot;</span>
 mf.write_text<span class="o">(</span><span class="s2">&quot;aps_version: &#39;0.1&#39;\n&quot;</span>,<span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="o">)</span>
 assert<span class="w"> </span>validate<span class="o">(</span>str<span class="o">(</span>tmp_path<span class="o">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span>
-</code></pre></div>
-
+</code></pre></div></p>
 <h2 id="cli-subparser-tests">CLI Subparser Tests<a class="headerlink" href="#cli-subparser-tests" title="Permanent link">&para;</a></h2>
 <p>Tests guarantee stable CLI behavior.</p>
 <div class="codehilite"><pre><span></span><code>- Help prints
@@ -917,12 +910,11 @@ assert<span class="w"> </span>validate<span class="o">(</span>str<span class="o"
 - Stream flag toggles code path
 </code></pre></div>
 
-<p>Example:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subprocess.run<span class="o">([</span><span class="s2">&quot;aps&quot;</span>,<span class="w"> </span><span class="s2">&quot;--help&quot;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">capture_output</span><span class="o">=</span>True<span class="o">)</span>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="nv">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subprocess.run<span class="o">([</span><span class="s2">&quot;aps&quot;</span>,<span class="w"> </span><span class="s2">&quot;--help&quot;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">capture_output</span><span class="o">=</span>True<span class="o">)</span>
 assert<span class="w"> </span>out.returncode<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span>
 assert<span class="w"> </span>b<span class="s2">&quot;Usage:&quot;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>out.stdout
-</code></pre></div>
-
+</code></pre></div></p>
 <h2 id="registry-tests">Registry Tests<a class="headerlink" href="#registry-tests" title="Permanent link">&para;</a></h2>
 <p>Key API tests:
 | Endpoint          | Test                               |
@@ -1089,6 +1081,8 @@ assert<span class="w"> </span>b<span class="s2">&quot;Usage:&quot;</span><span c
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

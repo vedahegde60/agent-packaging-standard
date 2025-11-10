@@ -1080,7 +1080,7 @@ It draws inspiration from industry standards such as the <a href="https://openco
 <hr />
 <h2 id="4-provenance-metadata-schema">4. Provenance Metadata Schema<a class="headerlink" href="#4-provenance-metadata-schema" title="Permanent link">&para;</a></h2>
 <h3 id="41-yaml-representation-inline-in-manifest">4.1 YAML Representation (Inline in Manifest)<a class="headerlink" href="#41-yaml-representation-inline-in-manifest" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">provenance</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">provenance</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">signer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;aps@agentpackaging.org&quot;</span>
 <span class="w">  </span><span class="nt">issued_at</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-11-09T08:00:00Z&quot;</span>
 <span class="w">  </span><span class="nt">signature</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sha256:ab349...&quot;</span>
@@ -1108,7 +1108,6 @@ It draws inspiration from industry standards such as the <a href="https://openco
 <span class="w">  </span><span class="p p-Indicator">}</span>
 <span class="p p-Indicator">}</span>
 </code></pre></div>
-
 <p>Both representations are equivalent.
 When both are present, the external file <strong>SHALL</strong> take precedence.</p>
 <hr />
@@ -1140,22 +1139,19 @@ When both are present, the external file <strong>SHALL</strong> take precedence.
 </tbody>
 </table>
 <h3 id="51-example-commands">5.1 Example Commands<a class="headerlink" href="#51-example-commands" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Sign package using APS CLI</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Sign package using APS CLI</span>
 aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>cosign.key
 </code></pre></div>
-
-<div class="codehilite"><pre><span></span><code><span class="c1"># Verify signature</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify signature</span>
 aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <p>Example output:</p>
-<div class="codehilite"><pre><span></span><code>Signature verification succeeded
+<div class="highlight"><pre><span></span><code>Signature verification succeeded
 Signer: aps@agentpackaging.org
 Digest: sha256:f9a0...
 Issued: 2025-11-09T08:00:00Z
 Tool: cosign
 </code></pre></div>
-
 <hr />
 <h2 id="6-signing-backends">6. Signing Backends<a class="headerlink" href="#6-signing-backends" title="Permanent link">&para;</a></h2>
 <p>APS provides a <strong>pluggable signing interface</strong>.
@@ -1184,10 +1180,9 @@ CLI commands (<code>aps sign</code>, <code>aps verify</code>) may delegate to di
 </tbody>
 </table>
 <p>Example with explicit backend selection:</p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--with<span class="w"> </span>cosign<span class="w"> </span>--key<span class="w"> </span>cosign.key
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--with<span class="w"> </span>cosign<span class="w"> </span>--key<span class="w"> </span>cosign.key
 aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--with<span class="w"> </span>cosign
 </code></pre></div>
-
 <p>Backends <strong>MUST</strong> conform to APS provenance schema output.</p>
 <hr />
 <h2 id="7-verification-behavior">7. Verification Behavior<a class="headerlink" href="#7-verification-behavior" title="Permanent link">&para;</a></h2>
@@ -1229,14 +1224,13 @@ aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps
 </tbody>
 </table>
 <p>Example configuration (<code>aps-policy.yaml</code>):</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">policy</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">policy</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">strict</span>
 <span class="w">  </span><span class="nt">required_fields</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">signer</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">digest</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">issued_at</span>
 </code></pre></div>
-
 <hr />
 <h2 id="9-relationship-to-other-standards">9. Relationship to Other Standards<a class="headerlink" href="#9-relationship-to-other-standards" title="Permanent link">&para;</a></h2>
 <table>
@@ -1268,29 +1262,24 @@ aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps
 <hr />
 <h2 id="10-example-end-to-end-workflow">10. Example End-to-End Workflow<a class="headerlink" href="#10-example-end-to-end-workflow" title="Permanent link">&para;</a></h2>
 <h3 id="step-1-build-and-package-the-agent">Step 1. Build and package the agent<a class="headerlink" href="#step-1-build-and-package-the-agent" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent
 </code></pre></div>
-
 <h3 id="step-2-sign-the-package">Step 2. Sign the package<a class="headerlink" href="#step-2-sign-the-package" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>cosign.key
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>cosign.key
 </code></pre></div>
-
 <h3 id="step-3-publish-to-registry">Step 3. Publish to registry<a class="headerlink" href="#step-3-publish-to-registry" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
 </code></pre></div>
-
 <h3 id="step-4-verify-provenance-before-execution">Step 4. Verify provenance before execution<a class="headerlink" href="#step-4-verify-provenance-before-execution" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent
 </code></pre></div>
-
 <p>Expected output:</p>
-<div class="codehilite"><pre><span></span><code>Verification succeeded
+<div class="highlight"><pre><span></span><code>Verification succeeded
 Signer: aps@agentpackaging.org
 Digest: sha256:f9a0...
 Issued: 2025-11-09T08:00:00Z
 Tool: cosign
 </code></pre></div>
-
 <hr />
 <h2 id="11-conformance-requirements">11. Conformance Requirements<a class="headerlink" href="#11-conformance-requirements" title="Permanent link">&para;</a></h2>
 <p>An APS implementation is <strong>provenance-compliant</strong> if it:</p>
@@ -1377,6 +1366,8 @@ Tool: cosign
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

@@ -779,13 +779,12 @@
 <p>APS defines a portable, streaming-capable execution contract for agents.</p>
 <h2 id="request-format">Request Format<a class="headerlink" href="#request-format" title="Permanent link">&para;</a></h2>
 <p>Agents receive <strong>one JSON object via stdin</strong>:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;aps_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;run&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;... user fields …&quot;</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h2 id="required-fields">Required fields<a class="headerlink" href="#required-fields" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -815,12 +814,11 @@
 </table>
 <h2 id="response-format">Response Format<a class="headerlink" href="#response-format" title="Permanent link">&para;</a></h2>
 <h3 id="agents-must-emit-final-line-json">Agents MUST emit final line JSON:<a class="headerlink" href="#agents-must-emit-final-line-json" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;... agent result …&quot;</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h3 id="status-values">Status Values<a class="headerlink" href="#status-values" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -842,17 +840,16 @@
 </table>
 <h2 id="streaming-behavior-b1">Streaming Behavior (B1)<a class="headerlink" href="#streaming-behavior-b1" title="Permanent link">&para;</a></h2>
 <p>Agents MAY print text lines to stdout during execution.</p>
-<p>Example:</p>
-<div class="codehilite"><pre><span></span><code>Loading<span class="w"> </span>model...
+<p>Example:
+<div class="highlight"><pre><span></span><code>Loading<span class="w"> </span>model...
 Indexing<span class="w"> </span>data...
 <span class="nv">Query</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span>
 <span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="s2">&quot;ok&quot;</span>,<span class="s2">&quot;outputs&quot;</span>:<span class="o">{</span><span class="s2">&quot;answer&quot;</span>:<span class="s2">&quot;42&quot;</span><span class="o">}}</span>
 </code></pre></div>
-
-<p>The last line must be JSON.</p>
+The last line must be JSON.</p>
 <h2 id="error-behavior-e3">Error Behavior (E3)<a class="headerlink" href="#error-behavior-e3" title="Permanent link">&para;</a></h2>
 <h3 id="early-controlled-error">Early controlled error<a class="headerlink" href="#early-controlled-error" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;error&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="s2">&quot;RUNTIME_ERROR&quot;</span><span class="p">,</span>
@@ -860,18 +857,16 @@ Indexing<span class="w"> </span>data...
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <h3 id="implicit-error-no-final-json">Implicit error (no final JSON)<a class="headerlink" href="#implicit-error-no-final-json" title="Permanent link">&para;</a></h3>
-<p>CLI returns:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<p>CLI returns:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;error&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:{</span>
 <span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="s2">&quot;NO_FINAL_RESPONSE&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;Agent exited without valid JSON&quot;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-
+</code></pre></div></p>
 <h2 id="cli-flags">CLI Flags<a class="headerlink" href="#cli-flags" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -953,6 +948,8 @@ Indexing<span class="w"> </span>data...
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

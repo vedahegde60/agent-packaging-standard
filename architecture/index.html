@@ -778,22 +778,18 @@
 <h1 id="aps-architecture-draft">APS Architecture (draft)<a class="headerlink" href="#aps-architecture-draft" title="Permanent link">&para;</a></h1>
 <p>APS defines a portable way to package agents with a manifest and a runtime contract.</p>
 <h2 id="high-level">High-level<a class="headerlink" href="#high-level" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>flowchart LR
+<pre class="mermaid"><code>flowchart LR
   Dev[Developer] --&gt; |publish agent + manifest| Repo[(Git/Registry)]
   User[User / CI] --&gt; |search/install| Repo
   User --&gt; |aps run &lt;agent-root&gt;| CLI[APS CLI]
   CLI --&gt; |stdin JSON| Agent[Agent Entrypoint]
-  Agent --&gt; |stdout JSON| CLI
-</code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>graph TD
+  Agent --&gt; |stdout JSON| CLI</code></pre>
+<pre class="mermaid"><code>graph TD
   A[agent-root] --&gt; B[aps/agent.yaml]
   A --&gt; C[src/...]
   A --&gt; D[assets/models - optional-]
-  A --&gt; E[README.md]
-</code></pre></div>
-
-<div class="codehilite"><pre><span></span><code>sequenceDiagram
+  A --&gt; E[README.md]</code></pre>
+<pre class="mermaid"><code>sequenceDiagram
   participant U as User
   participant CLI as APS CLI
   participant AG as Agent Entrypoint
@@ -801,8 +797,7 @@
   U-&gt;&gt;CLI: aps run &lt;agent-root&gt; (stdin JSON)
   CLI-&gt;&gt;AG: launch entrypoint
   AG--&gt;&gt;CLI: stdout JSON response
-  CLI--&gt;&gt;U: prints response
-</code></pre></div>
+  CLI--&gt;&gt;U: prints response</code></pre>
 
 
 
@@ -861,6 +856,8 @@
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

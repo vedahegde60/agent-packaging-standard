@@ -966,7 +966,7 @@ It is intended for developers, platform maintainers, and enterprise users who wi
 <h2 id="3-installation">3. Installation<a class="headerlink" href="#3-installation" title="Permanent link">&para;</a></h2>
 <p>The APS CLI is distributed as a Python package.<br />
 To install the latest version directly from the project repository:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Clone the APS repository</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone the APS repository</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vedahegde60/agent-packaging-standard.git
 <span class="nb">cd</span><span class="w"> </span>agent-packaging-standard
 
@@ -979,11 +979,9 @@ Once<span class="w"> </span>installed,<span class="w"> </span>verify<span class=
 <span class="sb">```</span>bash
 aps<span class="w"> </span>--version
 </code></pre></div>
-
 <p>Expected output:</p>
-<div class="codehilite"><pre><span></span><code>APS CLI v0.1.0 — Agent Packaging Standard
+<div class="highlight"><pre><span></span><code>APS CLI v0.1.0 — Agent Packaging Standard
 </code></pre></div>
-
 <hr />
 <h2 id="4-creating-an-aps-agent">4. Creating an APS Agent<a class="headerlink" href="#4-creating-an-aps-agent" title="Permanent link">&para;</a></h2>
 <p>An APS-compliant agent consists of:</p>
@@ -993,14 +991,13 @@ aps<span class="w"> </span>--version
 <li>An <strong>optional configuration</strong> or dependency declaration.</li>
 </ol>
 <p>Example directory structure:</p>
-<div class="codehilite"><pre><span></span><code>examples/echo-agent/
+<div class="highlight"><pre><span></span><code>examples/echo-agent/
 ├── aps/
 │   └── agent.yaml
 └── main.py
 </code></pre></div>
-
 <p>Sample manifest (<code>aps/agent.yaml</code>):</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">examples.echo-agent</span>
+<div class="highlight"><pre><span></span><code><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">examples.echo-agent</span>
 <span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Echo Agent</span>
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Simple agent that echoes input text.</span>
@@ -1013,37 +1010,31 @@ aps<span class="w"> </span>--version
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 </code></pre></div>
-
 <hr />
 <h2 id="5-running-the-agent">5. Running the Agent<a class="headerlink" href="#5-running-the-agent" title="Permanent link">&para;</a></h2>
 <p>Execute the agent locally using the APS runtime interface:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello world&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello world&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
 </code></pre></div>
-
 <p>Expected output:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hello world&quot;</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>To stream incremental results:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;stream&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--stream
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;stream&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--stream
 </code></pre></div>
-
 <hr />
 <h2 id="6-publishing-and-retrieving-packages">6. Publishing and Retrieving Packages<a class="headerlink" href="#6-publishing-and-retrieving-packages" title="Permanent link">&para;</a></h2>
 <p>APS defines a registry protocol for distributing and retrieving agent packages.</p>
 <h3 id="publish-a-package">Publish a package<a class="headerlink" href="#publish-a-package" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
 </code></pre></div>
-
 <h3 id="retrieve-and-execute-a-published-package">Retrieve and execute a published package<a class="headerlink" href="#retrieve-and-execute-a-published-package" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>registry://local/examples.echo-agent
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>registry://local/examples.echo-agent
 </code></pre></div>
-
 <p>These commands demonstrate how APS enables consistent packaging and execution workflows across environments.</p>
 <p>For detailed registry specifications, refer to the <a href="../registry/api/">Registry API</a>.</p>
 <hr />
@@ -1165,6 +1156,8 @@ aps<span class="w"> </span>--version
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

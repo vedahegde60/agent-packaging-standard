@@ -944,7 +944,7 @@
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>From a local clone of this repository:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># From repo root</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># From repo root</span>
 <span class="nb">cd</span><span class="w"> </span>cli
 
 <span class="c1"># Editable install for local development</span>
@@ -957,12 +957,10 @@ Once<span class="w"> </span>installed,<span class="w"> </span>verify:
 aps<span class="w"> </span>--help
 aps<span class="w"> </span>--version
 </code></pre></div>
-
 <hr />
 <h2 id="cli-overview">CLI Overview<a class="headerlink" href="#cli-overview" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span><span class="o">[</span>GLOBAL<span class="w"> </span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>OPTIONS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span><span class="o">[</span>GLOBAL<span class="w"> </span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>COMMAND<span class="w"> </span>OPTIONS<span class="o">]</span>
 </code></pre></div>
-
 <p>Core commands (v0.1):</p>
 <ul>
 <li><code>aps build</code>   – Package an agent into an APS artifact</li>
@@ -986,16 +984,14 @@ aps<span class="w"> </span>--version
 <li><code>--registry &lt;url&gt;</code> – Override default registry endpoint (for publish/pull/run)</li>
 </ul>
 <p>Example:</p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>--log-level<span class="w"> </span>debug<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span>publish<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>--log-level<span class="w"> </span>debug<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span>publish<span class="w"> </span>dist/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <hr />
 <h2 id="aps-build"><code>aps build</code><a class="headerlink" href="#aps-build" title="Permanent link">&para;</a></h2>
 <p>Builds an APS-compliant package from an agent directory.</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_PATH&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_PATH&gt;
 </code></pre></div>
-
 <p><strong>Typical inputs:</strong></p>
 <ul>
 <li>
@@ -1013,17 +1009,15 @@ aps<span class="w"> </span>--version
 <li><code>--no-cache</code> – Do not reuse previous build layers (if applicable)</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <hr />
 <h2 id="aps-run"><code>aps run</code><a class="headerlink" href="#aps-run" title="Permanent link">&para;</a></h2>
 <p>Runs an agent from a local directory or built package.</p>
 <p>Agents follow the APS runtime contract (stdin → stdout JSON).</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_PATH_OR_PACKAGE&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_PATH_OR_PACKAGE&gt;
 </code></pre></div>
-
 <p><strong>Common options:</strong></p>
 <ul>
 <li><code>--stream</code> – Stream tokens/responses as they are produced</li>
@@ -1032,25 +1026,21 @@ aps<span class="w"> </span>--version
 </ul>
 <p><strong>Examples:</strong></p>
 <p>Run directly from source:</p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--stream
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--stream
 </code></pre></div>
-
 <p>Run from a built package:</p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>dist/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <p>Using stdin → stdout JSON contract:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;aps_version&quot;:&quot;0.1&quot;,&quot;operation&quot;:&quot;run&quot;,&quot;inputs&quot;:{&quot;text&quot;:&quot;hello&quot;}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;aps_version&quot;:&quot;0.1&quot;,&quot;operation&quot;:&quot;run&quot;,&quot;inputs&quot;:{&quot;text&quot;:&quot;hello&quot;}}&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
 </code></pre></div>
-
 <hr />
 <h2 id="aps-publish"><code>aps publish</code><a class="headerlink" href="#aps-publish" title="Permanent link">&para;</a></h2>
 <p>Publishes a built APS package to a registry.</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;PACKAGE_PATH&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;PACKAGE_PATH&gt;
 </code></pre></div>
-
 <p><strong>Common options:</strong></p>
 <ul>
 <li><code>--registry &lt;url&gt;</code> – Target registry URL (e.g., <code>https://registry.aps.dev</code>)</li>
@@ -1058,18 +1048,16 @@ aps<span class="w"> </span>--version
 <li><code>--force</code> – Overwrite existing version (if policy allows)</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>dist/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <hr />
 <h2 id="aps-pull"><code>aps pull</code><a class="headerlink" href="#aps-pull" title="Permanent link">&para;</a></h2>
 <p>Pulls an APS package from a registry into the local cache or filesystem.</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_REF&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_REF&gt;
 </code></pre></div>
-
 <p>Where <code>AGENT_REF</code> may be something like:</p>
 <ul>
 <li><code>echo-agent:0.1.0</code></li>
@@ -1082,16 +1070,14 @@ aps<span class="w"> </span>--version
 <li><code>--no-cache</code> – Force re-download even if cached</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span>echo-agent:0.1.0<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span>echo-agent:0.1.0<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <hr />
 <h2 id="aps-inspect"><code>aps inspect</code><a class="headerlink" href="#aps-inspect" title="Permanent link">&para;</a></h2>
 <p>Shows what’s inside a package or agent directory.</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>inspect<span class="w"> </span>&lt;AGENT_PATH_OR_PACKAGE&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>inspect<span class="w"> </span>&lt;AGENT_PATH_OR_PACKAGE&gt;
 </code></pre></div>
-
 <p><strong>What it can display (depending on implementation):</strong></p>
 <ul>
 <li>Manifest fields (name, version, publisher)</li>
@@ -1101,16 +1087,14 @@ aps<span class="w"> </span>--version
 <li>Dependencies and environment</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>inspect<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>inspect<span class="w"> </span>dist/echo-agent.aps.tar.gz
 </code></pre></div>
-
 <hr />
 <h2 id="aps-logs"><code>aps logs</code><a class="headerlink" href="#aps-logs" title="Permanent link">&para;</a></h2>
 <p>Displays logs for local runs (and eventually remote ones).</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>logs<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;RUN_ID_OR_PATH&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>logs<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;RUN_ID_OR_PATH&gt;
 </code></pre></div>
-
 <p><strong>Common options:</strong></p>
 <ul>
 <li><code>-f, --follow</code> – Stream logs as they are produced</li>
@@ -1118,20 +1102,18 @@ aps<span class="w"> </span>--version
 <li><code>--since &lt;duration&gt;</code> – Filter logs by relative time (e.g., <code>5m</code>, <code>1h</code>)</li>
 </ul>
 <p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Show logs for the most recent run of an agent</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Show logs for the most recent run of an agent</span>
 aps<span class="w"> </span>logs<span class="w"> </span>examples/echo-agent
 
 <span class="c1"># Follow logs for a given run ID (if your version exposes IDs)</span>
 aps<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w"> </span><span class="m">2025</span>-11-07T21-03-12Z-echo
 </code></pre></div>
-
 <hr />
 <h2 id="aps-lint"><code>aps lint</code><a class="headerlink" href="#aps-lint" title="Permanent link">&para;</a></h2>
 <p>Validates a package or agent directory against the APS spec.</p>
 <p><strong>Synopsis:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>lint<span class="w"> </span>&lt;AGENT_PATH_OR_PACKAGE&gt;
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>lint<span class="w"> </span>&lt;AGENT_PATH_OR_PACKAGE&gt;
 </code></pre></div>
-
 <p><strong>Checks may include:</strong></p>
 <ul>
 <li>Required manifest fields present</li>
@@ -1140,9 +1122,8 @@ aps<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w"> 
 <li>Basic schema compliance</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>lint<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>lint<span class="w"> </span>examples/echo-agent
 </code></pre></div>
-
 <hr />
 <h2 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1216,6 +1197,8 @@ aps<span class="w"> </span>logs<span class="w"> </span>--follow<span class="w"> 
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

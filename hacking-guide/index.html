@@ -826,7 +826,7 @@ It is for contributors modifying APS core — not just using it.</p>
 </ul>
 <hr />
 <h2 id="code-layout-overview">📂 Code Layout Overview<a class="headerlink" href="#code-layout-overview" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>root/
+<div class="highlight"><pre><span></span><code>root/
 ├── cli/
 │ └── src/aps_cli/
 │ ├── app.py ← main CLI logic
@@ -842,11 +842,10 @@ It is for contributors modifying APS core — not just using it.</p>
 ├── docs/specs/ ← Standard docs
 └── examples/
 </code></pre></div>
-
 <hr />
 <h2 id="cli-flow">⚙️ CLI Flow<a class="headerlink" href="#cli-flow" title="Permanent link">&para;</a></h2>
 <h3 id="aps-run-path">✅ <code>aps run &lt;path&gt;</code><a class="headerlink" href="#aps-run-path" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>sequenceDiagram
+<p><pre class="mermaid"><code>sequenceDiagram
   participant U as User
   participant CLI as APS CLI
   participant A as Agent
@@ -857,10 +856,8 @@ It is for contributors modifying APS core — not just using it.</p>
   U-&gt;&gt;CLI: {json input via stdin}
   CLI-&gt;&gt;A: write to stdin
   A--&gt;&gt;CLI: {json output via stdout}
-  CLI--&gt;&gt;U: print result
-</code></pre></div>
-
-<p>Runtime contract = JSON → JSON pipeline</p>
+  CLI--&gt;&gt;U: print result</code></pre>
+Runtime contract = JSON → JSON pipeline</p>
 <h2 id="registry-resolution-logic">Registry resolution logic<a class="headerlink" href="#registry-resolution-logic" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -881,9 +878,8 @@ It is for contributors modifying APS core — not just using it.</p>
 </tbody>
 </table>
 <p>Cache layout:</p>
-<div class="codehilite"><pre><span></span><code>~/.aps/cache/&lt;agent_id&gt;/&lt;version&gt;/
+<div class="highlight"><pre><span></span><code>~/.aps/cache/&lt;agent_id&gt;/&lt;version&gt;/
 </code></pre></div>
-
 <h2 id="key-functions-to-know">Key Functions to Know<a class="headerlink" href="#key-functions-to-know" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -955,18 +951,15 @@ It is for contributors modifying APS core — not just using it.</p>
 </table>
 <h2 id="debugging-tips">Debugging Tips<a class="headerlink" href="#debugging-tips" title="Permanent link">&para;</a></h2>
 <h3 id="log-internal-ops">Log internal ops<a class="headerlink" href="#log-internal-ops" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">APS_DEBUG</span><span class="o">=</span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">APS_DEBUG</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
-
 <p>TODO: structured debug logs coming soon.</p>
 <h3 id="view-registry-db">View registry DB<a class="headerlink" href="#view-registry-db" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>sqlite3<span class="w"> </span>registry_data/index.db<span class="w"> </span><span class="s1">&#39;.tables&#39;</span>
+<div class="highlight"><pre><span></span><code>sqlite3<span class="w"> </span>registry_data/index.db<span class="w"> </span><span class="s1">&#39;.tables&#39;</span>
 </code></pre></div>
-
 <h3 id="view-pulled-agents">View pulled agents<a class="headerlink" href="#view-pulled-agents" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>ls<span class="w"> </span>~/.aps/cache
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>~/.aps/cache
 </code></pre></div>
-
 <h2 id="test-philosophy">Test Philosophy<a class="headerlink" href="#test-philosophy" title="Permanent link">&para;</a></h2>
 <p>APS tests must be:</p>
 <ul>
@@ -1000,10 +993,9 @@ It is for contributors modifying APS core — not just using it.</p>
 </ul>
 </li>
 </ul>
-<p>Run tests:</p>
-<div class="codehilite"><pre><span></span><code>pytest<span class="w"> </span>-q
-</code></pre></div>
-
+<p>Run tests:
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-q
+</code></pre></div></p>
 <h2 id="future-extensibility-hooks">Future Extensibility Hooks<a class="headerlink" href="#future-extensibility-hooks" title="Permanent link">&para;</a></h2>
 <p>We will evolve toward:</p>
 <ul>
@@ -1089,6 +1081,8 @@ It is for contributors modifying APS core — not just using it.</p>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

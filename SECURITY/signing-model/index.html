@@ -786,17 +786,15 @@
 <li>dist/<id>.aps.tar.gz</li>
 <li>dist/<id>.aps.tar.gz.sig.json # DSSE-lite: base64(payload) + base64(sig)</li>
 </ul>
-<p><strong>Payload (JSON, then base64 in the .sig.json):</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;filename&gt;.aps.tar.gz&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;digest&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:&lt;hex&gt;&quot;</span><span class="w"> </span><span class="p">}</span>
+<p><strong>Payload (JSON, then base64 in the .sig.json):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;filename&gt;.aps.tar.gz&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;digest&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:&lt;hex&gt;&quot;</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-
-<p>Signature: Ed25519 over the UTF-8 bytes of the payload JSON.</p>
+Signature: Ed25519 over the UTF-8 bytes of the payload JSON.</p>
 <h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>keygen<span class="w">                      </span><span class="c1"># creates ~/.aps/keys/{ed25519.key,ed25519.pub}</span>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>keygen<span class="w">                      </span><span class="c1"># creates ~/.aps/keys/{ed25519.key,ed25519.pub}</span>
 aps<span class="w"> </span>sign<span class="w"> </span>dist/pkg.aps.tar.gz<span class="w">    </span><span class="c1"># emits dist/pkg.aps.tar.gz.sig.json</span>
 aps<span class="w"> </span>verify<span class="w"> </span>dist/pkg.aps.tar.gz.sig.json
 </code></pre></div>
-
 <h2 id="trustv0">Trust(v0)<a class="headerlink" href="#trustv0" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span><code>- Local trust store: ~/.aps/keys/ed25519.pub
 
@@ -866,6 +864,8 @@ aps<span class="w"> </span>verify<span class="w"> </span>dist/pkg.aps.tar.gz.sig
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

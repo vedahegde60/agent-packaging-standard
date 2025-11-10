@@ -792,25 +792,25 @@
 
 
 <h1 id="aps-in-the-standards-landscape">APS in the Standards Landscape<a class="headerlink" href="#aps-in-the-standards-landscape" title="Permanent link">&para;</a></h1>
-<div class="codehilite"><pre><span></span><code>flowchart TB
+<pre class="mermaid"><code>flowchart TB
 
-  subgraph Human[&quot;Human Description&quot;]
+  subgraph Human["Human Description"]
     CARD[Agent Card - Markdown]
   end
 
-  subgraph Packaging[&quot;Packaging &amp; Execution&quot;]
+  subgraph Packaging["Packaging &amp; Execution"]
     MANIFEST[aps/agent.yaml]
     POLICIES[Policies: network, pii, telemetry]
     PROV[Provenance: signatures, DSSE, in-toto]
   end
 
-  subgraph Interop[&quot;Interop Protocols&quot;]
+  subgraph Interop["Interop Protocols"]
     MCP[MCP: tool APIs]
     AGP[AGP: agent messaging]
     TDF[TDF: task schema]
   end
 
-  subgraph Governance[&quot;Governance &amp; Compliance&quot;]
+  subgraph Governance["Governance &amp; Compliance"]
     NIST[NIST AI RMF]
     ISO[ISO/IEC 42001]
     EU[EU AI Act]
@@ -834,8 +834,7 @@
   NIST --&gt; CARD
   ISO --&gt; CARD
   EU --&gt; CARD
-  PRIV --&gt; CARD
-</code></pre></div>
+  PRIV --&gt; CARD</code></pre>
 
 
 
@@ -894,6 +893,8 @@
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

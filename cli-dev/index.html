@@ -815,7 +815,7 @@
 </table>
 <hr />
 <h2 id="cli-code-overview">📦 CLI Code Overview<a class="headerlink" href="#cli-code-overview" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>cli/
+<div class="highlight"><pre><span></span><code>cli/
 └── src/aps_cli/
 ├── app.py ← entrypoint + command handlers
 ├── manifest.py ← load + validate agent.yaml
@@ -823,19 +823,17 @@
 ├── utils.py
 └── init.py
 </code></pre></div>
-
 <p>Entrypoint installed as <code>aps</code> binary.</p>
 <hr />
 <h2 id="cli-architecture">🧬 CLI Architecture<a class="headerlink" href="#cli-architecture" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>flowchart TD
+<pre class="mermaid"><code>flowchart TD
   U[User] --&gt; CLI[aps command]
   CLI --&gt; Parser[argparse]
   Parser --&gt; Handler[cmd_* function]
   Handler --&gt; Registry[HTTP client]
   Handler --&gt; OS[File ops / tar / venv / PYTHONPATH]
   Handler --&gt; AgentProc[Subprocess stdin/stdout]
-</code></pre></div>
-
+</code></pre>
 <h2 id="command-map">Command Map<a class="headerlink" href="#command-map" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -882,7 +880,7 @@
 </code></pre></div>
 
 <h2 id="run-flow-local">Run Flow (local)<a class="headerlink" href="#run-flow-local" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>sequenceDiagram
+<pre class="mermaid"><code>sequenceDiagram
   participant CLI
   participant Agent
 
@@ -890,12 +888,10 @@
   CLI-&gt;&gt;Agent: spawn python entrypoint
   CLI-&gt;&gt;Agent: send stdin JSON
   Agent--&gt;&gt;CLI: stdout JSON
-  CLI--&gt;&gt;User: print result
-</code></pre></div>
-
+  CLI--&gt;&gt;User: print result</code></pre>
 <p>Key runtime logic in cmd_run_sync() + _wrap_request().</p>
 <h2 id="run-flow-registry">Run Flow (registry)<a class="headerlink" href="#run-flow-registry" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>flowchart TD
+<pre class="mermaid"><code>flowchart TD
   User --&gt; CLI
   CLI --&gt; Resolve{id starts with registry://?}
   Resolve -- no --&gt; Local
@@ -904,9 +900,7 @@
   CacheCheck -- miss --&gt; Pull
   Pull --&gt; Cache
   Cache --&gt; Local
-  Local --&gt; RunAgent
-</code></pre></div>
-
+  Local --&gt; RunAgent</code></pre>
 <p>Helper function: _resolve_registry_path_if_needed()</p>
 <h2 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span><code>- Unit-level tests under cli/tests/
@@ -916,10 +910,9 @@
 - No external network calls allowed
 </code></pre></div>
 
-<p>Run:</p>
-<div class="codehilite"><pre><span></span><code>pytest<span class="w"> </span>-q
-</code></pre></div>
-
+<p>Run:
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-q
+</code></pre></div></p>
 <h2 id="key-functions">Key Functions<a class="headerlink" href="#key-functions" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -992,25 +985,22 @@
 - Update docs
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>def<span class="w"> </span>cmd_hello<span class="o">(</span>args<span class="o">)</span>:
+<div class="highlight"><pre><span></span><code>def<span class="w"> </span>cmd_hello<span class="o">(</span>args<span class="o">)</span>:
 <span class="w">    </span>print<span class="o">(</span><span class="s2">&quot;hello world&quot;</span><span class="o">)</span>
 
 <span class="c1"># inside parser block</span>
 <span class="nv">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subparsers.add_parser<span class="o">(</span><span class="s2">&quot;hello&quot;</span><span class="o">)</span>
 s.set_defaults<span class="o">(</span><span class="nv">func</span><span class="o">=</span>cmd_hello<span class="o">)</span>
 </code></pre></div>
-
 <h2 id="debugging-tips">Debugging Tips<a class="headerlink" href="#debugging-tips" title="Permanent link">&para;</a></h2>
 <h3 id="enable-debug-logs">Enable debug logs<a class="headerlink" href="#enable-debug-logs" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">APS_DEBUG</span><span class="o">=</span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">APS_DEBUG</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
-
 <h2 id="log-process-io">Log process IO<a class="headerlink" href="#log-process-io" title="Permanent link">&para;</a></h2>
 <p>Use print statements or sys.stderr.write() inside helpers.</p>
 <h2 id="manual-resolve-test">Manual resolve test<a class="headerlink" href="#manual-resolve-test" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import aps_cli.app as a;print(a._resolve_registry_path_if_needed(&#39;registry://dev.echo&#39;))&quot;</span>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import aps_cli.app as a;print(a._resolve_registry_path_if_needed(&#39;registry://dev.echo&#39;))&quot;</span>
 </code></pre></div>
-
 <h2 id="roadmap-hooks">Roadmap Hooks<a class="headerlink" href="#roadmap-hooks" title="Permanent link">&para;</a></h2>
 <p>Placeholders in CLI for future:</p>
 <div class="codehilite"><pre><span></span><code>- Signature validation
@@ -1086,6 +1076,8 @@ s.set_defaults<span class="o">(</span><span class="nv">func</span><span class="o
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

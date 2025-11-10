@@ -834,19 +834,17 @@
 <hr />
 <h2 id="internal-directory-layout">🏗️ Internal Directory Layout<a class="headerlink" href="#internal-directory-layout" title="Permanent link">&para;</a></h2>
 <p>When running:</p>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>registry<span class="w"> </span>serve<span class="w"> </span>--root<span class="w"> </span>registry_data
+<p><div class="highlight"><pre><span></span><code>aps<span class="w"> </span>registry<span class="w"> </span>serve<span class="w"> </span>--root<span class="w"> </span>registry_data
 </code></pre></div>
-
-<p>Directory structure:</p>
-<div class="codehilite"><pre><span></span><code>registry_data/
+Directory structure:
+<div class="highlight"><pre><span></span><code>registry_data/
  ├── index.db                # SQLite DB for metadata
  └── packages/
       └── dev.echo/
           └── 0.0.1/
               └── agent.aps.tar.gz
 </code></pre></div>
-
-<p>SQLite schema (simple, extendable):
+SQLite schema (simple, extendable):
 | Column   | Description           |
 | -------- | --------------------- |
 | id       | agent id (<code>dev.echo</code>) |
@@ -854,64 +852,52 @@
 | summary  | text for search       |
 | manifest | JSON blob             |</p>
 <h2 id="run-the-registry-dev-mode">Run the Registry (Dev Mode)<a class="headerlink" href="#run-the-registry-dev-mode" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>aps<span class="w"> </span>registry<span class="w"> </span>serve<span class="w"> </span>--root<span class="w"> </span>registry_data<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
+<p><div class="highlight"><pre><span></span><code>aps<span class="w"> </span>registry<span class="w"> </span>serve<span class="w"> </span>--root<span class="w"> </span>registry_data<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
 </code></pre></div>
-
-<p>Logs appear automatically.</p>
-<p>Stop server:</p>
-<div class="codehilite"><pre><span></span><code>CTRL<span class="w"> </span>+<span class="w"> </span>C
-</code></pre></div>
-
+Logs appear automatically.</p>
+<p>Stop server:
+<div class="highlight"><pre><span></span><code>CTRL<span class="w"> </span>+<span class="w"> </span>C
+</code></pre></div></p>
 <blockquote>
 <p><strong>Tip:</strong> Registry is lightning-fast — run in a terminal and kill any time.</p>
 </blockquote>
 <h2 id="hitting-rest-api">Hitting REST API<a class="headerlink" href="#hitting-rest-api" title="Permanent link">&para;</a></h2>
 <h3 id="publish">Publish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>-F<span class="w"> </span><span class="s2">&quot;file=@dist/dev.echo.aps.tar.gz&quot;</span><span class="w"> </span>http://localhost:8080/v1/publish
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-F<span class="w"> </span><span class="s2">&quot;file=@dist/dev.echo.aps.tar.gz&quot;</span><span class="w"> </span>http://localhost:8080/v1/publish
 </code></pre></div>
-
 <h3 id="search">Search<a class="headerlink" href="#search" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8080/v1/search?q=echo&quot;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8080/v1/search?q=echo&quot;</span>
 </code></pre></div>
-
 <h3 id="get-agent-metadata">Get agent metadata<a class="headerlink" href="#get-agent-metadata" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8080/v1/agents/dev.echo&quot;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8080/v1/agents/dev.echo&quot;</span>
 </code></pre></div>
-
 <h2 id="program-flow">Program Flow<a class="headerlink" href="#program-flow" title="Permanent link">&para;</a></h2>
 <h3 id="publish_1">Publish<a class="headerlink" href="#publish_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>sequenceDiagram
+<p><pre class="mermaid"><code>sequenceDiagram
     cli-&gt;&gt;registry: POST /v1/publish + tar.gz
     registry-&gt;&gt;sqlite: insert row
     registry-&gt;&gt;fs: store tar under /packages/&lt;id&gt;/&lt;version&gt;/
-    registry--&gt;&gt;cli: {status:ok}
-</code></pre></div>
-
-<p>Resolve (on aps run registry://id)</p>
-<div class="codehilite"><pre><span></span><code>flowchart LR
-  CLI --&gt; API[&quot;GET /v1/agents/id&quot;]
+    registry--&gt;&gt;cli: {status:ok}</code></pre>
+Resolve (on aps run registry://id)
+<pre class="mermaid"><code>flowchart LR
+  CLI --&gt; API["GET /v1/agents/id"]
   API --&gt; CLI
-  CLI --&gt; Cache{&quot;~/.aps/cache&quot;}
+  CLI --&gt; Cache{"~/.aps/cache"}
   Cache -- miss --&gt; CLI
-  CLI --&gt; RegistryPull[&quot;GET /v1/pull/id/version&quot;]
+  CLI --&gt; RegistryPull["GET /v1/pull/id/version"]
   RegistryPull --&gt; Cache
-  Cache --&gt; CLI --&gt; Run
-</code></pre></div>
-
+  Cache --&gt; CLI --&gt; Run</code></pre></p>
 <h2 id="debugging-tools">Debugging Tools<a class="headerlink" href="#debugging-tools" title="Permanent link">&para;</a></h2>
 <h3 id="view-db">View DB<a class="headerlink" href="#view-db" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>sqlite3<span class="w"> </span>registry_data/index.db<span class="w"> </span><span class="s2">&quot;.tables&quot;</span>
+<div class="highlight"><pre><span></span><code>sqlite3<span class="w"> </span>registry_data/index.db<span class="w"> </span><span class="s2">&quot;.tables&quot;</span>
 sqlite3<span class="w"> </span>registry_data/index.db<span class="w"> </span><span class="s2">&quot;SELECT * FROM agents;&quot;</span>
 </code></pre></div>
-
 <h3 id="inspect-packages">Inspect packages<a class="headerlink" href="#inspect-packages" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>tar<span class="w"> </span>-tf<span class="w"> </span>registry_data/packages/dev.echo/0.0.1/agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>tar<span class="w"> </span>-tf<span class="w"> </span>registry_data/packages/dev.echo/0.0.1/agent.aps.tar.gz
 </code></pre></div>
-
 <h2 id="delete-package-index-soft-reset">Delete package index (soft reset)<a class="headerlink" href="#delete-package-index-soft-reset" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>registry_data/index.db
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>registry_data/index.db
 </code></pre></div>
-
 <h2 id="common-troubleshooting">Common Troubleshooting<a class="headerlink" href="#common-troubleshooting" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1025,6 +1011,8 @@ sqlite3<span class="w"> </span>registry_data/index.db<span class="w"> </span><sp
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

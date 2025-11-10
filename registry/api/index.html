@@ -396,8 +396,44 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Base URL and Versioning">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Authentication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-endpoints-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Endpoints Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-endpoint-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Endpoint Definitions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Endpoint Definitions">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-post-v1push" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 POST /v1/push
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#52-get-v1agentsiddownload" class="md-nav__link">
@@ -935,74 +971,99 @@ An APS registry is a service responsible for storing, versioning, and distributi
 <hr />
 <h2 id="2-base-url-and-versioning">2. Base URL and Versioning<a class="headerlink" href="#2-base-url-and-versioning" title="Permanent link">&para;</a></h2>
 <p>All endpoints are served under a versioned path prefix:</p>
-<div class="codehilite"><pre><span></span><code>/v1/
-
-````
-
-Future versions of the API **MUST NOT** introduce breaking changes within the same version number.  
-Clients and registries **SHOULD** advertise supported API versions via an `X-APS-API-Version` header.
-
----
-
-## 3. Authentication
-
-Authentication mechanisms are implementation-defined.  
-Registries **SHOULD** support at least one of the following:
-
-- Bearer token authentication via `Authorization: Bearer &lt;token&gt;`  
-- Basic authentication (`Authorization: Basic &lt;credentials&gt;`)  
-- Anonymous (read-only) access for public packages  
-
-Private registries **MUST** implement access control for `push` and `delete` operations.
-
----
-
-## 4. Endpoints Overview
-
-| Method | Path | Operation | Description |
-|---------|------|------------|-------------|
-| `POST` | `/v1/push` | **Publish package** | Upload a new APS package (`.aps.tar.gz`) to the registry. |
-| `GET` | `/v1/pull/{id}` | **Retrieve package** | Download an existing APS package by identifier. |
-| `GET` | `/v1/packages` | **List packages** | Enumerate available agent packages and metadata. |
-| `DELETE` | `/v1/packages/{id}` | **Delete package** *(optional)* | Remove a package from the registry (if supported). |
-
-All responses **MUST** be JSON-encoded and include standard metadata fields.
-
----
-
-## 5. Endpoint Definitions
-
-### 5.1 `POST /v1/push`
-
-**Purpose:** Publish a signed APS package to the registry.
-
-**Request**
-
-| Parameter | Type | Description |
-|------------|------|-------------|
-| `file` | binary | The APS package archive (`.aps.tar.gz`). |
-| `metadata` | JSON | Optional metadata including version, digest, and provenance. |
-
-**Example**
-
-```bash
-curl -X POST https://registry.agentpackaging.org/v1/push \
-  -H &quot;Authorization: Bearer $TOKEN&quot; \
-  -F &quot;file=@examples/echo-agent.aps.tar.gz&quot; \
-  -F &#39;metadata={&quot;id&quot;: &quot;examples.echo-agent&quot;, &quot;version&quot;: &quot;0.1.0&quot;}&#39;
-````
-
-**Response**
-
-```json
-{
-  &quot;id&quot;: &quot;examples.echo-agent&quot;,
-  &quot;version&quot;: &quot;0.1.0&quot;,
-  &quot;digest&quot;: &quot;sha256:ab349...&quot;,
-  &quot;status&quot;: &quot;uploaded&quot;
-}
+<div class="highlight"><pre><span></span><code>/v1/
 </code></pre></div>
-
+<p>Future versions of the API <strong>MUST NOT</strong> introduce breaking changes within the same version number.<br />
+Clients and registries <strong>SHOULD</strong> advertise supported API versions via an <code>X-APS-API-Version</code> header.</p>
+<hr />
+<h2 id="3-authentication">3. Authentication<a class="headerlink" href="#3-authentication" title="Permanent link">&para;</a></h2>
+<p>Authentication mechanisms are implementation-defined.<br />
+Registries <strong>SHOULD</strong> support at least one of the following:</p>
+<ul>
+<li>Bearer token authentication via <code>Authorization: Bearer &lt;token&gt;</code>  </li>
+<li>Basic authentication (<code>Authorization: Basic &lt;credentials&gt;</code>)  </li>
+<li>Anonymous (read-only) access for public packages  </li>
+</ul>
+<p>Private registries <strong>MUST</strong> implement access control for <code>push</code> and <code>delete</code> operations.</p>
+<hr />
+<h2 id="4-endpoints-overview">4. Endpoints Overview<a class="headerlink" href="#4-endpoints-overview" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Operation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/push</code></td>
+<td><strong>Publish package</strong></td>
+<td>Upload a new APS package (<code>.aps.tar.gz</code>) to the registry.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/pull/{id}</code></td>
+<td><strong>Retrieve package</strong></td>
+<td>Download an existing APS package by identifier.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/packages</code></td>
+<td><strong>List packages</strong></td>
+<td>Enumerate available agent packages and metadata.</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/packages/{id}</code></td>
+<td><strong>Delete package</strong> <em>(optional)</em></td>
+<td>Remove a package from the registry (if supported).</td>
+</tr>
+</tbody>
+</table>
+<p>All responses <strong>MUST</strong> be JSON-encoded and include standard metadata fields.</p>
+<hr />
+<h2 id="5-endpoint-definitions">5. Endpoint Definitions<a class="headerlink" href="#5-endpoint-definitions" title="Permanent link">&para;</a></h2>
+<h3 id="51-post-v1push">5.1 <code>POST /v1/push</code><a class="headerlink" href="#51-post-v1push" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose:</strong> Publish a signed APS package to the registry.</p>
+<p><strong>Request</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>file</code></td>
+<td>binary</td>
+<td>The APS package archive (<code>.aps.tar.gz</code>).</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>JSON</td>
+<td>Optional metadata including version, digest, and provenance.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://registry.agentpackaging.org/v1/push<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s2">&quot;file=@examples/echo-agent.aps.tar.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-F<span class="w"> </span><span class="s1">&#39;metadata={&quot;id&quot;: &quot;examples.echo-agent&quot;, &quot;version&quot;: &quot;0.1.0&quot;}&#39;</span>
+</code></pre></div>
+<p><strong>Response</strong></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examples.echo-agent&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;digest&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:ab349...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uploaded&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><strong>Status Codes</strong></p>
 <table>
 <thead>
@@ -1034,22 +1095,19 @@ curl -X POST https://registry.agentpackaging.org/v1/push \
 <h3 id="52-get-v1agentsiddownload">5.2 <code>GET /v1/agents/{id}/download</code><a class="headerlink" href="#52-get-v1agentsiddownload" title="Permanent link">&para;</a></h3>
 <p><strong>Purpose:</strong> Retrieve an APS package by identifier.</p>
 <p><strong>Example</strong></p>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>-L<span class="w"> </span>https://registry.agentpackaging.org/v1/pull/examples.echo-agent<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-L<span class="w"> </span>https://registry.agentpackaging.org/v1/pull/examples.echo-agent<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span>examples.echo-agent.aps.tar.gz
 </code></pre></div>
-
 <p><strong>Response (Headers)</strong></p>
-<div class="codehilite"><pre><span></span><code>Content-Type: application/gzip
+<div class="highlight"><pre><span></span><code>Content-Type: application/gzip
 X-APS-Digest: sha256:ab349...
 </code></pre></div>
-
 <p>If the package does not exist:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;package not found&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examples.echo-agent&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p><strong>Status Codes</strong></p>
 <table>
 <thead>
@@ -1073,11 +1131,10 @@ X-APS-Digest: sha256:ab349...
 <h3 id="53-get-v1packages">5.3 <code>GET /v1/packages</code><a class="headerlink" href="#53-get-v1packages" title="Permanent link">&para;</a></h3>
 <p><strong>Purpose:</strong> Enumerate available packages and metadata.</p>
 <p><strong>Example</strong></p>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>https://registry.agentpackaging.org/v1/packages
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://registry.agentpackaging.org/v1/packages
 </code></pre></div>
-
 <p><strong>Response</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;packages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examples.echo-agent&quot;</span><span class="p">,</span>
@@ -1094,7 +1151,6 @@ X-APS-Digest: sha256:ab349...
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p><strong>Status Codes</strong></p>
 <table>
 <thead>
@@ -1119,17 +1175,15 @@ X-APS-Digest: sha256:ab349...
 <p><strong>Purpose:</strong> Remove a package from the registry.
 Implementations <strong>MAY</strong> restrict or disable deletion for immutability.</p>
 <p><strong>Example</strong></p>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://registry.agentpackaging.org/v1/packages/examples.echo-agent<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://registry.agentpackaging.org/v1/packages/examples.echo-agent<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span>
 </code></pre></div>
-
 <p><strong>Response</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examples.echo-agent&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deleted&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p><strong>Status Codes</strong></p>
 <table>
 <thead>
@@ -1199,7 +1253,7 @@ Metadata records <strong>SHALL</strong> include the following fields:</p>
 </tbody>
 </table>
 <p>Example record:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;examples.echo-agent&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;digest&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:ab349...&quot;</span><span class="p">,</span>
@@ -1211,25 +1265,22 @@ Metadata records <strong>SHALL</strong> include the following fields:</p>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <hr />
 <h2 id="7-error-handling">7. Error Handling<a class="headerlink" href="#7-error-handling" title="Permanent link">&para;</a></h2>
 <p>All error responses <strong>MUST</strong> include the following structure:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional diagnostic text&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <p>Example:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;invalid manifest&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;APS-4001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Field &#39;entrypoint&#39; missing in manifest.&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-
 <hr />
 <h2 id="8-implementation-notes">8. Implementation Notes<a class="headerlink" href="#8-implementation-notes" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1313,6 +1364,8 @@ Metadata records <strong>SHALL</strong> include the following fields:</p>
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

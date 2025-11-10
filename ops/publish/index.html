@@ -777,16 +777,20 @@
 
 <h1 id="aps-publish-workflow">APS Publish Workflow<a class="headerlink" href="#aps-publish-workflow" title="Permanent link">&para;</a></h1>
 <h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
-<p>```bash
-aps build</p>
-<p>Creates a .aps.tar.gz</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build
+
+Creates<span class="w"> </span>a<span class="w"> </span>.aps.tar.gz
+</code></pre></div>
 <h2 id="sign-optional">Sign (optional)<a class="headerlink" href="#sign-optional" title="Permanent link">&para;</a></h2>
-<p>aps sign dist/myagent.aps.tar.gz</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>dist/myagent.aps.tar.gz
+</code></pre></div>
 <h2 id="publish">PUblish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h2>
-<p>aps publish --registry=https://registry.aps.dev \
-  dist/myagent.aps.tar.gz</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>--registry<span class="o">=</span>https://registry.aps.dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>dist/myagent.aps.tar.gz
+</code></pre></div>
 <h2 id="verify">Verify<a class="headerlink" href="#verify" title="Permanent link">&para;</a></h2>
-<p>aps verify dist/myagent.aps.tar.gz</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>dist/myagent.aps.tar.gz
+</code></pre></div>
 
 
 
@@ -845,6 +849,8 @@ aps build</p>
     
     
       <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>

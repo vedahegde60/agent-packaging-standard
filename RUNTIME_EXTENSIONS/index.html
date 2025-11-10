@@ -809,13 +809,12 @@ A runtime defines <strong>how to execute an agent’s entrypoint</strong>.</p>
 </table>
 <hr />
 <h2 id="runtime-definition-in-manifest">Runtime Definition in Manifest<a class="headerlink" href="#runtime-definition-in-manifest" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="nt">runtimes</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">runtimes</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span>
 <span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;python</span><span class="nv"> </span><span class="s">main.py&quot;</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node</span>
 <span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">index.js&quot;</span>
 </code></pre></div>
-
 <h2 id="rules">Rules<a class="headerlink" href="#rules" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -867,10 +866,9 @@ A runtime defines <strong>how to execute an agent’s entrypoint</strong>.</p>
 </tr>
 </tbody>
 </table>
-<p>Example final frame:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span><span class="nt">&quot;outputs&quot;</span><span class="p">:{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;hello&quot;</span><span class="p">}}</span>
-</code></pre></div>
-
+<p>Example final frame:
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span><span class="nt">&quot;outputs&quot;</span><span class="p">:{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;hello&quot;</span><span class="p">}}</span>
+</code></pre></div></p>
 <hr />
 <h2 id="runtime-loading-logic">Runtime Loading Logic<a class="headerlink" href="#runtime-loading-logic" title="Permanent link">&para;</a></h2>
 <ol>
@@ -901,37 +899,31 @@ A runtime defines <strong>how to execute an agent’s entrypoint</strong>.</p>
 | <code>APS_TEMP_DIR</code>      | scratch space              |</p>
 <h2 id="language-runtimes-must-not-depend-on-host-global-state">Language runtimes must not depend on host global state.<a class="headerlink" href="#language-runtimes-must-not-depend-on-host-global-state" title="Permanent link">&para;</a></h2>
 <h2 id="runtime-extension-api-conceptual">Runtime Extension API (Conceptual)<a class="headerlink" href="#runtime-extension-api-conceptual" title="Permanent link">&para;</a></h2>
-<p>To add a new runtime, you implement:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<p>To add a new runtime, you implement:
+<div class="highlight"><pre><span></span><code><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">detect</span><span class="p">(</span><span class="n">agent_dir</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">bool</span>
 <span class="w">  </span><span class="nc">command</span><span class="p">(</span><span class="n">agent_dir</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">cmd</span><span class="w"> </span><span class="n">tokens</span><span class="p">]</span>
 <span class="w">  </span><span class="n">prepare_env</span><span class="p">(</span><span class="n">agent_dir</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">env</span><span class="w"> </span><span class="n">dict</span>
 <span class="p">}</span>
-</code></pre></div>
-
+</code></pre></div></p>
 <h2 id="example-python-runtime">Example: Python Runtime<a class="headerlink" href="#example-python-runtime" title="Permanent link">&para;</a></h2>
 <h3 id="manifest">Manifest<a class="headerlink" href="#manifest" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">runtimes</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">runtimes</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span>
 <span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;python</span><span class="nv"> </span><span class="s">main.py&quot;</span>
 </code></pre></div>
-
 <h3 id="launch-behavior">Launch behavior<a class="headerlink" href="#launch-behavior" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nv">PYTHONPATH</span><span class="o">=</span>&lt;agent&gt;/src:<span class="nv">$PYTHONPATH</span><span class="w"> </span>python<span class="w"> </span>main.py
-</code></pre></div>
-
-<hr />
+<h2 id="pythonpathagentsrcpythonpath-python-mainpy"><div class="highlight"><pre><span></span><code><span class="nv">PYTHONPATH</span><span class="o">=</span>&lt;agent&gt;/src:<span class="nv">$PYTHONPATH</span><span class="w"> </span>python<span class="w"> </span>main.py
+</code></pre></div><a class="headerlink" href="#pythonpathagentsrcpythonpath-python-mainpy" title="Permanent link">&para;</a></h2>
 <h2 id="example-node-runtime">Example: Node Runtime<a class="headerlink" href="#example-node-runtime" title="Permanent link">&para;</a></h2>
 <h3 id="manifest_1">Manifest<a class="headerlink" href="#manifest_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">runtimes</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">runtimes</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node</span>
 <span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;node</span><span class="nv"> </span><span class="s">index.js&quot;</span>
 </code></pre></div>
-
 <h3 id="launch-behavior_1">Launch behavior<a class="headerlink" href="#launch-behavior_1" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="nv">NODE_PATH</span><span class="o">=</span>&lt;agent&gt;/src:<span class="nv">$NODE_PATH</span><span class="w"> </span>node<span class="w"> </span>index.js
+<div class="highlight"><pre><span></span><code><span class="nv">NODE_PATH</span><span class="o">=</span>&lt;agent&gt;/src:<span class="nv">$NODE_PATH</span><span class="w"> </span>node<span class="w"> </span>index.js
 </code></pre></div>
-
 <h2 id="minimal-runtime-checklist">Minimal Runtime Checklist<a class="headerlink" href="#minimal-runtime-checklist" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1045,6 +1037,8 @@ A runtime defines <strong>how to execute an agent’s entrypoint</strong>.</p>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
     
   </body>
