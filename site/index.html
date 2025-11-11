@@ -1067,18 +1067,18 @@
 <h1 id="aps-agent-packaging-standard">APS — Agent Packaging Standard<a class="headerlink" href="#aps-agent-packaging-standard" title="Permanent link">&para;</a></h1>
 <p><strong>Portable • Auditable • Governable</strong></p>
 <p>The <strong>Agent Packaging Standard (APS)</strong> defines a vendor-neutral, interoperable way to describe, package, and distribute AI agents.<br />
-It provides a consistent framework for enterprises and developers to publish, inspect, and execute agents across diverse runtime environments with predictable behavior and verifiable provenance. :contentReference[oaicite:0]{index=0}</p>
+It provides a consistent framework for enterprises and developers to publish, inspect, and execute agents across diverse runtime environments with predictable behavior and verifiable provenance. </p>
 <p>APS is intentionally <strong>lightweight and OCI-inspired</strong>: agents become <strong>portable, inspectable, and policy-enforced</strong> across platforms and organizations instead of being locked into a single framework, vendor, or runtime.</p>
 <hr />
 <h2 id="what-is-aps">🔍 What is APS?<a class="headerlink" href="#what-is-aps" title="Permanent link">&para;</a></h2>
 <p>AI agent ecosystems today lack a unified packaging and execution model.<br />
-Each framework defines its own manifest schema, runtime semantics, and governance process, resulting in fragmentation and limited interoperability. :contentReference[oaicite:1]{index=1}  </p>
+Each framework defines its own manifest schema, runtime semantics, and governance process, resulting in fragmentation and limited interoperability.</p>
 <p>APS addresses this by defining:</p>
 <ul>
 <li>A consistent <strong>manifest specification</strong> (e.g. <code>agent.yaml</code> / <code>aps.yaml</code>) that describes the agent’s identity, inputs, outputs, and runtime context.  </li>
 <li>A <strong>portable package format</strong> (e.g. <code>.aps.tar.gz</code>) for distributing agents and associated metadata.  </li>
 <li>A <strong>registry API</strong> for discovery, publication, and retrieval of agent packages.  </li>
-<li>Optional <strong>signing and provenance extensions</strong> to establish trust and traceability. :contentReference[oaicite:2]{index=2}  </li>
+<li>Optional <strong>signing and provenance extensions</strong> to establish trust and traceability.  </li>
 </ul>
 <p>APS does <strong>not</strong> replace existing agent frameworks or orchestration layers.<br />
 Instead, it serves as a <strong>common substrate</strong> that allows tools, runtimes, and marketplaces to interoperate through a shared packaging and execution contract.</p>
@@ -1087,7 +1087,7 @@ Instead, it serves as a <strong>common substrate</strong> that allows tools, run
 <p>APS is guided by a small set of core principles:</p>
 <ul>
 <li><strong>Minimal, not maximal</strong> – APS defines conventions, not a heavyweight platform.  </li>
-<li><strong>Framework-agnostic</strong> – Works alongside LangChain, LlamaIndex, MCP, Swarm, custom orchestrators, and internal frameworks. :contentReference[oaicite:3]{index=3}  </li>
+<li><strong>Framework-agnostic</strong> – Works alongside LangChain, LlamaIndex, MCP, Swarm, custom orchestrators, and internal frameworks.</li>
 <li><strong>Portable execution</strong> – Agents should run locally, on-prem, in the cloud, or in hybrid environments without repackaging.  </li>
 <li><strong>Transparent &amp; inspectable</strong> – Human- and machine-readable metadata for capabilities, versions, and dependencies.  </li>
 <li><strong>Governable &amp; auditable</strong> – Provenance and policy metadata make it possible to enforce enterprise security and compliance.  </li>
@@ -1129,7 +1129,7 @@ Instead, it serves as a <strong>common substrate</strong> that allows tools, run
 👉 <a href="specs/APS-v0.1/">APS v0.1 Specification</a></p>
 <hr />
 <h2 id="getting-started">🚀 Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
-<p>For full installation and setup, see <a href="getting-started/">Getting Started</a>. :contentReference[oaicite:5]{index=5}  </p>
+<p>For full installation and setup, see <a href="getting-started/">Getting Started</a>.   </p>
 <p><strong>Quick taste from the CLI (example):</strong></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Run a simple agent</span>
 aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
@@ -1169,7 +1169,7 @@ aps<span class="w"> </span>publish<span class="w"> </span>dist/echo-agent.aps.ta
 <p>Conformance requirements for runtimes and registries are described in the main specification and will be extended via proposals/RFCs over time.</p>
 <hr />
 <h2 id="governance-community">🏛 Governance &amp; Community<a class="headerlink" href="#governance-community" title="Permanent link">&para;</a></h2>
-<p>The APS project is maintained under an <strong>open governance model</strong>:</p>
+<p>The APS project is maintained under an <strong>open governance model</strong>.</p>
 <ul>
 <li>Early on, a small maintainer group stewards direction.</li>
 <li>Over time, governance is expected to evolve toward a working-group or foundation-style structure.</li>
