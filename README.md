@@ -1,85 +1,167 @@
-Draft v0.1 — Public circulation permitted
+# 🧩 Agent Packaging Standard (APS)
 
-# (Working title) Agent Packaging Standard (APS)
+**Agent Packaging Standard (APS)** defines a **lightweight, vendor-neutral format** for packaging, sharing, and executing AI agents across runtimes and platforms.
 
-**Goal:** an open spec + tooling to publish an AI **agent** once and run it anywhere (local, VPC, or remote), with a standard manifest for capabilities, adapters, policies, provenance, and optional monetization.
+> _Portable. Inspectable. Policy-enforced._  
+> Build once, run anywhere — with confidence.
 
-This repo contains:
-- `specs/APS-v0.1.md` — working draft of the spec
-- `cli/` — the `aps` CLI (init, lint, run stub)
-- `examples/` — reference agents packaged with APS
+---
 
-Status: Community bootstrapping phase
-Looking for contributors interested in:
+## 🌍 Overview
 
-agent runtimes
+Modern AI agents are locked into proprietary formats and execution models.  
+Each platform defines its own way to describe capabilities, dependencies, and trust boundaries — creating fragmentation and limiting adoption.
 
-schema + validation
+APS provides a **common foundation** so that agents can move seamlessly between ecosystems.
 
-security + provenance
+### Core Goals
 
-example agents
+| Principle | Description |
+|------------|--------------|
+| **Portability** | Agents can be packaged once and executed anywhere that supports APS. |
+| **Inspectability** | All components (manifest, policy, code) are transparent and verifiable. |
+| **Governance** | Built-in signing, provenance, and trust policies ensure enterprise compliance. |
+| **Interoperability** | Designed to complement — not replace — existing frameworks and runtimes. |
 
-docs + developer experience
+---
 
-⭐ Star the repo, open a PR, or start a discussion!
+## 📦 What’s Inside an APS Package
 
-> **Status:** Phase 2 (Developer Adoption).  
-> We’re looking for contributors in:
-> - CLI UX & validation
-> - Reference agents (RAG, tools)
-> - Security & provenance
-> - Docs & diagrams
->
-> Check the Issues tab and Project board to jump in.
-
-
-
-## Quick start
-
-```bash
-# 1) Install CLI (editable)
-cd cli && pip install -e .
-
-# 2) Validate the example agent
-aps lint ../examples/echo-agent
-
-# 3) Run the example agent (stdin → stdout contract)
-echo '{"aps_version":"0.1","operation":"run","inputs":{"text":"hello"}}' \
-  | aps run ../examples/echo-agent
+An APS package (`.aps.tar.gz`) contains everything required to describe, run, and verify an agent:
 
 ```
 
-# Agent-packaging-standard
-# Why this exists
-	-No standard way to package agents
+aps/
+├── agent.yaml        # Manifest — entrypoint, metadata, and runtime interface
+├── provenance.json   # Optional signature and provenance data
+├── LICENSE
+└── src/              # Agent code, configuration, and assets
 
-	-No consistent capability metadata
+````
 
-	-Enterprises need trust & policy before adoption
+Agents can be published and pulled from registries just like container images.
 
-	-Developers need distribution without lock-in
+---
 
-#Stewardship
-We’re starting as a community-led project under Apache 2.0.
-Once adoption is clear, we intend to transition governance to a neutral foundation (CNCF/OCI-style).
+## 🧠 Why It Matters
 
-#Contributing
-See CONTRIBUTING.md. PRs welcome—especially for:
-manifest fields & schemas
-runtime contract refinements
-CLI validator improvements
-reference agents/adapters
+APS makes agents:
+- **Portable** across tools, clouds, and organizations.  
+- **Composable** via shared metadata and runtime descriptors.  
+- **Auditable** with signed manifests and provenance attestations.  
+- **Extensible** so future frameworks can plug into a shared ecosystem.
 
+---
 
+## 🧰 Quick Start
 
-## Templates
+### 1. Package an Agent
 
-| File | Purpose |
-|---|---|
-`templates/aps-manifest.yaml` | Base APS agent manifest |
-`templates/AGENT_CARD.md` | Human-readable agent card |
-`templates/security/SECURITY.md` | Security policy |
-`docs/ops/publish.md` | How to publish APS agents |
-`docs/registry/openapi.yaml` | Registry API draft |
+```bash
+aps build examples/echo-agent
+````
+
+### 2. Sign and Verify
+
+```bash
+aps sign examples/echo-agent.aps.tar.gz --key cosign.key
+aps verify examples/echo-agent.aps.tar.gz
+```
+
+### 3. Publish to a Registry
+
+```bash
+aps publish examples/echo-agent --registry registry://local
+```
+
+### 4. Run Anywhere
+
+```bash
+aps run examples/echo-agent --input '{"text": "hello"}'
+```
+
+---
+
+## 🧩 Specification & Docs
+
+| Document                                             | Purpose                                          |
+| ---------------------------------------------------- | ------------------------------------------------ |
+| [APS Specification v0.1](docs/specs/APS-v0.1.md)     | Core manifest and runtime model                  |
+| [Registry API](docs/registry/api.md)                 | How agents are published, discovered, and pulled |
+| [Security & Provenance](docs/security/provenance.md) | Signing, verification, and trust policies        |
+| [Governance](docs/standards/governance.md)           | Maintainers, process, and community rules        |
+| [Contributing](docs/contributing.md)                 | How to join and participate                      |
+| [Examples](docs/examples/index.md)                   | Reference agent packages                         |
+
+Full documentation and site: **[agentpackaging.org](https://agentpackaging.org)**
+
+---
+
+## 🧪 Example Agents
+
+| Example                             | Description                                                                 |
+| ----------------------------------- | --------------------------------------------------------------------------- |
+| [`echo-agent`](examples/echo-agent) | Minimal agent that echoes input (hello world of APS).                       |
+| [`rag-agent`](examples/rag-agent)   | Retrieval-augmented generation agent with richer manifest and dependencies. |
+
+---
+
+## 🤝 Get Involved
+
+APS is open to developers, researchers, and organizations who want to build a more interoperable agent ecosystem.
+
+| Type            | How to Participate                                                                               |
+| --------------- | ------------------------------------------------------------------------------------------------ |
+| **Contribute**  | Fork the repo and submit improvements or examples.                                               |
+| **Discuss**     | Open a [GitHub Discussion](https://github.com/vedahegde60/agent-packaging-standard/discussions). |
+| **Collaborate** | Reach out to align on registry, runtime, or signing integrations.                                |
+
+See [CONTRIBUTING.md](docs/contributing.md) for full details.
+
+---
+
+## 🧭 Roadmap (30-Day Pilot)
+
+| Phase        | Focus                                                 | Status         |
+| ------------ | ----------------------------------------------------- | -------------- |
+| **Week 1–2** | Packaging format and manifest model                   | ✅ Completed    |
+| **Week 3**   | Interop tests + test-release                          | ✅ Completed    |
+| **Week 4**   | Signing, provenance, governance, and community launch | 🚀 In progress |
+
+Next milestones:
+
+* Formalize **`aps` CLI** reference implementation
+* Extend **registry protocol** for discovery and version negotiation
+* Publish **APS v0.2** based on community feedback
+
+---
+
+## 🔒 Security
+
+APS supports optional signing and verification of all packages.
+See the [Security and Provenance Specification](docs/security/provenance.md) for details.
+
+For confidential reports:
+📧 **[security@agentpackaging.org](mailto:security@agentpackaging.org)**
+
+---
+
+## 🪴 License
+
+This project is licensed under the **Apache 2.0 License**.
+See [LICENSE](LICENSE) for details.
+
+---
+
+## ✉️ Contact
+
+| Purpose                 | Email                                                               |
+| ----------------------- | ------------------------------------------------------------------- |
+| General inquiries       | [contact@agentpackaging.org](mailto:contact@agentpackaging.org)     |
+| Community contributions | [community@agentpackaging.org](mailto:community@agentpackaging.org) |
+| Security disclosures    | [security@agentpackaging.org](mailto:security@agentpackaging.org)   |
+
+---
+
+*© 2025 Agent Packaging Standard (APS) Working Group. All rights reserved.*
 

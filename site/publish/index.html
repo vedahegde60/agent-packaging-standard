@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://agentpackaging.org/security-provenance/">
+        <link rel="canonical" href="https://agentpackaging.org/publish/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>Security & Provenance (draft) - Agent Packaging Standard (APS)</title>
+        <title>APS Publish Workflow - Agent Packaging Standard (APS)</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#security-provenance-draft" class="md-skip">
+        <a href="#aps-publish-workflow" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Security &amp; Provenance (draft)
+              APS Publish Workflow
             
           </span>
         </div>
@@ -935,34 +935,22 @@
   
 
 
-<h1 id="security-provenance-draft">Security &amp; Provenance (draft)<a class="headerlink" href="#security-provenance-draft" title="Permanent link">&para;</a></h1>
-<p>APS aims to be “trustable by default”.</p>
-<h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Identify who built and published the agent</li>
-<li>Bind manifest to a content hash</li>
-<li>Support signatures (DSSE) and provenance (in-toto/SLSA)</li>
-</ul>
-<h2 id="minimal-approach-v0x">Minimal approach (v0.x)<a class="headerlink" href="#minimal-approach-v0x" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Compute a content digest of the agent package (tar/zip or git commit).</li>
-<li>Create a DSSE envelope with the digest + manifest id/version.</li>
-<li>Sign with ed25519 (age/SSH/mini-sign keys acceptable).</li>
-<li>Publish manifest + signature + optional provenance.</li>
-</ol>
-<h2 id="example-dsse-like-payload">Example DSSE-like payload<a class="headerlink" href="#example-dsse-like-payload" title="Permanent link">&para;</a></h2>
-<p>```json
-{
-  "payloadType": "application/vnd.aps.manifest.v0+json",
-  "payload": {
-    "id": "dev.rag",
-    "version": "0.0.1",
-    "digest": "sha256:abcd...1234"
-  },
-  "signatures": [
-    { "keyid": "pubkey:...base64...", "sig": "base64..." }
-  ]
-}</p>
+<h1 id="aps-publish-workflow">APS Publish Workflow<a class="headerlink" href="#aps-publish-workflow" title="Permanent link">&para;</a></h1>
+<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build
+
+Creates<span class="w"> </span>a<span class="w"> </span>.aps.tar.gz
+</code></pre></div>
+<h2 id="sign-optional">Sign (optional)<a class="headerlink" href="#sign-optional" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>dist/myagent.aps.tar.gz
+</code></pre></div>
+<h2 id="publish">PUblish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>--registry<span class="o">=</span>https://registry.aps.dev<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>dist/myagent.aps.tar.gz
+</code></pre></div>
+<h2 id="verify">Verify<a class="headerlink" href="#verify" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>dist/myagent.aps.tar.gz
+</code></pre></div>
 
 
 
