@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://agentpackaging.org/security/provenance/">
       
       
-        <link rel="prev" href="../../cli/reference/">
+        <link rel="prev" href="../../contributing/">
       
       
-        <link rel="next" href="../../standards/governance/">
+        <link rel="next" href="../signing/">
       
       
       <link rel="icon" href="../../images/logo.png">
@@ -220,12 +220,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../../specs/APS-v0.1/" class="md-tabs__link">
           
   
@@ -311,6 +309,28 @@
   
   
   Project
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Security
 
         </a>
       </li>
@@ -412,29 +432,24 @@
       
   
   
-    
   
   
-  
     
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -447,7 +462,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Specification
@@ -1182,6 +1197,375 @@
   
   <span class="md-ellipsis">
     Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Security & Provenance
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security & Provenance
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-provenance-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Provenance Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-provenance-metadata-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Provenance Metadata Schema
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Provenance Metadata Schema">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-yaml-representation-inline-in-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 YAML Representation (Inline in Manifest)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-signing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Signing Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Signing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-example-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1 Example Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-signing-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Signing Backends
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Signing Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-backends-v01" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Backends (v0.1)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verification-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Verification Behavior
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Verification Behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-registry-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1 Registry Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-runtime-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2 Runtime Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-policy-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Policy Integration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-relationship-to-other-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Relationship to Other Standards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-example-end-to-end-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Example End-to-End Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Example End-to-End Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-build-and-package-the-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1. Build and package the agent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-sign-the-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2. Sign the package
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-publish-to-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3. Publish to registry
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-provenance-before-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4. Verify provenance before execution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-conformance-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Conformance Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      13. Contact
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../signing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Signing
     
   </span>
   
