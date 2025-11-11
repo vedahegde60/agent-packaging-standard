@@ -289,4 +289,4 @@ aps lint examples/echo-agent
 
 * [Getting Started](../getting-started.md)
 * [APS v0.1 Spec](../specs/APS-v0.1.md)
-* [Publish Workflow](../ops/publish.md)
+* [Publish Workflow](../publish.md)
