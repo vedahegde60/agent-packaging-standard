@@ -54,10 +54,10 @@ Private registries **MUST** implement access control for `push` and `delete` ope
 
 | Method | Path | Operation | Description |
 |---------|------|------------|-------------|
-| `POST` | `/v1/push` | **Publish package** | Upload a new APS package (`.aps.tar.gz`) to the registry. |
-| `GET` | `/v1/pull/{id}` | **Retrieve package** | Download an existing APS package by identifier. |
+| `POST` | `/v1/publish` | **Publish package** | Upload a new APS package (`.aps.tar.gz`) to the registry. |
+| `GET` | `/v1/agents/{id}/download` | **Retrieve package** | Download an existing APS package by identifier. |
 | `GET` | `/v1/packages` | **List packages** | Enumerate available agent packages and metadata. |
-| `DELETE` | `/v1/packages/{id}` | **Delete package** *(optional)* | Remove a package from the registry (if supported). |
+| `DELETE` | `/v1/agents/{id}` | **Delete package** *(optional)* | Remove a package from the registry (if supported). |
 
 All responses **MUST** be JSON-encoded and include standard metadata fields.
 
@@ -183,7 +183,7 @@ curl https://registry.agentpackaging.org/v1/packages
 
 ---
 
-### 5.4 `DELETE /v1/packages/{id}` *(optional)*
+### 5.4 `DELETE /v1/agents/{id}` *(optional)*
 
 **Purpose:** Remove a package from the registry.
 Implementations **MAY** restrict or disable deletion for immutability.
