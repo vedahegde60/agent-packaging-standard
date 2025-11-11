@@ -607,9 +607,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#54-delete-v1packagesid-optional" class="md-nav__link">
+  <a href="#54-delete-v1agentsid-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      5.4 DELETE /v1/packages/{id} (optional)
+      5.4 DELETE /v1/agents/{id} (optional)
     </span>
   </a>
   
@@ -1164,13 +1164,13 @@ Registries <strong>SHOULD</strong> support at least one of the following:</p>
 <tbody>
 <tr>
 <td><code>POST</code></td>
-<td><code>/v1/push</code></td>
+<td><code>/v1/publish</code></td>
 <td><strong>Publish package</strong></td>
 <td>Upload a new APS package (<code>.aps.tar.gz</code>) to the registry.</td>
 </tr>
 <tr>
 <td><code>GET</code></td>
-<td><code>/v1/pull/{id}</code></td>
+<td><code>/v1/agents/{id}/download</code></td>
 <td><strong>Retrieve package</strong></td>
 <td>Download an existing APS package by identifier.</td>
 </tr>
@@ -1182,7 +1182,7 @@ Registries <strong>SHOULD</strong> support at least one of the following:</p>
 </tr>
 <tr>
 <td><code>DELETE</code></td>
-<td><code>/v1/packages/{id}</code></td>
+<td><code>/v1/agents/{id}</code></td>
 <td><strong>Delete package</strong> <em>(optional)</em></td>
 <td>Remove a package from the registry (if supported).</td>
 </tr>
@@ -1336,7 +1336,7 @@ X-APS-Digest: sha256:ab349...
 </tbody>
 </table>
 <hr />
-<h3 id="54-delete-v1packagesid-optional">5.4 <code>DELETE /v1/packages/{id}</code> <em>(optional)</em><a class="headerlink" href="#54-delete-v1packagesid-optional" title="Permanent link">&para;</a></h3>
+<h3 id="54-delete-v1agentsid-optional">5.4 <code>DELETE /v1/agents/{id}</code> <em>(optional)</em><a class="headerlink" href="#54-delete-v1agentsid-optional" title="Permanent link">&para;</a></h3>
 <p><strong>Purpose:</strong> Remove a package from the registry.
 Implementations <strong>MAY</strong> restrict or disable deletion for immutability.</p>
 <p><strong>Example</strong></p>
