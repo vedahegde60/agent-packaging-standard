@@ -10,7 +10,7 @@ last_updated: 2025-11-09
 ## 1. Introduction
 
 The **Agent Packaging Standard (APS)** defines an interoperable format for describing, packaging, and distributing AI agents.  
-This specification establishes the canonical structure of an APS package, the required metadata schema, and the minimum expectations for APS-compliant runtimes and registries.
+This specification establishes the canonical structure of an APS package, the required metadata schema, and the minimum expectations for the APS-compliant runtimes and registries.
 
 APS is **vendor-neutral** and is intended to complement existing agent frameworks and orchestration systems.  
 It focuses solely on portability, reproducibility, and governance of agent artifacts.

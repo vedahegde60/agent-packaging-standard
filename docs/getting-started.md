@@ -24,7 +24,7 @@ Before using APS, ensure that your development environment meets the following r
 | **Operating System** | Linux, macOS, or Windows with WSL2 |
 | **Python** | Version 3.9 or higher |
 | **Git** | For cloning repositories and examples |
-| **Network access** | Required for pulling packages from registries |
+| **Network Access** | Required for pulling packages from registries |
 
 ---
 
@@ -156,9 +156,9 @@ For detailed registry specifications, refer to the [Registry API](./registry/api
 
 | Issue                      | Resolution                                                                       |
 | -------------------------- | -------------------------------------------------------------------------------- |
-| `aps` command not found    | Ensure Python scripts path is added to your environment variables.               |
-| Manifest validation errors | Verify all required fields exist in `agent.yaml` and conform to the v0.1 schema. |
-| Registry connection issues | Check network access and registry endpoint configuration.                        |
+| `aps` **command not found**    | Ensure Python scripts path is added to your environment variables.               |
+| **Manifest validation errors** | Verify all required fields exist in `agent.yaml` and conform to the v0.1 schema. |
+| **Registry connection issues** | Check network access and registry endpoint configuration.                        |
 
 ---
 

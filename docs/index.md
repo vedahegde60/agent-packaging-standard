@@ -115,7 +115,7 @@ Conformance requirements for runtimes and registries are described in the main s
 
 ## 🏛 Governance & Community
 
-The APS project is maintained under an **open governance model**:
+The APS project is maintained under an **open governance model**.
 
 * Early on, a small maintainer group stewards direction.
 * Over time, governance is expected to evolve toward a working-group or foundation-style structure.
