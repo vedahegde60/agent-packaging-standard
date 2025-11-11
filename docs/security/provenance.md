@@ -57,7 +57,7 @@ provenance:
     repository: "https://github.com/vedahegde60/agent-packaging-standard"
     commit: "c8f62a1"
     environment: "github-actions"
-````
+```
 
 ### 4.2 JSON Representation (External File)
 
