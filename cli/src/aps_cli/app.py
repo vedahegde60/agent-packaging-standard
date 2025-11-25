@@ -33,8 +33,38 @@ except ImportError:
 # ------------------------------ Constants / Paths
 
 HOME = Path.home()
-CACHE_DIR = Path(os.environ.get("APS_CACHE_DIR", str(HOME / ".aps" / "cache")))
-LOGS_DIR  = Path(os.environ.get("APS_LOGS_DIR",  str(HOME / ".aps" / "logs")))
+class _EnvPath:
+    """Lightweight path-like object that resolves an env var on each access.
+
+    This keeps module-level references (e.g. `app.CACHE_DIR / id / ver`) working
+    while still allowing tests to change `APS_CACHE_DIR` at runtime via
+    environment monkeypatching.
+    """
+    def __init__(self, envvar: str, fallback: Path):
+        self.envvar = envvar
+        self.fallback = fallback
+
+    def _path(self) -> Path:
+        return Path(os.environ.get(self.envvar, str(self.fallback)))
+
+    def __truediv__(self, other):
+        return self._path() / other
+
+    def __str__(self):
+        return str(self._path())
+
+    def __fspath__(self):
+        return str(self._path())
+
+    def exists(self):
+        return self._path().exists()
+
+    def mkdir(self, *args, **kwargs):
+        return self._path().mkdir(*args, **kwargs)
+
+
+CACHE_DIR = _EnvPath("APS_CACHE_DIR", HOME / ".aps" / "cache")
+LOGS_DIR = _EnvPath("APS_LOGS_DIR", HOME / ".aps" / "logs")
 DEFAULT_REGISTRY = os.environ.get("APS_REGISTRY", "http://localhost:8080")
 KEYS_DIR = Path.home() / ".aps" / "keys"
 PUBS_DIR  = Path.home() / ".aps" / "keys.pub"
