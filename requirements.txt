@@ -1,0 +1,16 @@
+# YAML parsing (required)
+PyYAML>=6.0
+
+# Optional but recommended CLI improvements
+rich>=13.0
+
+# Signing & provenance tools
+cryptography>=41.0
+
+# Registry operations (optional but useful)
+requests>=2.31
+jsonschema>=4.19
+
+# JSON performance (optional)
+ujson>=5.9
+
