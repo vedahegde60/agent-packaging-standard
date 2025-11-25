@@ -40,7 +40,7 @@ venv\Scripts\activate          # Windows PowerShell
 ```bash
 pip install -e cli/
 pip install -e registry/
-pip install -r dev-requirements.txt
+pip install -r requirements.txt
 ```
 
 Check install:
@@ -50,17 +50,18 @@ aps --help
 
 ## Run Tests
 ```bash
-pytest -q
+rm -rf .test_cache && mkdir -p .test_cache && source .venv/bin/activate && APS_CACHE_DIR=$(pwd)/.test_cache pytest -q
 ```
 
 Should end with:
 
-4 passed (or similar)
+8 passed (or similar)
 
 ## Run Local Registry
 
 Start server:
 ```bash
+pip install python-multipart
 aps registry serve --root registry_data --port 8080
 ```
 
