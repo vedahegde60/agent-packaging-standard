@@ -14,3 +14,5 @@ jsonschema>=4.19
 # JSON performance (optional)
 ujson>=5.9
 
+# For rag-agent
+scikit-learn>=1.3
