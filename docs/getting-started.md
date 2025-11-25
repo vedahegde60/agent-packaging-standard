@@ -193,4 +193,3 @@ aps run registry://local/my-first-agent
 
 This version now matches the GitHub issue requirements and is beginner‑friendly.  
 
-Would you like me to also **draft a shorter “Quickstart” section** (like a 10‑line minimal workflow) at the top for contributors who just want commands without explanations?
