@@ -1,37 +1,35 @@
 ---
 title: "Getting Started with APS"
-description: "Instructions for installing, packaging, and executing agents using the Agent Packaging Standard (APS)."
-last_updated: 2025-11-09
+description: "Beginner-friendly walkthrough for installing, initializing, and running agents with the Agent Packaging Standard (APS)."
+last_updated: 2025-11-25
 ---
 
 # Getting Started with the Agent Packaging Standard (APS)
 
 ## 1. Overview
 
-This guide provides a concise introduction to installing the APS toolchain and creating your first APS-compliant agent package.  
-It is intended for developers, platform maintainers, and enterprise users who wish to evaluate or contribute to the **Agent Packaging Standard (APS)**.
+This guide provides a simple walkthrough for new contributors to install the APS CLI, create their first agent, run an example, and modify its logic.  
 
-APS introduces a simple packaging and execution model that allows AI agents to be **packaged once and run anywhere**, ensuring consistency and interoperability across runtimes.
+APS introduces a packaging and execution model that allows AI agents to be **packaged once and run anywhere**, ensuring consistency and interoperability across runtimes.
 
 ---
 
 ## 2. Prerequisites
 
-Before using APS, ensure that your development environment meets the following requirements:
+Before you begin, make sure your environment meets these requirements:
 
-| Requirement | Description |
-|--------------|-------------|
-| **Operating System** | Linux, macOS, or Windows with WSL2 |
-| **Python** | Version 3.9 or higher |
-| **Git** | For cloning repositories and examples |
-| **Network Access** | Required for pulling packages from registries |
+| Requirement        | Description                                |
+|--------------------|--------------------------------------------|
+| **Operating System** | Linux, macOS, or Windows with WSL2        |
+| **Python**          | Version 3.9 or higher                     |
+| **Git**             | For cloning repositories and examples     |
+| **Network Access**  | Required for pulling packages from registries |
 
 ---
 
-## 3. Installation
+## 3. Install the APS CLI
 
-The APS CLI is distributed as a Python package.  
-To install the latest version directly from the project repository:
+Clone the repository and install the CLI:
 
 ```bash
 # Clone the APS repository
@@ -42,7 +40,7 @@ cd agent-packaging-standard
 pip install -e cli
 ```
 
-Once installed, verify the CLI:
+Verify installation:
 
 ```bash
 aps --version
@@ -56,45 +54,33 @@ APS CLI v0.1.0 — Agent Packaging Standard
 
 ---
 
-## 4. Creating an APS Agent
+## 4. Initialize Your First Agent
 
-An APS-compliant agent consists of:
+Use the CLI to scaffold a new agent:
 
-1. A **manifest file** (`aps/agent.yaml`) describing the agent’s metadata and interface.
-2. The **implementation files** (Python, shell, or other executables).
-3. An **optional configuration** or dependency declaration.
+```bash
+aps init my-first-agent
+```
 
-Example directory structure:
+This creates a directory with:
+
+- `aps/agent.yaml` → manifest describing metadata and inputs/outputs  
+- `main.py` → default implementation file  
+
+Example structure:
 
 ```
-examples/echo-agent/
+my-first-agent/
 ├── aps/
 │   └── agent.yaml
 └── main.py
 ```
 
-Sample manifest (`aps/agent.yaml`):
-
-```yaml
-id: examples.echo-agent
-version: "0.1.0"
-name: Echo Agent
-description: Simple agent that echoes input text.
-runtime: python3
-entrypoint: main.py
-inputs:
-  - name: text
-    type: string
-outputs:
-  - name: text
-    type: string
-```
-
 ---
 
-## 5. Running the Agent
+## 5. Run the Example Agent
 
-Execute the agent locally using the APS runtime interface:
+Try running the provided **echo agent**:
 
 ```bash
 echo '{"text": "hello world"}' | aps run examples/echo-agent
@@ -111,7 +97,7 @@ Expected output:
 }
 ```
 
-To stream incremental results:
+To stream results:
 
 ```bash
 echo '{"text": "stream"}' | aps run examples/echo-agent --stream
@@ -119,54 +105,92 @@ echo '{"text": "stream"}' | aps run examples/echo-agent --stream
 
 ---
 
-## 6. Publishing and Retrieving Packages
+## 6. Modify Agent Logic
 
-APS defines a registry protocol for distributing and retrieving agent packages.
+Open `main.py` in your agent folder and change the behavior. For example:
 
-### Publish a package
-
-```bash
-aps publish examples/echo-agent --registry registry://local
+```python
+def run(inputs):
+    text = inputs.get("text", "")
+    return {"text": text.upper()}
 ```
 
-### Retrieve and execute a published package
+Re-run the agent:
 
 ```bash
-aps run registry://local/examples.echo-agent
+echo '{"text": "hello world"}' | aps run my-first-agent
 ```
 
-These commands demonstrate how APS enables consistent packaging and execution workflows across environments.
+Output:
 
-For detailed registry specifications, refer to the [Registry API](./registry/api.md).
-
----
-
-## 7. Next Steps
-
-| Area                      | Description                                                                               |
-| ------------------------- | ----------------------------------------------------------------------------------------- |
-| **Specification**         | Review the [APS v0.1 Specification](./specs/APS-v0.1.md) for technical details.           |
-| **Examples**              | Explore sample agents in the [Examples](./examples/index.md).                           |
-| **Provenance & Security** | Learn about signature and integrity extensions in [Provenance](./security/provenance.md). |
-| **Contributing**          | See [Contributing Guidelines](./contributing.md) to participate in standard development.  |
+```json
+{
+  "status": "ok",
+  "outputs": {
+    "text": "HELLO WORLD"
+  }
+}
+```
 
 ---
 
-## 8. Troubleshooting
+## 7. Publishing and Retrieving Packages
 
-| Issue                      | Resolution                                                                       |
-| -------------------------- | -------------------------------------------------------------------------------- |
-| `aps` **command not found**    | Ensure Python scripts path is added to your environment variables.               |
-| **Manifest validation errors** | Verify all required fields exist in `agent.yaml` and conform to the v0.1 schema. |
-| **Registry connection issues** | Check network access and registry endpoint configuration.                        |
+APS supports registries for sharing agents.
+
+**Publish:**
+
+```bash
+aps publish my-first-agent --registry registry://local
+```
+
+**Retrieve and run:**
+
+```bash
+aps run registry://local/my-first-agent
+```
 
 ---
 
-## 9. Contact
+## 8. Next Steps
 
-📬 **General inquiries:** [contact@agentpackaging.org](mailto:contact@agentpackaging.org)
+| Area              | Description                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| **Specification** | Review the [APS v0.1 Specification](./specs/APS-v0.1.md).                   |
+| **Examples**      | Explore sample agents in [Examples](./examples/index.md).                   |
+| **Security**      | Learn about provenance and integrity in [Provenance](./security/provenance.md). |
+| **Contributing**  | See [Contributing Guidelines](./contributing.md).                           |
+
+---
+
+## 9. Troubleshooting
+
+| Issue                        | Resolution                                                         |
+|------------------------------|---------------------------------------------------------------------|
+| `aps` command not found      | Ensure Python scripts path is added to your environment variables. |
+| Manifest validation errors   | Verify required fields in `agent.yaml` match the schema.           |
+| Registry connection issues   | Check network access and registry endpoint configuration.          |
+
+---
+
+## 10. Contact
+
+📬 **General inquiries:** [contact@agentpackaging.org](mailto:contact@agentpackaging.org)  
 🧑‍💻 **Community contributions:** [community@agentpackaging.org](mailto:community@agentpackaging.org)
 
 ---
 
 *© 2025 Agent Packaging Standard (APS) Working Group. All rights reserved.*
+```
+
+---
+
+### 🔑 Key Updates Made
+- Added **`aps init`** step to scaffold a new agent (your original doc skipped this).  
+- Simplified flow: **Install → Init → Run Example → Modify Logic → Publish**.  
+- Made troubleshooting and next steps more concise for beginners.  
+- Updated `last_updated` date to today (2025‑11‑25).  
+
+This version now matches the GitHub issue requirements and is beginner‑friendly.  
+
+Would you like me to also **draft a shorter “Quickstart” section** (like a 10‑line minimal workflow) at the top for contributors who just want commands without explanations?
