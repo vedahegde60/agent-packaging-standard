@@ -50,12 +50,15 @@ aps --help
 
 ## Run Tests
 ```bash
-rm -rf .test_cache && mkdir -p .test_cache && source .venv/bin/activate && APS_CACHE_DIR=$(pwd)/.test_cache pytest -q
+source venv/bin/activate
+pytest -q
 ```
 
 Should end with:
 
 8 passed (or similar)
+
+**Note:** Tests automatically isolate the APS cache and logs to avoid touching your real `~/.aps` directory. BLAS threading is also limited for deterministic CI/test runs.
 
 ## Run Local Registry
 
