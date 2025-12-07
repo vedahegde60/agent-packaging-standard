@@ -199,6 +199,44 @@ def load_manifest(root: Path) -> Dict[str, Any]:
     with (root / "aps" / "agent.yaml").open("r", encoding="utf-8") as f:
         return yaml.safe_load(f.read())
 
+def _get_python_entrypoint(manifest: Dict[str, Any]) -> Optional[list[str]]:
+    """Extract Python entrypoint from manifest, supporting both old and new formats.
+    
+    New format (APS v0.1 spec):
+      runtime: python3
+      entrypoint: src/module/main.py
+    
+    Old format:
+      runtimes:
+        - kind: python
+          entrypoint: ["python", "-m", "module.main"]
+    """
+    # Try new format first (flat runtime + entrypoint)
+    if "runtime" in manifest and "entrypoint" in manifest:
+        runtime = manifest["runtime"]
+        if runtime and ("python" in runtime.lower() or runtime == "python3"):
+            entry = manifest["entrypoint"]
+            if isinstance(entry, str):
+                # Convert path to python command
+                if entry.endswith(".py"):
+                    return ["python", entry]
+                else:
+                    return shlex.split(entry)
+            elif isinstance(entry, list):
+                return entry
+    
+    # Fall back to old format (runtimes array)
+    rt = next((r for r in manifest.get("runtimes", []) 
+               if r.get("kind") == "python" and r.get("entrypoint")), None)
+    if rt:
+        entry = rt["entrypoint"]
+        if isinstance(entry, str):
+            return shlex.split(entry)
+        elif isinstance(entry, list):
+            return entry
+    
+    return None
+
 def cached_agent_dir(agent_id: str, version: str) -> Path:
     return CACHE_DIR / agent_id / version
 
@@ -357,15 +395,32 @@ def cmd_init(args):
     tgt = Path(args.path).resolve()
     if tgt.exists() and any(tgt.iterdir()):
         print("[init] ERROR: target not empty", file=sys.stderr); return 2
+    
+    # Create directory structure
     (tgt/"aps").mkdir(parents=True, exist_ok=True)
     (tgt/"src"/"simple").mkdir(parents=True, exist_ok=True)
-    (tgt/"aps"/"agent.yaml").write_text(
-        'aps: "0.1"\nid: "dev.simple"\nname: "Simple"\nversion: "0.0.1"\nsummary: "Echo upper."\n'
-        'runtimes:\n  - kind: "python"\n    entrypoint: ["python","-m","simple.main"]\n'
-        'capabilities:\n  inputs:\n    schema:\n      type: object\n      properties:\n        text: {type: string}\n      required: ["text"]\n'
-        '  outputs:\n    schema:\n      type: object\n      properties:\n        text: {type: string}\n      required: ["text"]\n'
-        'policies:\n  network: { egress: [] }\n'
-    , encoding="utf-8")
+    
+    # Load template from package
+    template_path = Path(__file__).parent / "templates" / "aps-manifest.yaml"
+    if template_path.exists():
+        template = template_path.read_text(encoding="utf-8")
+        # Customize template for simple example
+        template = template.replace("org.example.agent", "dev.simple")
+        template = template.replace("Example APS Agent", "Simple Echo Agent")
+        template = template.replace("A template APS agent.", "Simple agent that echoes text in uppercase.")
+        template = template.replace("src/agent/main.py", "src/simple/main.py")
+        (tgt/"aps"/"agent.yaml").write_text(template, encoding="utf-8")
+    else:
+        # Fallback to inline template if file not found
+        (tgt/"aps"/"agent.yaml").write_text(
+            'id: "dev.simple"\nname: "Simple Echo Agent"\nversion: "0.1.0"\n'
+            'description: "Simple agent that echoes text in uppercase."\n'
+            'runtime: "python3"\nentrypoint: "src/simple/main.py"\n'
+            'inputs:\n  - name: text\n    type: string\n'
+            'outputs:\n  - name: text\n    type: string\n'
+        , encoding="utf-8")
+    
+    # Create simple echo agent implementation
     (tgt/"src"/"simple"/"main.py").write_text(
         "import sys, json\nraw=sys.stdin.read()\nreq=json.loads(raw)\ntext=(req.get('inputs') or {}).get('text','')\n"
         "print(json.dumps({'status':'ok','outputs':{'text':text.upper()}}))\n", encoding="utf-8")
@@ -495,14 +550,11 @@ def helper_run_agent(path: str, req: str, timeout_s=None) -> int:
     env.setdefault("PYTHONUNBUFFERED", "1")
     env["APS_AGENT_ROOT"] = str(root)
 
-    # Select python runtime
-    rt = next((r for r in mf.get("runtimes", []) if r.get("kind") == "python" and r.get("entrypoint")), None)
-    if not rt:
-        eprint("[run] ERROR: no python runtime")
+    # Select python runtime (supports both old and new manifest formats)
+    entry = _get_python_entrypoint(mf)
+    if not entry:
+        eprint("[run] ERROR: no python runtime found in manifest")
         return 2
-    entry = rt["entrypoint"]
-    if isinstance(entry, str):
-        entry = shlex.split(entry)
 
     proc = subprocess.Popen(
         entry,
@@ -560,13 +612,12 @@ def cmd_run_stream(args):
     env.setdefault("PYTHONUNBUFFERED", "1")
     env["APS_STREAM"] = "1"
     env["APS_AGENT_ROOT"] = str(root)
-    rt = next((r for r in mf.get("runtimes", []) if r.get("kind") == "python" and r.get("entrypoint")), None)
-    if not rt:
-        eprint("[run] ERROR: no python runtime")
+    
+    # Select python runtime (supports both old and new manifest formats)
+    entry = _get_python_entrypoint(mf)
+    if not entry:
+        eprint("[run] ERROR: no python runtime found in manifest")
         return 2
-    entry = rt["entrypoint"]
-    if isinstance(entry, str):
-        entry = shlex.split(entry)
 
     # Read + wrap user stdin first
     raw = sys.stdin.read() or ""

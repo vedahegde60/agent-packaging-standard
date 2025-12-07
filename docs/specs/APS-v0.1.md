@@ -2,7 +2,7 @@
 title: "Agent Packaging Standard (APS) — Specification v0.1"
 description: "Technical specification defining the manifest schema, package format, and runtime behavior for the Agent Packaging Standard (APS)."
 version: "0.1"
-last_updated: 2025-11-09
+last_updated: 2025-12-07
 ---
 
 # Agent Packaging Standard (APS) — Specification v0.1
@@ -71,12 +71,13 @@ The manifest is a **YAML-encoded document** that declares an agent’s identity,
 |--------|------|-------------|
 | `author` | string | Author or maintainer name/email. |
 | `license` | string | SPDX identifier or license reference. |
-| `dependencies` | list | Optional runtime dependencies or requirements. |
+| `dependencies` | map | Optional runtime dependencies or requirements. |
+| `environment` | map | Optional environment variable declarations. |
 | `inputs` | list | Input parameter definitions. |
 | `outputs` | list | Output field definitions. |
 | `provenance` | map | Optional metadata block for signatures or build provenance. |
 
-### 4.3 Example Manifest
+### 4.3 Example Manifest 
 
 ```yaml
 id: examples.echo-agent
@@ -94,8 +95,117 @@ outputs:
 license: MIT
 author: "APS Working Group <contact@agentpackaging.org>"
 ```
+### 4.4. Dependencies
 
+Agents MAY declare dependencies to describe what they require from the execution environment.
+These are **descriptive hints**, not installation instructions, in APS v0.1.
+
+#### 4.4.1 Runtime Dependencies
+
+Runtime dependencies describe the execution environment (Python version, OS packages, etc.):
+
+```yaml
+dependencies:
+  python: ">=3.10"
+  packages:
+    - "scikit-learn>=1.3"
+    - "requests>=2.31"
+  system:
+    - "tesseract"
+    - "ffmpeg"
+```
+- python (string) — minimum required interpreter version.
+- packages (list of strings) — language-level dependencies (e.g., pip packages).
+- system (list of strings) — system-level tools or libraries the agent expects.
+
+APS v0.1 does not define auto-install behavior. Runtimes MAY use this information for validation or environment provisioning.
+
+#### 4.4.2 Model Dependencies
+Agents MAY declare which models they depend on (LLMs, embedding models, etc.):
+```yaml
+dependencies:
+  models:
+    - id: "openai:gpt-4o-mini"
+      provider: "openai"
+      family: "gpt-4"
+      purpose: "llm"
+      required: true
+
+    - id: "openai:text-embedding-3-small"
+      provider: "openai"
+      purpose: "embeddings"
+      required: false
+```
+
+Recommended fields:
+- id (required, string)
+  Opaque identifier for the model, such as:
+
+  - openai:gpt-4o-mini
+  - bedrock:anthropic.claude-3.5
+  - local:my-custom-model
+
+- provider (optional, string)
+  Logical provider name (e.g., openai, bedrock, vertex).
+- family (optional, string)
+  Model family name (e.g., gpt-4, llama-3).
+- purpose (optional, string)
+  High-level role, e.g. llm, embeddings, reranker, classifier.
+- required (optional, boolean, default: true)
+  Indicates whether this model must be available for the agent to function.
+Runtimes and policy engines MAY use dependencies.models to:
+- Validate whether a deployment environment can satisfy the agent,
+- Route agents to appropriate backends (e.g., an OpenAI-capable runtime),
+
+- Enforce governance around which models are allowed.
+APS v0.1 does not prescribe how models are provisioned.
+
+#### 4.4.3 Dataset/Index Dependencies
+Agents MAY declare external datasets, indexes, or other data resources they require:
+```yaml
+dependencies:
+  datasets:
+    - id: "registry://datasets/resume-ingestion-index"
+      kind: "vector_index"
+      required: true
+
+    - id: "s3://my-bucket/resume-schema.json"
+      kind: "schema"
+      required: false
+```
+Recommended fields:
+- id (required, string)
+  URI or identifier for the dataset or resource, e.g.:
+  - registry://datasets/resume-ingestion-index
+  - s3://my-bucket/resume-schema.json
+  - https://example.com/knowledge-base.json
+
+- kind (optional, string)
+  Logical type such as vector_index, corpus, schema, config.
+- required (optional, boolean, default: true)
+  Indicates whether this resource is required for the agent to function.
+
+Runtimes SHOULD treat these values as declarative metadata:
+they MAY validate presence or reachability, but APS does not dictate fetching or mounting behavior in v0.1.
+
+### 4.5 Relationship to Environment Configuration
+
+dependencies describe what an agent needs conceptually.
+
+Concrete configuration for accessing models and datasets (e.g., API keys, endpoints, regions) SHOULD be declared under environment, for example:
+```yaml
+environment:
+  required:
+    - name: OPENAI_API_KEY
+      description: "API key for model dependencies under dependencies.models"
+  optional:
+    - name: RAG_INDEX_URI
+      default: "registry://datasets/resume-ingestion-index"
+      description: "Override default dataset index location"
+```
+This separation allows APS manifests to remain portable while deployment-specific details are provided via environment variables or runtime configuration.
 ---
+
 
 ## 5. Runtime Behavior
 
@@ -107,10 +217,20 @@ A compliant APS runtime **MUST**:
 4. Execute the declared entrypoint according to the specified runtime.
 5. Capture and return outputs in JSON format.
 
-Example invocation:
+### 5.1 Entrypoint Invocation
+
+The runtime **MUST** invoke the entrypoint by prepending the appropriate interpreter command based on the `runtime` field:
+
+- `runtime: python3` → execute as `python <entrypoint>`
+- `runtime: nodejs` → execute as `node <entrypoint>`
+- `runtime: bash` → execute as `bash <entrypoint>`
+
+The working directory **MUST** be set to the package root, and the `src/` directory (if present) **SHOULD** be added to the language-specific module path (e.g., `PYTHONPATH` for Python).
+
+### 5.2 Example Invocation
 
 ```bash
-aps run examples/echo-agent --input '{"text": "hello"}'
+echo '{"text": "hello"}' | aps run examples/echo-agent
 ```
 
 Expected output:
