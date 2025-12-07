@@ -16,9 +16,15 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 from pathlib import Path
 import base64
-from cryptography.hazmat.primitives.asymmetric import ed25519
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.hazmat.backends import default_backend
+
+# Optional cryptography imports - only needed for sign/verify
+try:
+    from cryptography.hazmat.primitives.asymmetric import ed25519
+    from cryptography.hazmat.primitives import serialization, hashes
+    from cryptography.hazmat.backends import default_backend
+    HAS_CRYPTO = True
+except ImportError:
+    HAS_CRYPTO = False
 
 
 
@@ -752,6 +758,10 @@ def cmd_keygen(args):
     return 0
 
 def cmd_sign(args):
+    if not HAS_CRYPTO:
+        print("[sign] ERROR: cryptography library not installed. Install with: pip install aps-cli[dev]", file=sys.stderr)
+        return 2
+    
     pkg = Path(args.package).resolve()
     if not pkg.exists():
         print(f"[sign] ERROR: package not found: {pkg}", file=sys.stderr)
@@ -783,6 +793,10 @@ def cmd_sign(args):
     return 0
 
 def cmd_verify(args):
+    if not HAS_CRYPTO:
+        print("[verify] ERROR: cryptography library not installed. Install with: pip install aps-cli[dev]", file=sys.stderr)
+        return 2
+    
     pkg = Path(args.package).resolve()
     sig_path = Path(args.signature).resolve() if args.signature else pkg.with_suffix(pkg.suffix + ".sig")
     pubfile = Path(args.pubkey).resolve()
