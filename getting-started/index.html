@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Instructions for installing, packaging, and executing agents using the Agent Packaging Standard (APS).">
+        <meta name="description" content="Beginner-friendly walkthrough for installing, initializing, and running agents with the Agent Packaging Standard (APS).">
       
       
       
@@ -19,8 +19,11 @@
         <link rel="next" href="../specs/APS-v0.1/">
       
       
+        
+      
+      
       <link rel="icon" href="../images/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
@@ -28,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
       
 
@@ -51,7 +54,6 @@
     
       
 
-    
     
     
   </head>
@@ -376,9 +378,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Home
+  
+
     
   </span>
+  
   
 
       </a>
@@ -407,9 +414,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Getting Started
+  
+
     
   </span>
+  
   
 
           <span class="md-nav__icon md-icon"></span>
@@ -420,9 +432,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Getting Started
+  
+
     
   </span>
+  
   
 
       </a>
@@ -445,7 +462,9 @@
         <li class="md-nav__item">
   <a href="#1-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Overview
+      
+        1. Overview
+      
     </span>
   </a>
   
@@ -454,62 +473,109 @@
         <li class="md-nav__item">
   <a href="#2-prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Prerequisites
+      
+        2. Prerequisites
+      
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-installation" class="md-nav__link">
+  <a href="#3-install-the-aps-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Installation
+      
+        3. Install the APS CLI
+      
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-creating-an-aps-agent" class="md-nav__link">
+  <a href="#4-initialize-your-first-agent" class="md-nav__link">
     <span class="md-ellipsis">
-      4. Creating an APS Agent
+      
+        4. Initialize Your First Agent
+      
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-running-the-agent" class="md-nav__link">
+  <a href="#5-run-the-example-agent" class="md-nav__link">
     <span class="md-ellipsis">
-      5. Running the Agent
+      
+        5. Run the Example Agent
+      
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-publishing-and-retrieving-packages" class="md-nav__link">
+  <a href="#6-modify-agent-logic" class="md-nav__link">
     <span class="md-ellipsis">
-      6. Publishing and Retrieving Packages
+      
+        6. Modify Agent Logic
+      
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="6. Publishing and Retrieving Packages">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-publishing-and-retrieving-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Publishing and Retrieving Packages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Contact
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Contact">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#publish-a-package" class="md-nav__link">
+  <a href="#key-updates-made" class="md-nav__link">
     <span class="md-ellipsis">
-      Publish a package
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#retrieve-and-execute-a-published-package" class="md-nav__link">
-    <span class="md-ellipsis">
-      Retrieve and execute a published package
+      
+        🔑 Key Updates Made
+      
     </span>
   </a>
   
@@ -517,33 +583,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      7. Next Steps
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      8. Troubleshooting
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-contact" class="md-nav__link">
-    <span class="md-ellipsis">
-      9. Contact
-    </span>
-  </a>
   
 </li>
       
@@ -581,9 +620,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Specification
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -592,7 +636,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Specification
+            
+  
+    Specification
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -608,9 +656,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     APS v0.1
+  
+
     
   </span>
+  
   
 
       </a>
@@ -631,9 +684,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Registry API
+  
+
     
   </span>
+  
   
 
       </a>
@@ -654,9 +712,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     CLI Reference
+  
+
     
   </span>
+  
   
 
       </a>
@@ -677,9 +740,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Security & Provenance
+  
+
     
   </span>
+  
   
 
       </a>
@@ -721,9 +789,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Standards
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -732,7 +805,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Standards
+            
+  
+    Standards
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -748,9 +825,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Governance
+  
+
     
   </span>
+  
   
 
       </a>
@@ -771,9 +853,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Stack
+  
+
     
   </span>
+  
   
 
       </a>
@@ -794,9 +881,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Agent Card Template
+  
+
     
   </span>
+  
   
 
       </a>
@@ -838,9 +930,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Examples
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -849,7 +946,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Examples
+            
+  
+    Examples
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -865,9 +966,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Overview
+  
+
     
   </span>
+  
   
 
       </a>
@@ -909,9 +1015,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Briefs
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -920,7 +1031,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            Briefs
+            
+  
+    Briefs
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -936,9 +1051,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Landscape
+  
+
     
   </span>
+  
   
 
       </a>
@@ -959,9 +1079,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Positioning
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1003,9 +1128,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Project
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1014,7 +1144,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
-            Project
+            
+  
+    Project
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1030,9 +1164,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Roadmap
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1053,9 +1192,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Contributing
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1081,6 +1225,7 @@
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
                   
@@ -1092,12 +1237,11 @@
 
 <h1 id="getting-started-with-the-agent-packaging-standard-aps">Getting Started with the Agent Packaging Standard (APS)<a class="headerlink" href="#getting-started-with-the-agent-packaging-standard-aps" title="Permanent link">&para;</a></h1>
 <h2 id="1-overview">1. Overview<a class="headerlink" href="#1-overview" title="Permanent link">&para;</a></h2>
-<p>This guide provides a concise introduction to installing the APS toolchain and creating your first APS-compliant agent package.<br />
-It is intended for developers, platform maintainers, and enterprise users who wish to evaluate or contribute to the <strong>Agent Packaging Standard (APS)</strong>.</p>
-<p>APS introduces a simple packaging and execution model that allows AI agents to be <strong>packaged once and run anywhere</strong>, ensuring consistency and interoperability across runtimes.</p>
+<p>This guide provides a simple walkthrough for new contributors to install the APS CLI, create their first agent, run an example, and modify its logic.  </p>
+<p>APS introduces a packaging and execution model that allows AI agents to be <strong>packaged once and run anywhere</strong>, ensuring consistency and interoperability across runtimes.</p>
 <hr />
 <h2 id="2-prerequisites">2. Prerequisites<a class="headerlink" href="#2-prerequisites" title="Permanent link">&para;</a></h2>
-<p>Before using APS, ensure that your development environment meets the following requirements:</p>
+<p>Before you begin, make sure your environment meets these requirements:</p>
 <table>
 <thead>
 <tr>
@@ -1125,9 +1269,8 @@ It is intended for developers, platform maintainers, and enterprise users who wi
 </tbody>
 </table>
 <hr />
-<h2 id="3-installation">3. Installation<a class="headerlink" href="#3-installation" title="Permanent link">&para;</a></h2>
-<p>The APS CLI is distributed as a Python package.<br />
-To install the latest version directly from the project repository:</p>
+<h2 id="3-install-the-aps-cli">3. Install the APS CLI<a class="headerlink" href="#3-install-the-aps-cli" title="Permanent link">&para;</a></h2>
+<p>Clone the repository and install the CLI:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Clone the APS repository</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vedahegde60/agent-packaging-standard.git
 <span class="nb">cd</span><span class="w"> </span>agent-packaging-standard
@@ -1135,43 +1278,31 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vedah
 <span class="c1"># Install the APS CLI</span>
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>cli
 </code></pre></div>
-<p>Once installed, verify the CLI:</p>
+<p>Verify installation:</p>
 <div class="highlight"><pre><span></span><code>aps<span class="w"> </span>--version
 </code></pre></div>
 <p>Expected output:</p>
 <div class="highlight"><pre><span></span><code>APS CLI v0.1.0 — Agent Packaging Standard
 </code></pre></div>
 <hr />
-<h2 id="4-creating-an-aps-agent">4. Creating an APS Agent<a class="headerlink" href="#4-creating-an-aps-agent" title="Permanent link">&para;</a></h2>
-<p>An APS-compliant agent consists of:</p>
-<ol>
-<li>A <strong>manifest file</strong> (<code>aps/agent.yaml</code>) describing the agent’s metadata and interface.</li>
-<li>The <strong>implementation files</strong> (Python, shell, or other executables).</li>
-<li>An <strong>optional configuration</strong> or dependency declaration.</li>
-</ol>
-<p>Example directory structure:</p>
-<div class="highlight"><pre><span></span><code>examples/echo-agent/
+<h2 id="4-initialize-your-first-agent">4. Initialize Your First Agent<a class="headerlink" href="#4-initialize-your-first-agent" title="Permanent link">&para;</a></h2>
+<p>Use the CLI to scaffold a new agent:</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>init<span class="w"> </span>my-first-agent
+</code></pre></div>
+<p>This creates a directory with:</p>
+<ul>
+<li><code>aps/agent.yaml</code> → manifest describing metadata and inputs/outputs  </li>
+<li><code>main.py</code> → default implementation file  </li>
+</ul>
+<p>Example structure:</p>
+<div class="highlight"><pre><span></span><code>my-first-agent/
 ├── aps/
 │   └── agent.yaml
 └── main.py
 </code></pre></div>
-<p>Sample manifest (<code>aps/agent.yaml</code>):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">examples.echo-agent</span>
-<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span>
-<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Echo Agent</span>
-<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Simple agent that echoes input text.</span>
-<span class="nt">runtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python3</span>
-<span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main.py</span>
-<span class="nt">inputs</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="nt">outputs</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-</code></pre></div>
 <hr />
-<h2 id="5-running-the-agent">5. Running the Agent<a class="headerlink" href="#5-running-the-agent" title="Permanent link">&para;</a></h2>
-<p>Execute the agent locally using the APS runtime interface:</p>
+<h2 id="5-run-the-example-agent">5. Run the Example Agent<a class="headerlink" href="#5-run-the-example-agent" title="Permanent link">&para;</a></h2>
+<p>Try running the provided <strong>echo agent</strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello world&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
 </code></pre></div>
 <p>Expected output:</p>
@@ -1182,22 +1313,38 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>To stream incremental results:</p>
+<p>To stream results:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;stream&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--stream
 </code></pre></div>
 <hr />
-<h2 id="6-publishing-and-retrieving-packages">6. Publishing and Retrieving Packages<a class="headerlink" href="#6-publishing-and-retrieving-packages" title="Permanent link">&para;</a></h2>
-<p>APS defines a registry protocol for distributing and retrieving agent packages.</p>
-<h3 id="publish-a-package">Publish a package<a class="headerlink" href="#publish-a-package" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
+<h2 id="6-modify-agent-logic">6. Modify Agent Logic<a class="headerlink" href="#6-modify-agent-logic" title="Permanent link">&para;</a></h2>
+<p>Open <code>main.py</code> in your agent folder and change the behavior. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">()}</span>
 </code></pre></div>
-<h3 id="retrieve-and-execute-a-published-package">Retrieve and execute a published package<a class="headerlink" href="#retrieve-and-execute-a-published-package" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>registry://local/examples.echo-agent
+<p>Re-run the agent:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello world&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>my-first-agent
 </code></pre></div>
-<p>These commands demonstrate how APS enables consistent packaging and execution workflows across environments.</p>
-<p>For detailed registry specifications, refer to the <a href="../registry/api/">Registry API</a>.</p>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HELLO WORLD&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <hr />
-<h2 id="7-next-steps">7. Next Steps<a class="headerlink" href="#7-next-steps" title="Permanent link">&para;</a></h2>
+<h2 id="7-publishing-and-retrieving-packages">7. Publishing and Retrieving Packages<a class="headerlink" href="#7-publishing-and-retrieving-packages" title="Permanent link">&para;</a></h2>
+<p>APS supports registries for sharing agents.</p>
+<p><strong>Publish:</strong></p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>my-first-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
+</code></pre></div>
+<p><strong>Retrieve and run:</strong></p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>registry://local/my-first-agent
+</code></pre></div>
+<hr />
+<h2 id="8-next-steps">8. Next Steps<a class="headerlink" href="#8-next-steps" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -1208,24 +1355,24 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <tbody>
 <tr>
 <td><strong>Specification</strong></td>
-<td>Review the <a href="../specs/APS-v0.1/">APS v0.1 Specification</a> for technical details.</td>
+<td>Review the <a href="../specs/APS-v0.1/">APS v0.1 Specification</a>.</td>
 </tr>
 <tr>
 <td><strong>Examples</strong></td>
-<td>Explore sample agents in the <a href="../examples/">Examples</a>.</td>
+<td>Explore sample agents in <a href="../examples/">Examples</a>.</td>
 </tr>
 <tr>
-<td><strong>Provenance &amp; Security</strong></td>
-<td>Learn about signature and integrity extensions in <a href="../security/provenance/">Provenance</a>.</td>
+<td><strong>Security</strong></td>
+<td>Learn about provenance and integrity in <a href="../security/provenance/">Provenance</a>.</td>
 </tr>
 <tr>
 <td><strong>Contributing</strong></td>
-<td>See <a href="../contributing/">Contributing Guidelines</a> to participate in standard development.</td>
+<td>See <a href="../contributing/">Contributing Guidelines</a>.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="8-troubleshooting">8. Troubleshooting<a class="headerlink" href="#8-troubleshooting" title="Permanent link">&para;</a></h2>
+<h2 id="9-troubleshooting">9. Troubleshooting<a class="headerlink" href="#9-troubleshooting" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -1235,25 +1382,35 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </thead>
 <tbody>
 <tr>
-<td><code>aps</code> <strong>command not found</strong></td>
+<td><code>aps</code> command not found</td>
 <td>Ensure Python scripts path is added to your environment variables.</td>
 </tr>
 <tr>
-<td><strong>Manifest validation errors</strong></td>
-<td>Verify all required fields exist in <code>agent.yaml</code> and conform to the v0.1 schema.</td>
+<td>Manifest validation errors</td>
+<td>Verify required fields in <code>agent.yaml</code> match the schema.</td>
 </tr>
 <tr>
-<td><strong>Registry connection issues</strong></td>
+<td>Registry connection issues</td>
 <td>Check network access and registry endpoint configuration.</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="9-contact">9. Contact<a class="headerlink" href="#9-contact" title="Permanent link">&para;</a></h2>
-<p>📬 <strong>General inquiries:</strong> <a href="mailto:contact@agentpackaging.org">contact@agentpackaging.org</a>
+<h2 id="10-contact">10. Contact<a class="headerlink" href="#10-contact" title="Permanent link">&para;</a></h2>
+<p>📬 <strong>General inquiries:</strong> <a href="mailto:contact@agentpackaging.org">contact@agentpackaging.org</a><br />
 🧑‍💻 <strong>Community contributions:</strong> <a href="mailto:community@agentpackaging.org">community@agentpackaging.org</a></p>
 <hr />
-<p><em>© 2025 Agent Packaging Standard (APS) Working Group. All rights reserved.</em></p>
+<p><em>© 2025 Agent Packaging Standard (APS) Working Group. All rights reserved.</em>
+```</p>
+<hr />
+<h3 id="key-updates-made">🔑 Key Updates Made<a class="headerlink" href="#key-updates-made" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Added <strong><code>aps init</code></strong> step to scaffold a new agent (your original doc skipped this).  </li>
+<li>Simplified flow: <strong>Install → Init → Run Example → Modify Logic → Publish</strong>.  </li>
+<li>Made troubleshooting and next steps more concise for beginners.  </li>
+<li>Updated <code>last_updated</code> date to today (2025‑11‑25).  </li>
+</ul>
+<p>This version now matches the GitHub issue requirements and is beginner‑friendly.  </p>
 
 
 
@@ -1311,10 +1468,11 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.instant", "toc.integrate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "navigation.instant", "toc.integrate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
         <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
       
