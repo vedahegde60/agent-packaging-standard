@@ -225,10 +225,6 @@ def _wrap_request(stdin_raw: str, single_input: Optional[str]) -> str:
       - Raw inputs object or a primitive under --input key.
     Always returns a full envelope string.
     """
-    # DEBUG hooks (you can comment out later)
-    eprint("In _wrap_request function")
-    eprint("Trying to parse stdin_raw",stdin_raw)
-
     # If user passed raw, but also provided --input key, wrap as {"inputs": {key: raw}}
     if single_input:
         try:
@@ -236,23 +232,27 @@ def _wrap_request(stdin_raw: str, single_input: Optional[str]) -> str:
         except Exception:
             raw = stdin_raw if stdin_raw.strip() else None
         payload = {"aps_version":"0.1","operation":"run","inputs":{single_input: raw}}
-        eprint(f"Detected single_input wrap -> {payload}")
         return json.dumps(payload)
 
-
-    # Already an envelope?
+    # Try parsing as JSON first
     try:
-        print("Trying to parse stdin_raw as JSON envelope...", file=sys.stderr)
         obj = json.loads(stdin_raw) if stdin_raw.strip() else {}
     except Exception:
-        obj = {}
+        # Not valid JSON - wrap as text
+        env = {"aps_version":"0.1","operation":"run","inputs": {"text": stdin_raw}}
+        return json.dumps(env)
+
+    # If already a full APS envelope, pass through
     if isinstance(obj, dict) and "inputs" in obj and "operation" in obj:
-        eprint(f"Detected full APS envelope {obj}")
         return json.dumps(obj)
 
-    print("Wrapping entire stdin_raw as inputs.text", file=sys.stderr)
-    # Treat entire obj as inputs
-    env = {"aps_version":"0.1","operation":"run","inputs": (obj if isinstance(obj, dict) else {"text": str(obj)})}
+    # If it's a valid JSON object, treat it as the inputs
+    if isinstance(obj, dict):
+        env = {"aps_version":"0.1","operation":"run","inputs": obj}
+        return json.dumps(env)
+    
+    # For other JSON types (arrays, primitives), wrap as text
+    env = {"aps_version":"0.1","operation":"run","inputs": {"text": str(obj)}}
     return json.dumps(env)
 
 # ------------------------------ Tar extraction (flatten if nested)
