@@ -5,7 +5,7 @@ version: 0.0.2
 summary: Tiny TF-IDF RAG over local assets.
 runtimes:
   - kind: python
-    entrypoint: python src/rag/main.py
+    entrypoint: ["python", "-m", "rag.main"]
 inputs:
   query: { type: string }
   top_k: { type: integer, default: 3 }

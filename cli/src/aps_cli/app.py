@@ -759,7 +759,7 @@ def cmd_keygen(args):
 
 def cmd_sign(args):
     if not HAS_CRYPTO:
-        print("[sign] ERROR: cryptography library not installed. Install with: pip install aps-cli[dev]", file=sys.stderr)
+        print("[sign] ERROR: cryptography library not installed. Install with: pip install apack[dev]", file=sys.stderr)
         return 2
     
     pkg = Path(args.package).resolve()
@@ -794,7 +794,7 @@ def cmd_sign(args):
 
 def cmd_verify(args):
     if not HAS_CRYPTO:
-        print("[verify] ERROR: cryptography library not installed. Install with: pip install aps-cli[dev]", file=sys.stderr)
+        print("[verify] ERROR: cryptography library not installed. Install with: pip install apack[dev]", file=sys.stderr)
         return 2
     
     pkg = Path(args.package).resolve()
@@ -927,7 +927,7 @@ def main(argv=None):
 
     # Show version
     if getattr(args, "version", False) and args.cmd is None:
-        print("aps-cli 0.1.0")
+        print("apack 0.1.0")
         return 0
     
     if not hasattr(args, "func"):

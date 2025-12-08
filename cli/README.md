@@ -28,7 +28,7 @@ pip install -e .
 ### From PyPI (Coming Soon)
 
 ```bash
-pip install aps-cli
+pip install apack
 ```
 
 ---

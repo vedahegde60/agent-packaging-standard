@@ -53,12 +53,14 @@ def test_resolve_registry_triggers_pull(tmp_path, monkeypatch, dummy_resp):
         cache_dir.mkdir(parents=True, exist_ok=True)
         (cache_dir / "aps").mkdir(exist_ok=True)
         (cache_dir / "aps" / "agent.yaml").write_text("aps_version: '0.1'\n", encoding="utf-8")
+        print("Setting called = true")
         pulled["called"] = True
         return 0
 
     monkeypatch.setattr(app, "requests", types.SimpleNamespace(get=fake_get))
-    monkeypatch.setattr(app, "cmd_pull", fake_cmd_pull)
 
+    monkeypatch.setattr(app, "cmd_pull", fake_cmd_pull)
+    print("done calling fake_cmd_pull"+agent_id)
     out = app._resolve_registry_path_if_needed(f"registry://{agent_id}")
     assert pulled["called"] is True
     assert out == str(cache_dir)

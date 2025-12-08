@@ -1,5 +1,5 @@
 [project]
-name = "aps-cli"
+name = "apack"
 version = "0.1.0"
 description = "Command-line tool for the Agent Packaging Standard (APS)"
 readme = "README.md"
@@ -8,7 +8,7 @@ license = "Apache-2.0"
 authors = [
   {name = "Veda Hegde", email = "vedahegde60@gmail.com"}
 ]
-keywords = ["ai", "agents", "packaging", "aps", "agent-packaging-standard"]
+keywords = ["ai", "agents", "packaging", "aps", "agent-packaging-standard", "cli"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
