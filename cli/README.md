@@ -28,7 +28,7 @@ pip install -e .
 ### From PyPI (Coming Soon)
 
 ```bash
-pip install apack
+pip install apstool
 ```
 
 ---

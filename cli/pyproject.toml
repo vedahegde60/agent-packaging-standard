@@ -1,5 +1,5 @@
 [project]
-name = "apack"
+name = "apstool"
 version = "0.1.0"
 description = "Command-line tool for the Agent Packaging Standard (APS)"
 readme = "README.md"
