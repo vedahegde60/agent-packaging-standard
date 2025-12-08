@@ -1,9 +1,3 @@
-
----
-
-## `cli/README.md`
-
-```markdown
 # APS CLI
 
 **Command-line tool for the Agent Packaging Standard (APS)**
