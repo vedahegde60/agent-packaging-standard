@@ -84,8 +84,8 @@ aps build [OPTIONS] <AGENT_PATH>
 
 * `AGENT_PATH` – Path to the agent source directory containing:
 
-  * `aps.yaml` or `manifest.yaml` (APS manifest)
-  * Code entrypoint (e.g., `agent.py`)
+  * `aps/agent.yaml` (APS manifest)
+  * Code entrypoint (e.g., `src/<agent_name>/main.py`)
   * Any supporting files
 
 **Common options:**
@@ -96,8 +96,10 @@ aps build [OPTIONS] <AGENT_PATH>
 **Example:**
 
 ```bash
-aps build examples/echo-agent -o dist/echo-agent.aps.tar.gz
+aps build examples/echo-agent
 ```
+
+This creates `examples/echo-agent/dist/dev.echo.aps.tar.gz` by default.
 
 ---
 
@@ -130,14 +132,19 @@ aps run examples/echo-agent --stream
 Run from a built package:
 
 ```bash
-aps run dist/echo-agent.aps.tar.gz
+aps run examples/echo-agent/dist/dev.echo.aps.tar.gz
 ```
 
 Using stdin → stdout JSON contract:
 
 ```bash
-echo '{"aps_version":"0.1","operation":"run","inputs":{"text":"hello"}}' \
-  | aps run examples/echo-agent
+echo '{"text":"hello"}' | aps run examples/echo-agent
+```
+
+Or with --input flag:
+
+```bash
+aps run examples/echo-agent --input '{"text":"hello"}'
 ```
 
 ---
@@ -161,9 +168,7 @@ aps publish [OPTIONS] <PACKAGE_PATH>
 **Example:**
 
 ```bash
-aps publish \
-  --registry http://localhost:8080 \
-  dist/echo-agent.aps.tar.gz
+aps publish dist/dev.echo.aps.tar.gz --registry http://localhost:8080
 ```
 
 ---
@@ -178,21 +183,23 @@ Pulls an APS package from a registry into the local cache or filesystem.
 aps pull [OPTIONS] <AGENT_REF>
 ```
 
-Where `AGENT_REF` may be something like:
-
-* `echo-agent:0.1.0`
-* `myorg/rag-agent:latest`
+Where `AGENT_REF` is the agent ID (e.g., `dev.echo`)
 
 **Common options:**
 
 * `--registry <url>` – Registry URL
-* `-o, --output <path>` – Where to write the pulled package
-* `--no-cache` – Force re-download even if cached
+* `--version <version>` – Specific version (default: latest)
 
 **Example:**
 
 ```bash
-aps pull echo-agent:0.1.0 --registry http://localhost:8080 -o dist/echo-agent.aps.tar.gz
+aps pull dev.echo --registry http://localhost:8080
+```
+
+The agent is cached locally and can be run with:
+
+```bash
+aps run dev.echo
 ```
 
 ---

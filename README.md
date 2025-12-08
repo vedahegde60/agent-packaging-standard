@@ -59,19 +59,27 @@ APS makes agents:
 
 ```bash
 aps build examples/echo-agent
-````
+```
+
+This creates `examples/echo-agent/dist/dev.echo.aps.tar.gz``
 
 ### 2. Sign and Verify
 
 ```bash
-aps sign examples/echo-agent.aps.tar.gz --key cosign.key
-aps verify examples/echo-agent.aps.tar.gz
+# Generate keypair (first time)
+aps keygen
+
+# Sign the package
+aps sign examples/echo-agent/dist/dev.echo.aps.tar.gz --key default
+
+# Verify signature
+aps verify examples/echo-agent/dist/dev.echo.aps.tar.gz --pubkey ~/.aps/keys.pub/default.pub
 ```
 
 ### 3. Publish to a Registry
 
 ```bash
-aps publish examples/echo-agent --registry registry://local
+aps publish examples/echo-agent/dist/dev.echo.aps.tar.gz --registry http://localhost:8080
 ```
 
 ### 4. Run Anywhere

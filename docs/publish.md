@@ -2,21 +2,29 @@
 
 ## Build
 ```bash
-aps build
-
-Creates a .aps.tar.gz
-```
-##Sign (optional)
-```bash
-aps sign dist/myagent.aps.tar.gz
+aps build my-agent
 ```
 
-##PUblish
+Creates `my-agent/dist/dev.my-agent.aps.tar.gz`
+
+## Sign (optional)
+
+First, generate a keypair (one time):
 ```bash
-aps publish --registry=https://registry.aps.dev \
-  dist/myagent.aps.tar.gz
+aps keygen
 ```
+
+Then sign your package:
+```bash
+aps sign my-agent/dist/dev.my-agent.aps.tar.gz --key default
+```
+
+## Publish
+```bash
+aps publish my-agent/dist/dev.my-agent.aps.tar.gz --registry http://localhost:8080
+```
+
 ## Verify
 ```bash
-aps verify dist/myagent.aps.tar.gz
+aps verify my-agent/dist/dev.my-agent.aps.tar.gz --pubkey ~/.aps/keys.pub/default.pub
 ```

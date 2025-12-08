@@ -78,21 +78,21 @@ Leave this terminal open.
 ## Smoke Test CLI + Registry
 ### 1) Build example agent
 ```bash
-aps build examples/echo-agent --dist dist
+aps build examples/echo-agent
+```
 
-
-Expected:
-
-Wrote dist/dev.echo.aps.tar.gz
+Expected output:
+```
+examples/echo-agent/dist/dev.echo.aps.tar.gz
 ```
 ### 2) Publish
 ```bash
-aps publish dist/dev.echo.aps.tar.gz --registry http://localhost:8080
-
+aps publish examples/echo-agent/dist/dev.echo.aps.tar.gz --registry http://localhost:8080
+```
 
 Expected JSON:
-
-{"status": "ok", "agent": {"id": "dev.echo", "version": "0.0.x"}}
+```json
+{"status": "ok", "agent": {"id": "dev.echo", "version": "0.1.0"}}
 ```
 
 ### 3) Search

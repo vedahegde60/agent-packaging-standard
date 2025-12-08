@@ -65,7 +65,9 @@ aps init my-first-agent
 This creates a directory with:
 
 - `aps/agent.yaml` → manifest describing metadata and inputs/outputs  
-- `main.py` → default implementation file  
+- `src/<agent_name>/main.py` → default implementation file
+- `src/<agent_name>/__init__.py` → Python package initialization
+- `AGENT_CARD.md` → agent documentation
 
 Example structure:
 
@@ -73,7 +75,11 @@ Example structure:
 my-first-agent/
 ├── aps/
 │   └── agent.yaml
-└── main.py
+├── src/
+│   └── my_first_agent/
+│       ├── __init__.py
+│       └── main.py
+└── AGENT_CARD.md
 ```
 
 ---
@@ -107,7 +113,7 @@ echo '{"text": "stream"}' | aps run examples/echo-agent --stream
 
 ## 6. Modify Agent Logic
 
-Open `main.py` in your agent folder and change the behavior. For example:
+Open `src/my_first_agent/main.py` in your agent folder and change the behavior. For example:
 
 ```python
 def run(inputs):
@@ -138,16 +144,18 @@ Output:
 
 APS supports registries for sharing agents.
 
-**Publish:**
+**Build and publish:**
 
 ```bash
-aps publish my-first-agent --registry registry://local
+aps build my-first-agent
+aps publish my-first-agent/dist/dev.my-first-agent.aps.tar.gz --registry http://localhost:8080
 ```
 
 **Retrieve and run:**
 
 ```bash
-aps run registry://local/my-first-agent
+aps pull dev.my-first-agent --registry http://localhost:8080
+aps run dev.my-first-agent
 ```
 
 ---

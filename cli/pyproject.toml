@@ -1,6 +1,6 @@
 [project]
 name = "apstool"
-version = "0.1.9"
+version = "0.1.11"
 description = "Command-line tool for the Agent Packaging Standard (APS)"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"

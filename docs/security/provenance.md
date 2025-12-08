@@ -93,13 +93,16 @@ When both are present, the external file **SHALL** take precedence.
 ### 5.1 Example Commands
 
 ```bash
+# Generate keypair (first time)
+aps keygen
+
 # Sign package using APS CLI
-aps sign examples/echo-agent.aps.tar.gz --key cosign.key
+aps sign examples/echo-agent/dist/dev.echo.aps.tar.gz --key default
 ```
 
 ```bash
 # Verify signature
-aps verify examples/echo-agent.aps.tar.gz
+aps verify examples/echo-agent/dist/dev.echo.aps.tar.gz --pubkey ~/.aps/keys.pub/default.pub
 ```
 
 Example output:
@@ -123,15 +126,17 @@ CLI commands (`aps sign`, `aps verify`) may delegate to different cryptographic 
 
 | Backend    | Description                                                                      |
 | ---------- | -------------------------------------------------------------------------------- |
-| **cosign** | Uses [Sigstore Cosign](https://sigstore.dev/) for key-based and keyless signing. |
-| **gpg**    | Uses OpenPGP for local key signing.                                              |
+| **Ed25519** | Uses Ed25519 cryptographic signatures (current APS CLI implementation). |
+| **cosign** | Uses [Sigstore Cosign](https://sigstore.dev/) for key-based and keyless signing (future). |
+| **gpg**    | Uses OpenPGP for local key signing (future).                                              |
 | **none**   | Disables signing for testing and internal builds.                                |
 
-Example with explicit backend selection:
+Current implementation example:
 
 ```bash
-aps sign examples/echo-agent.aps.tar.gz --with cosign --key cosign.key
-aps verify examples/echo-agent.aps.tar.gz --with cosign
+aps keygen
+aps sign examples/echo-agent/dist/dev.echo.aps.tar.gz --key default
+aps verify examples/echo-agent/dist/dev.echo.aps.tar.gz --pubkey ~/.aps/keys.pub/default.pub
 ```
 
 Backends **MUST** conform to APS provenance schema output.
@@ -196,22 +201,30 @@ policy:
 aps build examples/echo-agent
 ```
 
+This creates `examples/echo-agent/dist/dev.echo.aps.tar.gz`
+
 ### Step 2. Sign the package
 
+First generate a keypair (one time):
 ```bash
-aps sign examples/echo-agent.aps.tar.gz --key cosign.key
+aps keygen
+```
+
+Then sign:
+```bash
+aps sign examples/echo-agent/dist/dev.echo.aps.tar.gz --key default
 ```
 
 ### Step 3. Publish to registry
 
 ```bash
-aps publish examples/echo-agent --registry registry://local
+aps publish examples/echo-agent/dist/dev.echo.aps.tar.gz --registry http://localhost:8080
 ```
 
 ### Step 4. Verify provenance before execution
 
 ```bash
-aps verify examples/echo-agent
+aps verify examples/echo-agent/dist/dev.echo.aps.tar.gz --pubkey ~/.aps/keys.pub/default.pub
 ```
 
 Expected output:

@@ -67,12 +67,16 @@ For full installation and setup, see [Getting Started](./getting-started.md).
 **Quick taste from the CLI (example):**
 
 ```bash
-# Run a simple agent
-aps run examples/echo-agent
+# Initialize a new agent
+aps init my-agent
+cd my-agent
+
+# Run the agent
+echo '{"text": "hello"}' | aps run .
 
 # Build and publish to a registry
-aps build examples/echo-agent -o dist/echo-agent.aps.tar.gz
-aps publish dist/echo-agent.aps.tar.gz --registry http://localhost:8080
+aps build .
+aps publish dist/dev.my-agent.aps.tar.gz --registry http://localhost:8080
 ```
 
 Additional examples demonstrating APS in practice live under:

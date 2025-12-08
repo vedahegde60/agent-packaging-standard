@@ -47,15 +47,16 @@ cd my-agent
 
 This scaffolds a complete agent structure with:
 - `aps/agent.yaml` — Manifest with metadata, runtime, dependencies
-- `src/main.py` — Example Python entrypoint
-- `requirements.txt` — Python dependencies
+- `src/<agent_name>/main.py` — Example Python entrypoint
+- `src/<agent_name>/__init__.py` — Python package initialization
+- `AGENT_CARD.md` — Agent documentation
 
 ### Validate Your Agent
 
 Check that your manifest is correctly structured:
 
 ```bash
-aps validate my-agent
+aps validate .
 ```
 
 ### Run Your Agent
@@ -63,13 +64,13 @@ aps validate my-agent
 Execute the agent locally with JSON input/output:
 
 ```bash
-echo '{"text": "hello world"}' | aps run my-agent
+echo '{"text": "hello world"}' | aps run .
 ```
 
 Or use the `--input` flag:
 
 ```bash
-aps run my-agent --input '{"text": "hello world"}'
+aps run . --input '{"text": "hello world"}'
 ```
 
 ### Build a Package
@@ -77,17 +78,23 @@ aps run my-agent --input '{"text": "hello world"}'
 Create a distributable `.aps.tar.gz` package:
 
 ```bash
-aps build my-agent
+aps build .
 ```
 
-This produces `my-agent.aps.tar.gz` containing the manifest, code, and metadata.
+This produces `dist/dev.my-agent.aps.tar.gz` containing the manifest, code, and metadata.
 
 ### Sign Your Package
+
+Generate a keypair (first time only):
+
+```bash
+aps keygen
+```
 
 Sign the package for verification and provenance:
 
 ```bash
-aps sign my-agent.aps.tar.gz --key path/to/cosign.key
+aps sign dist/dev.my-agent.aps.tar.gz --key default
 ```
 
 ### Verify a Package
@@ -95,15 +102,15 @@ aps sign my-agent.aps.tar.gz --key path/to/cosign.key
 Verify the signature and integrity:
 
 ```bash
-aps verify my-agent.aps.tar.gz
+aps verify dist/dev.my-agent.aps.tar.gz --pubkey ~/.aps/keys.pub/default.pub
 ```
 
 ### Publish to a Registry
 
-Push your agent to a registry:
+Push your built package to a registry:
 
 ```bash
-aps publish my-agent --registry registry://local
+aps publish dist/dev.my-agent.aps.tar.gz --registry http://localhost:8080
 ```
 
 ### Pull from a Registry
@@ -111,7 +118,7 @@ aps publish my-agent --registry registry://local
 Download an agent from a registry:
 
 ```bash
-aps pull dev.echo --registry registry://local
+aps pull dev.echo --registry http://localhost:8080
 ```
 
 ---
@@ -124,11 +131,14 @@ aps pull dev.echo --registry registry://local
 | `aps validate <path>` | Validate agent manifest structure |
 | `aps run <path>` | Execute agent locally (stdin/stdout JSON) |
 | `aps build <path>` | Package agent into `.aps.tar.gz` |
-| `aps sign <package>` | Sign package with Cosign |
+| `aps keygen` | Generate Ed25519 keypair for signing |
+| `aps sign <package>` | Sign package with private key |
 | `aps verify <package>` | Verify package signature |
-| `aps publish <path>` | Push agent to registry |
+| `aps publish <package>` | Push built package to registry |
 | `aps pull <name>` | Pull agent from registry |
 | `aps inspect <package>` | Show package metadata |
+| `aps logs <agent>` | Show saved logs for an agent |
+| `aps registry serve` | Start a local APS registry |
 
 For full details, see the [CLI Reference](https://agentpackaging.org/cli/reference/).
 
