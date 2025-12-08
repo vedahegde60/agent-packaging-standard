@@ -1272,12 +1272,16 @@ Instead, it serves as a <strong>common substrate</strong> that allows tools, run
 <h2 id="getting-started">🚀 Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
 <p>For full installation and setup, see <a href="getting-started/">Getting Started</a>.   </p>
 <p><strong>Quick taste from the CLI (example):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Run a simple agent</span>
-aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code><span class="c1"># Initialize a new agent</span>
+aps<span class="w"> </span>init<span class="w"> </span>my-agent
+<span class="nb">cd</span><span class="w"> </span>my-agent
+
+<span class="c1"># Run the agent</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>.
 
 <span class="c1"># Build and publish to a registry</span>
-aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
-aps<span class="w"> </span>publish<span class="w"> </span>dist/echo-agent.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
+aps<span class="w"> </span>build<span class="w"> </span>.
+aps<span class="w"> </span>publish<span class="w"> </span>dist/dev.my-agent.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
 <p>Additional examples demonstrating APS in practice live under:
 👉 <a href="examples/"><code>examples/</code></a></p>

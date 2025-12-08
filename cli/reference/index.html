@@ -1310,9 +1310,9 @@ aps<span class="w"> </span>--version
 <p><code>AGENT_PATH</code> – Path to the agent source directory containing:</p>
 </li>
 <li>
-<p><code>aps.yaml</code> or <code>manifest.yaml</code> (APS manifest)</p>
+<p><code>aps/agent.yaml</code> (APS manifest)</p>
 </li>
-<li>Code entrypoint (e.g., <code>agent.py</code>)</li>
+<li>Code entrypoint (e.g., <code>src/&lt;agent_name&gt;/main.py</code>)</li>
 <li>Any supporting files</li>
 </ul>
 <p><strong>Common options:</strong></p>
@@ -1321,8 +1321,9 @@ aps<span class="w"> </span>--version
 <li><code>--no-cache</code> – Do not reuse previous build layers (if applicable)</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent
 </code></pre></div>
+<p>This creates <code>examples/echo-agent/dist/dev.echo.aps.tar.gz</code> by default.</p>
 <hr />
 <h2 id="aps-run"><code>aps run</code><a class="headerlink" href="#aps-run" title="Permanent link">&para;</a></h2>
 <p>Runs an agent from a local directory or built package.</p>
@@ -1341,11 +1342,13 @@ aps<span class="w"> </span>--version
 <div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--stream
 </code></pre></div>
 <p>Run from a built package:</p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz
 </code></pre></div>
 <p>Using stdin → stdout JSON contract:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;aps_version&quot;:&quot;0.1&quot;,&quot;operation&quot;:&quot;run&quot;,&quot;inputs&quot;:{&quot;text&quot;:&quot;hello&quot;}}&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;:&quot;hello&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent
+</code></pre></div>
+<p>Or with --input flag:</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>examples/echo-agent<span class="w"> </span>--input<span class="w"> </span><span class="s1">&#39;{&quot;text&quot;:&quot;hello&quot;}&#39;</span>
 </code></pre></div>
 <hr />
 <h2 id="aps-publish"><code>aps publish</code><a class="headerlink" href="#aps-publish" title="Permanent link">&para;</a></h2>
@@ -1360,9 +1363,7 @@ aps<span class="w"> </span>--version
 <li><code>--force</code> – Overwrite existing version (if policy allows)</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>dist/dev.echo.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
 <hr />
 <h2 id="aps-pull"><code>aps pull</code><a class="headerlink" href="#aps-pull" title="Permanent link">&para;</a></h2>
@@ -1370,19 +1371,17 @@ aps<span class="w"> </span>--version
 <p><strong>Synopsis:</strong></p>
 <div class="highlight"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>&lt;AGENT_REF&gt;
 </code></pre></div>
-<p>Where <code>AGENT_REF</code> may be something like:</p>
-<ul>
-<li><code>echo-agent:0.1.0</code></li>
-<li><code>myorg/rag-agent:latest</code></li>
-</ul>
+<p>Where <code>AGENT_REF</code> is the agent ID (e.g., <code>dev.echo</code>)</p>
 <p><strong>Common options:</strong></p>
 <ul>
 <li><code>--registry &lt;url&gt;</code> – Registry URL</li>
-<li><code>-o, --output &lt;path&gt;</code> – Where to write the pulled package</li>
-<li><code>--no-cache</code> – Force re-download even if cached</li>
+<li><code>--version &lt;version&gt;</code> – Specific version (default: latest)</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span>echo-agent:0.1.0<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080<span class="w"> </span>-o<span class="w"> </span>dist/echo-agent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span>dev.echo<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
+</code></pre></div>
+<p>The agent is cached locally and can be run with:</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>dev.echo
 </code></pre></div>
 <hr />
 <h2 id="aps-inspect"><code>aps inspect</code><a class="headerlink" href="#aps-inspect" title="Permanent link">&para;</a></h2>

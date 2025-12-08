@@ -1292,13 +1292,19 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <p>This creates a directory with:</p>
 <ul>
 <li><code>aps/agent.yaml</code> → manifest describing metadata and inputs/outputs  </li>
-<li><code>main.py</code> → default implementation file  </li>
+<li><code>src/&lt;agent_name&gt;/main.py</code> → default implementation file</li>
+<li><code>src/&lt;agent_name&gt;/__init__.py</code> → Python package initialization</li>
+<li><code>AGENT_CARD.md</code> → agent documentation</li>
 </ul>
 <p>Example structure:</p>
 <div class="highlight"><pre><span></span><code>my-first-agent/
 ├── aps/
 │   └── agent.yaml
-└── main.py
+├── src/
+│   └── my_first_agent/
+│       ├── __init__.py
+│       └── main.py
+└── AGENT_CARD.md
 </code></pre></div>
 <hr />
 <h2 id="5-run-the-example-agent">5. Run the Example Agent<a class="headerlink" href="#5-run-the-example-agent" title="Permanent link">&para;</a></h2>
@@ -1318,7 +1324,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </code></pre></div>
 <hr />
 <h2 id="6-modify-agent-logic">6. Modify Agent Logic<a class="headerlink" href="#6-modify-agent-logic" title="Permanent link">&para;</a></h2>
-<p>Open <code>main.py</code> in your agent folder and change the behavior. For example:</p>
+<p>Open <code>src/my_first_agent/main.py</code> in your agent folder and change the behavior. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">()}</span>
@@ -1337,11 +1343,13 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <hr />
 <h2 id="7-publishing-and-retrieving-packages">7. Publishing and Retrieving Packages<a class="headerlink" href="#7-publishing-and-retrieving-packages" title="Permanent link">&para;</a></h2>
 <p>APS supports registries for sharing agents.</p>
-<p><strong>Publish:</strong></p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>my-first-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
+<p><strong>Build and publish:</strong></p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>my-first-agent
+aps<span class="w"> </span>publish<span class="w"> </span>my-first-agent/dist/dev.my-first-agent.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
 <p><strong>Retrieve and run:</strong></p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>run<span class="w"> </span>registry://local/my-first-agent
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>pull<span class="w"> </span>dev.my-first-agent<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
+aps<span class="w"> </span>run<span class="w"> </span>dev.my-first-agent
 </code></pre></div>
 <hr />
 <h2 id="8-next-steps">8. Next Steps<a class="headerlink" href="#8-next-steps" title="Permanent link">&para;</a></h2>

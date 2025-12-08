@@ -1055,19 +1055,21 @@
 
 <h1 id="aps-publish-workflow">APS Publish Workflow<a class="headerlink" href="#aps-publish-workflow" title="Permanent link">&para;</a></h1>
 <h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build
-
-Creates<span class="w"> </span>a<span class="w"> </span>.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>my-agent
 </code></pre></div>
+<p>Creates <code>my-agent/dist/dev.my-agent.aps.tar.gz</code></p>
 <h2 id="sign-optional">Sign (optional)<a class="headerlink" href="#sign-optional" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>dist/myagent.aps.tar.gz
-</code></pre></div>
-<h2 id="publish">PUblish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>--registry<span class="o">=</span>https://registry.aps.dev<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>dist/myagent.aps.tar.gz
+<p>First, generate a keypair (one time):
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>keygen
+</code></pre></div></p>
+<p>Then sign your package:
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>my-agent/dist/dev.my-agent.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>default
+</code></pre></div></p>
+<h2 id="publish">Publish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>my-agent/dist/dev.my-agent.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
 <h2 id="verify">Verify<a class="headerlink" href="#verify" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>dist/myagent.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>my-agent/dist/dev.my-agent.aps.tar.gz<span class="w"> </span>--pubkey<span class="w"> </span>~/.aps/keys.pub/default.pub
 </code></pre></div>
 
 

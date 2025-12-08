@@ -1122,21 +1122,17 @@ aps<span class="w"> </span>registry<span class="w"> </span>serve<span class="w">
 <p>Leave this terminal open.</p>
 <h2 id="smoke-test-cli-registry">Smoke Test CLI + Registry<a class="headerlink" href="#smoke-test-cli-registry" title="Permanent link">&para;</a></h2>
 <h3 id="1-build-example-agent">1) Build example agent<a class="headerlink" href="#1-build-example-agent" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent<span class="w"> </span>--dist<span class="w"> </span>dist
-
-
-Expected:
-
-Wrote<span class="w"> </span>dist/dev.echo.aps.tar.gz
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent
 </code></pre></div>
+<p>Expected output:
+<div class="highlight"><pre><span></span><code>examples/echo-agent/dist/dev.echo.aps.tar.gz
+</code></pre></div></p>
 <h3 id="2-publish">2) Publish<a class="headerlink" href="#2-publish" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>dist/dev.echo.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
-
-
-Expected<span class="w"> </span>JSON:
-
-<span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;ok&quot;</span>,<span class="w"> </span><span class="s2">&quot;agent&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;id&quot;</span>:<span class="w"> </span><span class="s2">&quot;dev.echo&quot;</span>,<span class="w"> </span><span class="s2">&quot;version&quot;</span>:<span class="w"> </span><span class="s2">&quot;0.0.x&quot;</span><span class="o">}}</span>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
+<p>Expected JSON:
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dev.echo&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.1.0&quot;</span><span class="p">}}</span>
+</code></pre></div></p>
 <h3 id="3-search">3) Search<a class="headerlink" href="#3-search" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;http://localhost:8080/v1/search?q=echo&quot;</span>
 </code></pre></div>

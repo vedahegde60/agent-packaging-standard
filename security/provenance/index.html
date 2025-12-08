@@ -1479,11 +1479,14 @@ When both are present, the external file <strong>SHALL</strong> take precedence.
 </tbody>
 </table>
 <h3 id="51-example-commands">5.1 Example Commands<a class="headerlink" href="#51-example-commands" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Sign package using APS CLI</span>
-aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>cosign.key
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate keypair (first time)</span>
+aps<span class="w"> </span>keygen
+
+<span class="c1"># Sign package using APS CLI</span>
+aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>default
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1"># Verify signature</span>
-aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps.tar.gz
+aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--pubkey<span class="w"> </span>~/.aps/keys.pub/default.pub
 </code></pre></div>
 <p>Example output:</p>
 <div class="highlight"><pre><span></span><code>Signature verification succeeded
@@ -1506,12 +1509,16 @@ CLI commands (<code>aps sign</code>, <code>aps verify</code>) may delegate to di
 </thead>
 <tbody>
 <tr>
+<td><strong>Ed25519</strong></td>
+<td>Uses Ed25519 cryptographic signatures (current APS CLI implementation).</td>
+</tr>
+<tr>
 <td><strong>cosign</strong></td>
-<td>Uses <a href="https://sigstore.dev/">Sigstore Cosign</a> for key-based and keyless signing.</td>
+<td>Uses <a href="https://sigstore.dev/">Sigstore Cosign</a> for key-based and keyless signing (future).</td>
 </tr>
 <tr>
 <td><strong>gpg</strong></td>
-<td>Uses OpenPGP for local key signing.</td>
+<td>Uses OpenPGP for local key signing (future).</td>
 </tr>
 <tr>
 <td><strong>none</strong></td>
@@ -1519,9 +1526,10 @@ CLI commands (<code>aps sign</code>, <code>aps verify</code>) may delegate to di
 </tr>
 </tbody>
 </table>
-<p>Example with explicit backend selection:</p>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--with<span class="w"> </span>cosign<span class="w"> </span>--key<span class="w"> </span>cosign.key
-aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--with<span class="w"> </span>cosign
+<p>Current implementation example:</p>
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>keygen
+aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>default
+aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--pubkey<span class="w"> </span>~/.aps/keys.pub/default.pub
 </code></pre></div>
 <p>Backends <strong>MUST</strong> conform to APS provenance schema output.</p>
 <hr />
@@ -1604,14 +1612,19 @@ aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent.aps
 <h3 id="step-1-build-and-package-the-agent">Step 1. Build and package the agent<a class="headerlink" href="#step-1-build-and-package-the-agent" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>aps<span class="w"> </span>build<span class="w"> </span>examples/echo-agent
 </code></pre></div>
+<p>This creates <code>examples/echo-agent/dist/dev.echo.aps.tar.gz</code></p>
 <h3 id="step-2-sign-the-package">Step 2. Sign the package<a class="headerlink" href="#step-2-sign-the-package" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>cosign.key
-</code></pre></div>
+<p>First generate a keypair (one time):
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>keygen
+</code></pre></div></p>
+<p>Then sign:
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>sign<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--key<span class="w"> </span>default
+</code></pre></div></p>
 <h3 id="step-3-publish-to-registry">Step 3. Publish to registry<a class="headerlink" href="#step-3-publish-to-registry" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent<span class="w"> </span>--registry<span class="w"> </span>registry://local
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>publish<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
 <h3 id="step-4-verify-provenance-before-execution">Step 4. Verify provenance before execution<a class="headerlink" href="#step-4-verify-provenance-before-execution" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent
+<div class="highlight"><pre><span></span><code>aps<span class="w"> </span>verify<span class="w"> </span>examples/echo-agent/dist/dev.echo.aps.tar.gz<span class="w"> </span>--pubkey<span class="w"> </span>~/.aps/keys.pub/default.pub
 </code></pre></div>
 <p>Expected output:</p>
 <div class="highlight"><pre><span></span><code>Verification succeeded
