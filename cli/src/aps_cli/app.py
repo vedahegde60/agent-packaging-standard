@@ -927,7 +927,7 @@ def main(argv=None):
 
     # Show version
     if getattr(args, "version", False) and args.cmd is None:
-        print("apstool 0.1.0")
+        print("apstool 0.1.1")
         return 0
     
     if not hasattr(args, "func"):

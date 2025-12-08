@@ -10,7 +10,7 @@
 
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.10+-blue)]()
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](../LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/vedahegde60/agent-packaging-standard/blob/main/LICENSE)
 
 The APS CLI enables developers to build, validate, sign, publish, and run portable AI agents following the [Agent Packaging Standard](https://agentpackaging.org).
 
