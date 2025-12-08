@@ -1,4 +1,4 @@
-aps: "0.1"
+aps_version: "0.1"
 id: "dev.echo"
 name: "Echo"
 version: "0.0.1"

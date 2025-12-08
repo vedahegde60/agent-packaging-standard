@@ -1,8 +1,8 @@
 [project]
 name = "apstool"
-version = "0.1.1"
+version = "0.1.9"
 description = "Command-line tool for the Agent Packaging Standard (APS)"
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [
@@ -46,3 +46,8 @@ aps = "aps_cli.app:main"
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aps_cli = ["templates/**/*", "templates/**/**/*"]

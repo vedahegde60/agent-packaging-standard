@@ -193,7 +193,7 @@ def _write_log(agent_root: Path, manifest: Dict[str, Any], stderr_lines: list[st
 
 def agent_root(p: str | Path) -> Path:
     """Return the agent root Path (dir containing aps/agent.yaml)."""
-    p = Path(p)
+    p = Path(p).resolve()  # Resolve to absolute path
     if p.is_file() and p.suffixes[-2:] == [".tar", ".gz"]:
         # tarball is treated in inspect/build/publish paths; run expects a dir
         raise FileNotFoundError(f"Run expects directory, got tar: {p}")
@@ -237,9 +237,16 @@ def _get_python_entrypoint(manifest: Dict[str, Any]) -> Optional[list[str]]:
     if rt:
         entry = rt["entrypoint"]
         if isinstance(entry, str):
-            return shlex.split(entry)
+            entry_list = shlex.split(entry)
         elif isinstance(entry, list):
-            return entry
+            entry_list = list(entry)
+        else:
+            return None
+        
+        # Replace 'python' with sys.executable for consistent Python environment
+        if entry_list and entry_list[0] in ("python", "python3"):
+            entry_list[0] = sys.executable
+        return entry_list
     
     return None
 
@@ -402,35 +409,62 @@ def cmd_init(args):
     if tgt.exists() and any(tgt.iterdir()):
         print("[init] ERROR: target not empty", file=sys.stderr); return 2
     
+    # Derive agent name from path (sanitize for Python module name)
+    agent_name = tgt.name.replace("-", "_").replace(" ", "_").lower()
+    # Ensure it's a valid Python identifier
+    if not agent_name.isidentifier():
+        agent_name = "agent"
+    agent_id = f"dev.{tgt.name.lower().replace('_', '.')}"
+    
     # Create directory structure
     (tgt/"aps").mkdir(parents=True, exist_ok=True)
-    (tgt/"src"/"simple").mkdir(parents=True, exist_ok=True)
+    (tgt/"src"/agent_name).mkdir(parents=True, exist_ok=True)
     
     # Load template from package
-    template_path = Path(__file__).parent / "templates" / "aps-manifest.yaml"
+    template_path = Path(__file__).parent / "templates" / "echo_agent" / "aps" / "agent.yaml"
     if template_path.exists():
         template = template_path.read_text(encoding="utf-8")
-        # Customize template for simple example
-        template = template.replace("org.example.agent", "dev.simple")
-        template = template.replace("Example APS Agent", "Simple Echo Agent")
-        template = template.replace("A template APS agent.", "Simple agent that echoes text in uppercase.")
-        template = template.replace("src/agent/main.py", "src/simple/main.py")
+        # Customize template with agent-specific values
+        template = template.replace("dev.echo", agent_id)
+        template = template.replace('name: "Echo"', f'name: "{tgt.name}"')
+        template = template.replace("Echoes the input text.", f"Agent: {tgt.name}")
+        template = template.replace("echo.main", f"{agent_name}.main")
         (tgt/"aps"/"agent.yaml").write_text(template, encoding="utf-8")
     else:
         # Fallback to inline template if file not found
         (tgt/"aps"/"agent.yaml").write_text(
-            'id: "dev.simple"\nname: "Simple Echo Agent"\nversion: "0.1.0"\n'
-            'description: "Simple agent that echoes text in uppercase."\n'
-            'runtime: "python3"\nentrypoint: "src/simple/main.py"\n'
-            'inputs:\n  - name: text\n    type: string\n'
-            'outputs:\n  - name: text\n    type: string\n'
+            'aps_version: "0.1"\n'
+            f'id: "{agent_id}"\n'
+            f'name: "{tgt.name}"\n'
+            'version: "0.1.0"\n'
+            f'summary: "Agent: {tgt.name}"\n'
+            'runtimes:\n'
+            '  - kind: "python"\n'
+            f'    entrypoint: ["python", "-m", "{agent_name}.main"]\n'
+            'capabilities:\n'
+            '  inputs:\n'
+            '    schema:\n'
+            '      type: object\n'
+            '      properties:\n'
+            '        text: { type: string }\n'
+            '      required: ["text"]\n'
+            '  outputs:\n'
+            '    schema:\n'
+            '      type: object\n'
+            '      properties:\n'
+            '        text: { type: string }\n'
+            '      required: ["text"]\n'
+            '  tools: []\n'
+            'policies:\n'
+            '  network: { egress: [] }\n'
         , encoding="utf-8")
     
-    # Create simple echo agent implementation
-    (tgt/"src"/"simple"/"main.py").write_text(
+    # Create agent implementation
+    (tgt/"src"/agent_name/"__init__.py").write_text("", encoding="utf-8")
+    (tgt/"src"/agent_name/"main.py").write_text(
         "import sys, json\nraw=sys.stdin.read()\nreq=json.loads(raw)\ntext=(req.get('inputs') or {}).get('text','')\n"
         "print(json.dumps({'status':'ok','outputs':{'text':text.upper()}}))\n", encoding="utf-8")
-    (tgt/"AGENT_CARD.md").write_text("# Agent Card\n", encoding="utf-8")
+    (tgt/"AGENT_CARD.md").write_text(f"# {tgt.name}\n\nAgent description goes here.\n", encoding="utf-8")
     print(f"[init] Created {tgt}"); return 0
 
 def cmd_publish(args):
@@ -839,9 +873,6 @@ def main(argv=None):
     parser = argparse.ArgumentParser(prog="aps", add_help=True)
     parser.add_argument("--version", action="store_true", help="Show version and exit")
     sub = parser.add_subparsers(dest="cmd")
-    import sys, os
-    print("DBG sys.path[0]:", sys.path[0], file=sys.stderr, flush=True)
-    print("DBG PYTHONPATH:", os.environ.get("PYTHONPATH"), file=sys.stderr, flush=True)
 
     p = sub.add_parser("validate", help="Validate an agent manifest")
     p.add_argument("path")
@@ -927,7 +958,7 @@ def main(argv=None):
 
     # Show version
     if getattr(args, "version", False) and args.cmd is None:
-        print("apstool 0.1.1")
+        print("apstool 0.1.9")
         return 0
     
     if not hasattr(args, "func"):

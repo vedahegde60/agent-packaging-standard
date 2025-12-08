@@ -136,6 +136,22 @@ Next milestones:
 
 ---
 
+## 🤝 Contributing
+
+We welcome contributions! Before submitting code changes:
+
+1. **Run the pre-commit test suite:**
+   ```bash
+   ./scripts/pre_commit_tests.sh
+   ```
+   This runs both automated tests (~8s) and registry integration tests (~5s).
+
+2. **Follow the guidelines** in [CONTRIBUTING.md](CONTRIBUTING.md)
+
+See [Testing Guide](docs/testing.md) for detailed testing instructions.
+
+---
+
 ## 🔒 Security
 
 APS supports optional signing and verification of all packages.

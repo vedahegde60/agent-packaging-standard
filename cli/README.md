@@ -18,17 +18,24 @@ The APS CLI enables developers to build, validate, sign, publish, and run portab
 
 ## 🚀 Installation
 
-### From Source (Development)
-
-```bash
-cd cli
-pip install -e .
-```
-
-### From PyPI (Coming Soon)
+### From PyPI (Recommended)
 
 ```bash
 pip install apstool
+```
+
+For optional features (signing, RAG examples):
+
+```bash
+pip install apstool[dev]
+```
+
+### From Source (For Development)
+
+```bash
+git clone https://github.com/vedahegde60/agent-packaging-standard.git
+cd agent-packaging-standard/cli
+pip install -e .
 ```
 
 ---
@@ -54,7 +61,7 @@ This scaffolds a complete agent structure with:
 Check that your manifest is correctly structured:
 
 ```bash
-aps lint my-agent
+aps validate my-agent
 ```
 
 ### Run Your Agent
@@ -120,7 +127,7 @@ aps pull dev.echo --registry registry://local
 | Command | Description |
 |---------|-------------|
 | `aps init <path>` | Scaffold a new agent from template |
-| `aps lint <path>` | Validate agent manifest structure |
+| `aps validate <path>` | Validate agent manifest structure |
 | `aps run <path>` | Execute agent locally (stdin/stdout JSON) |
 | `aps build <path>` | Package agent into `.aps.tar.gz` |
 | `aps sign <package>` | Sign package with Cosign |

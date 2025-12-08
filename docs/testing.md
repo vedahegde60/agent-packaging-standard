@@ -6,6 +6,37 @@ APS emphasizes **predictable behavior**, **reproducibility**, and **spec complia
 
 ---
 
+## ⚠️ Required Testing Before Committing Code
+
+**Before committing any code changes, you MUST:**
+
+1. **Run all automated tests** (fast, ~8 seconds):
+   ```bash
+   cd cli
+   pytest tests/ -v
+   ```
+   All tests must pass (15 passed, 1 skipped).
+
+2. **Run registry integration test manually** (requires setup):
+   ```bash
+   # One-time setup (if not already done):
+   pip install fastapi uvicorn python-multipart
+   cd registry && pip install -e . && cd ../cli
+   
+   # Run registry test:
+   RUN_REGISTRY_TEST=1 pytest tests/test_e2e_workflow.py::test_registry_integration -v
+   ```
+   Registry test must pass with "🎉 Registry integration test passed!"
+
+**Why both?**
+- Automated tests catch most issues quickly
+- Registry test validates the full publish/pull workflow with a real server
+- Both are required to ensure end-to-end functionality
+
+**CI/CD Note:** CI only runs automated tests (no registry). Manual registry testing before commit ensures quality.
+
+---
+
 ## 🧠 Testing Philosophy
 
 | Principle | Description |
