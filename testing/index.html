@@ -1057,6 +1057,34 @@
 <p>This document describes how to test APS components: CLI, registry, manifests, and reference agents.</p>
 <p>APS emphasizes <strong>predictable behavior</strong>, <strong>reproducibility</strong>, and <strong>spec compliance</strong>, so testing is core to the project.</p>
 <hr />
+<h2 id="required-testing-before-committing-code">⚠️ Required Testing Before Committing Code<a class="headerlink" href="#required-testing-before-committing-code" title="Permanent link">&para;</a></h2>
+<p><strong>Before committing any code changes, you MUST:</strong></p>
+<ol>
+<li>
+<p><strong>Run all automated tests</strong> (fast, ~8 seconds):
+   <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>cli
+pytest<span class="w"> </span>tests/<span class="w"> </span>-v
+</code></pre></div>
+   All tests must pass (15 passed, 1 skipped).</p>
+</li>
+<li>
+<p><strong>Run registry integration test manually</strong> (requires setup):
+   <div class="highlight"><pre><span></span><code><span class="c1"># One-time setup (if not already done):</span>
+pip<span class="w"> </span>install<span class="w"> </span>fastapi<span class="w"> </span>uvicorn<span class="w"> </span>python-multipart
+<span class="nb">cd</span><span class="w"> </span>registry<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>../cli
+
+<span class="c1"># Run registry test:</span>
+<span class="nv">RUN_REGISTRY_TEST</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>pytest<span class="w"> </span>tests/test_e2e_workflow.py::test_registry_integration<span class="w"> </span>-v
+</code></pre></div>
+   Registry test must pass with "🎉 Registry integration test passed!"</p>
+</li>
+</ol>
+<p><strong>Why both?</strong>
+- Automated tests catch most issues quickly
+- Registry test validates the full publish/pull workflow with a real server
+- Both are required to ensure end-to-end functionality</p>
+<p><strong>CI/CD Note:</strong> CI only runs automated tests (no registry). Manual registry testing before commit ensures quality.</p>
+<hr />
 <h2 id="testing-philosophy">🧠 Testing Philosophy<a class="headerlink" href="#testing-philosophy" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
