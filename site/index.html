@@ -1207,6 +1207,10 @@
 
 <h1 id="aps-agent-packaging-standard">APS — Agent Packaging Standard<a class="headerlink" href="#aps-agent-packaging-standard" title="Permanent link">&para;</a></h1>
 <p><strong>Portable • Auditable • Governable</strong></p>
+<p><a href="https://badge.fury.io/py/apstool"><img alt="PyPI version" src="https://badge.fury.io/py/apstool.svg" /></a>
+<a href="https://pypi.org/project/apstool/"><img alt="PyPI downloads" src="https://img.shields.io/pypi/dm/apstool.svg" /></a>
+<a href="https://pypi.org/project/apstool/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/apstool.svg" /></a>
+<a href="https://github.com/vedahegde60/agent-packaging-standard/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-Apache%202.0-blue" /></a></p>
 <p>The <strong>Agent Packaging Standard (APS)</strong> defines a vendor-neutral, interoperable way to describe, package, and distribute AI agents.<br />
 It provides a consistent framework for enterprises and developers to publish, inspect, and execute agents across diverse runtime environments with predictable behavior and verifiable provenance. </p>
 <p>APS is intentionally <strong>lightweight and OCI-inspired</strong>: agents become <strong>portable, inspectable, and policy-enforced</strong> across platforms and organizations instead of being locked into a single framework, vendor, or runtime.</p>
@@ -1279,7 +1283,7 @@ aps<span class="w"> </span>init<span class="w"> </span>my-agent
 <span class="c1"># Run the agent</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;text&quot;: &quot;hello&quot;}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>aps<span class="w"> </span>run<span class="w"> </span>.
 
-<span class="c1"># Build and publish to a registry</span>
+<span class="c1"># Build and publish to an APS registry (local or remote)</span>
 aps<span class="w"> </span>build<span class="w"> </span>.
 aps<span class="w"> </span>publish<span class="w"> </span>dist/dev.my-agent.aps.tar.gz<span class="w"> </span>--registry<span class="w"> </span>http://localhost:8080
 </code></pre></div>
