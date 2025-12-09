@@ -62,3 +62,5 @@ extra_javascript:
 
 plugins:
   - search
+
+copyright: Copyright &copy; 2025 Agent Packaging Standard
