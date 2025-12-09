@@ -8,6 +8,11 @@ last_updated: 2025-11-09
 
 **Portable • Auditable • Governable**
 
+[![PyPI version](https://badge.fury.io/py/apstool.svg)](https://badge.fury.io/py/apstool)
+[![PyPI downloads](https://img.shields.io/pypi/dm/apstool.svg)](https://pypi.org/project/apstool/)
+[![Python versions](https://img.shields.io/pypi/pyversions/apstool.svg)](https://pypi.org/project/apstool/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/vedahegde60/agent-packaging-standard/blob/main/LICENSE)
+
 The **Agent Packaging Standard (APS)** defines a vendor-neutral, interoperable way to describe, package, and distribute AI agents.  
 It provides a consistent framework for enterprises and developers to publish, inspect, and execute agents across diverse runtime environments with predictable behavior and verifiable provenance. 
 
@@ -74,7 +79,7 @@ cd my-agent
 # Run the agent
 echo '{"text": "hello"}' | aps run .
 
-# Build and publish to a registry
+# Build and publish to an APS registry (local or remote)
 aps build .
 aps publish dist/dev.my-agent.aps.tar.gz --registry http://localhost:8080
 ```

@@ -4,13 +4,17 @@
 
 A minimal, Torch-free RAG agent using TF-IDF + cosine similarity over local `docs_src/*.txt`.
 
-## Install deps (use your virtualenv)
+## Install
 
 ```bash
-pip install -r examples/rag-agent/requirements.txt
+# Install CLI
+pip install apstool
 
+# Install agent dependencies
+pip install -r requirements.txt
+```
 
 ## Run
 
 ```bash
-aps run examples/rag-agent
+echo '{"query":"What is APS?"}' | aps run .

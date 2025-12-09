@@ -1,5 +1,10 @@
 # 🧩 Agent Packaging Standard (APS)
 
+[![PyPI version](https://badge.fury.io/py/apstool.svg)](https://badge.fury.io/py/apstool)
+[![PyPI downloads](https://img.shields.io/pypi/dm/apstool.svg)](https://pypi.org/project/apstool/)
+[![Python versions](https://img.shields.io/pypi/pyversions/apstool.svg)](https://pypi.org/project/apstool/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/vedahegde60/agent-packaging-standard/blob/main/LICENSE)
+
 **Agent Packaging Standard (APS)** defines a **lightweight, vendor-neutral format** for packaging, sharing, and executing AI agents across runtimes and platforms.
 
 > _Portable. Inspectable. Policy-enforced._  

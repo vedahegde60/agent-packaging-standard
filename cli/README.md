@@ -2,8 +2,10 @@
 
 **Command-line tool for the Agent Packaging Standard (APS)**
 
+[![PyPI version](https://badge.fury.io/py/apstool.svg)](https://badge.fury.io/py/apstool)
+[![PyPI downloads](https://img.shields.io/pypi/dm/apstool.svg)](https://pypi.org/project/apstool/)
+[![Python versions](https://img.shields.io/pypi/pyversions/apstool.svg)](https://pypi.org/project/apstool/)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
-[![Python](https://img.shields.io/badge/python-3.10+-blue)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/vedahegde60/agent-packaging-standard/blob/main/LICENSE)
 
 The APS CLI enables developers to build, validate, sign, publish, and run portable AI agents following the [Agent Packaging Standard](https://agentpackaging.org).
